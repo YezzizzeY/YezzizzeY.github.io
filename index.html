@@ -134,27 +134,69 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-my-first-blog" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Fabric-环境搭建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/21/my-first-blog/">&#39;my-first-blog&#39;</a>
+      <a class="article-title" href="/2019/08/21/Fabric-环境搭建/">fabric 环境搭建</a>
     </h1>
   
 
         
-        <a href="/2019/08/21/my-first-blog/" class="archive-article-date">
-  	<time datetime="2019-08-21T07:31:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-21</time>
+        <a href="/2019/08/21/Fabric-环境搭建/" class="archive-article-date">
+  	<time datetime="2019-08-21T08:47:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-21</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>test</p>
+        <p>Fabric版本：1.4<br>Linux系统: Ubuntu 18.04<br>所需工具: docker, docker-compose, go, gcc, git, nodejs</p>
+<p>搭建步骤：<br>1.在$GOPATH/src/github.com/hyperledger下载源码: git clone <a href="https://github.com/hyperledger/fabric.git" target="_blank" rel="noopener">https://github.com/hyperledger/fabric.git</a><br>2.切换版本至1.4.0<br>$ cd ~/go/src/github.com/hyperledger/fabric<br>    $ git checkout v1.4.0<br>3.scripts目录下有个bootstrap.sh，运行得到cryptogen等工具<br>4.下载fabric-samples<br>5.在fabric-samples中的first-network里打开终端，运行./byfn.sh up</p>
+<p>测试生成证书：<br>/home/yezzi/gopath/src/fabric-samples/first-network/../bin/cryptogen</p>
+<p>##########################################################</p>
+<h5 id="Generate-certificates-using-cryptogen-tool"><a href="#Generate-certificates-using-cryptogen-tool" class="headerlink" title="Generate certificates using cryptogen tool"></a>Generate certificates using cryptogen tool</h5><p>##########################################################<br>生成创世节点：</p>
+<p>/home/yezzi/gopath/src/fabric-samples/first-network/../bin/configtxgen</p>
+<p>##########################################################</p>
+<p>#########  Generating Orderer Genesis block ##############</p>
+<p>##########################################################<br>生成channel工具：</p>
+<p>#################################################################</p>
+<h3 id="Generating-channel-configuration-transaction-‘channel-tx’"><a href="#Generating-channel-configuration-transaction-‘channel-tx’" class="headerlink" title="Generating channel configuration transaction ‘channel.tx’"></a>Generating channel configuration transaction ‘channel.tx’</h3><p>#################################################################<br>启动测试节点：</p>
+<p>#################################################################</p>
+<p>#######    Generating anchor peer update for Org1MSP   ##########</p>
+<p>#################################################################</p>
+<p>#################################################################</p>
+<p>#######    Generating anchor peer update for Org2MSP   ##########</p>
+<p>#################################################################<br>启动docker:</p>
+<p>Recreating orderer.example.com …<br>Recreating orderer.example.com<br>Recreating peer0.org1.example.com …<br>Creating peer1.org1.example.com …<br>Recreating peer0.org1.example.com<br>Creating peer0.org2.example.com …<br>Creating peer1.org2.example.com …<br>Creating peer0.org2.example.com<br>Creating peer1.org1.example.com<br>Recreating peer0.org1.example.com … done<br>Recreating cli …<br>Recreating cli … done</p>
+<p>创建channel:</p>
+<p>Channel name : mychannel</p>
+<ul>
+<li>peer channel create -o orderer.example.com:7050 -c mychannel -f ./channel-artifacts/channel.tx –tls true –cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem<br>Creating channel…</li>
+<li>res=0</li>
+<li>set +x<br>2019-08-21 09:09:35.810 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized<br>2019-08-21 09:09:36.006 UTC [cli.common] readBlock -&gt; INFO 002 Received block: 0<br>===================== Channel ‘mychannel’ created ===================== </li>
+</ul>
+<p>节点加入channel：</p>
+<p>2019-08-21 09:09:36.228 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized<br>2019-08-21 09:09:36.369 UTC [channelCmd] executeJoin -&gt; INFO 002 Successfully submitted proposal to join channel<br>===================== peer0.org1 joined channel ‘mychannel’ ===================== </p>
+<p>2019-08-21 09:09:39.586 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized<br>2019-08-21 09:09:39.707 UTC [channelCmd] executeJoin -&gt; INFO 002 Successfully submitted proposal to join channel<br>===================== peer1.org1 joined channel ‘mychannel’ ===================== </p>
+<p>2019-08-21 09:09:42.895 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized<br>2019-08-21 09:09:43.030 UTC [channelCmd] executeJoin -&gt; INFO 002 Successfully submitted proposal to join channel<br>===================== peer0.org2 joined channel ‘mychannel’ ===================== </p>
+<p>2019-08-21 09:09:46.246 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized<br>2019-08-21 09:09:46.388 UTC [channelCmd] executeJoin -&gt; INFO 002 Successfully submitted proposal to join channel<br>===================== peer1.org2 joined channel ‘mychannel’ ===================== </p>
+<p>更新channel信息：</p>
+<p>2019-08-21 09:09:49.576 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized<br>2019-08-21 09:09:49.633 UTC [channelCmd] update -&gt; INFO 002 Successfully submitted channel update<br>===================== Anchor peers updated for org ‘Org1MSP’ on channel ‘mychannel’ ===================== </p>
+<p>链码测试：<br>Install chaincode on peer0.org2…</p>
+<ul>
+<li>peer chaincode install -n mycc -v 1.0 -l golang -p github.com/chaincode/chaincode_example02/go/</li>
+<li>res=0</li>
+<li>set +x<br>2019-08-21 09:09:57.592 UTC [chaincodeCmd] checkChaincodeCmdParams -&gt; INFO 001 Using default escc<br>2019-08-21 09:09:57.592 UTC [chaincodeCmd] checkChaincodeCmdParams -&gt; INFO 002 Using default vscc<br>2019-08-21 09:09:58.080 UTC [chaincodeCmd] install -&gt; INFO 003 Installed remotely response:&lt;status:200 payload:”OK” &gt;<br>===================== Chaincode is installed on peer0.org2 ===================== </li>
+</ul>
+<p>Instantiating chaincode on peer0.org2…</p>
+<ul>
+<li>peer chaincode instantiate -o orderer.example.com:7050 –tls true –cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n mycc -l golang -v 1.0 -c ‘{“Args”:[“init”,”a”,”100”,”b”,”200”]}’ -P ‘AND (‘&#39;‘Org1MSP.peer’&#39;‘,’&#39;‘Org2MSP.peer’&#39;‘)’</li>
+</ul>
+<p>至此，您的fabric环境就搭好啦</p>
 
       
 
@@ -168,7 +210,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">test</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">hyperledger fabric</a>
         		</li>
       		
 		</ul>
@@ -178,7 +220,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/21/my-first-blog/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/08/21/Fabric-环境搭建/">展开全文 >></a>
         </p>
       
 
@@ -293,7 +335,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">test</a>
+                <a href="javascript:void(0)" class="js-tag color4">hyperledger fabric</a>
               </li>
             
             <div class="clearfix"></div>
