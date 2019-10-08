@@ -134,6 +134,113 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-json常用方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/09/json常用方法/">go中的struct和json</a>
+    </h1>
+  
+
+        
+        <a href="/2019/10/09/json常用方法/" class="archive-article-date">
+  	<time datetime="2019-10-08T18:33:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-先说结构体"><a href="#1-先说结构体" class="headerlink" title="1.先说结构体"></a>1.先说结构体</h2><p>首先定义一个结构体很容易，比如说：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;   </span><br><span class="line">  Id <span class="keyword">string</span> <span class="string">`json:"id"`</span>   </span><br><span class="line">  Name <span class="keyword">string</span> <span class="string">`json:"name"`</span>   </span><br><span class="line">  Sex    <span class="keyword">string</span> <span class="string">`json:"sex"`</span>   </span><br><span class="line">  Born   <span class="keyword">string</span> <span class="string">`json:"born"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不过要多多注意，go没有特意声明私有成员，大写代表公有，小写就代表私有，结构体内部的命名也一样<br>$$<br>如果结构体命名为小写，则整个结构体其他包不能导出；</p>
+<p>如果内部名称有小写，则改结构体内部的成员其他包不能导出<br>$$<br><strong>也就是说，使用json.Marshal的时候会出大问题，（这容易被忽视掉）</strong></p>
+<p>结构体的声明：go的结构体声明方法还是很多的</p>
+<p>佚名结构体：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">p2 := <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="keyword">string</span></span><br><span class="line">    Age  <span class="keyword">int</span></span><br><span class="line">&#125;&#123;</span><br><span class="line">    <span class="string">"张三"</span>, <span class="number">20</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>声明并赋值：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ming := Person&#123;Id:<span class="string">"1"</span>,Name:<span class="string">"Ming"</span>,Sex:<span class="string">"Male"</span>,born:<span class="string">"1999-11-06"</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正常声明：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Xiaoli := <span class="built_in">new</span>(Person)</span><br><span class="line"><span class="keyword">var</span> Ming Person = Person&#123;&#125;</span><br><span class="line">Feng := &amp;Person&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结构体还可以嵌套，这玩意有点像继承：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;   </span><br><span class="line">	Id <span class="keyword">string</span> <span class="string">`json:"id"`</span>   </span><br><span class="line">	Name <span class="keyword">string</span> <span class="string">`json:"name"`</span>   </span><br><span class="line">	Sex    <span class="keyword">string</span> <span class="string">`json:"sex"`</span>   </span><br><span class="line">	Born   <span class="keyword">string</span> <span class="string">`json:"born"`</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> Pig <span class="keyword">struct</span>&#123;   </span><br><span class="line">	Person   </span><br><span class="line">	Tag <span class="keyword">string</span> <span class="string">`json:"tag"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而且可以直接对Pig结构体P 使用 P.Id这样的式子，很舒服</p>
+<h2 id="go-中的Json操作："><a href="#go-中的Json操作：" class="headerlink" title="go 中的Json操作："></a>go 中的Json操作：</h2><p>标准的encoding/json包中使用的最多的是json.Marshal和json.Unmarshal</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">b,err := json.Marshal(Xiaoli)</span><br><span class="line">fmt.Println(b)</span><br><span class="line">fmt.Println(<span class="string">"b type :"</span>,reflect.TypeOf(b))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">123</span> <span class="number">34</span> <span class="number">105</span> <span class="number">100</span> <span class="number">34</span> <span class="number">58</span> <span class="number">34</span> <span class="number">49</span> <span class="number">50</span> <span class="number">51</span> <span class="number">34</span> <span class="number">44</span> <span class="number">34</span> <span class="number">110</span> <span class="number">97</span> <span class="number">109</span> <span class="number">101</span> <span class="number">34</span> <span class="number">58</span> <span class="number">34</span> <span class="number">88</span> <span class="number">105</span> <span class="number">97</span> <span class="number">111</span> <span class="number">108</span> <span class="number">105</span> <span class="number">34</span> <span class="number">44</span> <span class="number">34</span> <span class="number">115</span> <span class="number">101</span> <span class="number">120</span> <span class="number">34</span> <span class="number">58</span> <span class="number">34</span> <span class="number">70</span> <span class="number">101</span> <span class="number">109</span> <span class="number">97</span> <span class="number">108</span> <span class="number">101</span> <span class="number">34</span> <span class="number">44</span> <span class="number">34</span> <span class="number">98</span> <span class="number">111</span> <span class="number">114</span> <span class="number">110</span> <span class="number">34</span> <span class="number">58</span> <span class="number">34</span> <span class="number">49</span> <span class="number">57</span> <span class="number">57</span> <span class="number">57</span> <span class="number">45</span> <span class="number">48</span> <span class="number">57</span> <span class="number">45</span> <span class="number">50</span> <span class="number">57</span> <span class="number">34</span> <span class="number">125</span>]</span><br><span class="line">b <span class="keyword">type</span> : []<span class="keyword">uint8</span></span><br></pre></td></tr></table></figure>
+
+<p>Marshal出来的是个字节码，想显示还得用string()</p>
+<p>上面的成员变量都是已知的类型，只能接收指定的类型，比如string类型的Name只能赋值string类型的数据。<br>但有时为了通用性，或使代码简洁，我们希望有一种类型可以接受各种类型的数据，并进行json编码。这就用到了interface{}类型。</p>
+<!--interface{}类型其实是个空接口，即没有方法的接口。go的每一种类型都实现了该接口。因此，任何其他类型的数据都可以赋值给interface{}类型。-->
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;   </span><br><span class="line">	Id <span class="keyword">interface</span>&#123;&#125; <span class="string">`json:"id"`</span>   </span><br><span class="line">	Name <span class="keyword">interface</span>&#123;&#125; <span class="string">`json:"name"`</span>   </span><br><span class="line">	Sex    <span class="keyword">interface</span>&#123;&#125; <span class="string">`json:"sex"`</span>   </span><br><span class="line">	Born <span class="keyword">interface</span>&#123;&#125; <span class="string">`json:"born"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关于接收json的操作，我推荐用个别的包：<a href="https://github.com/tidwall/gjson" target="_blank" rel="noopener">https://github.com/tidwall/gjson</a></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"github.com/tidwall/gjson"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> json = <span class="string">`&#123;"name":&#123;"first":"Janet","last":"Prichard"&#125;,"age":47&#125;`</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	value := gjson.Get(json, <span class="string">"name.last"</span>)</span><br><span class="line">	<span class="built_in">println</span>(value.String())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>比官方那个包好用多了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">go</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/10/09/json常用方法/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-go的time包使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -597,11 +704,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hyperledger fabric</a>
+                <a href="javascript:void(0)" class="js-tag color3">go</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">go</a>
+                <a href="javascript:void(0)" class="js-tag color4">hyperledger fabric</a>
               </li>
             
             <div class="clearfix"></div>
