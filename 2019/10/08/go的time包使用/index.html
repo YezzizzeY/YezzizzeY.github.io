@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019/8 | Yezzi&#39;s blog</title>
+  <title>go的time包使用 | Yezzi&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Yezzi&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/archives/2019/08/index.html">
+  <meta name="description" content="详细信息  time包中，获取时间算是比较常用，这里记下常用方法以备用time.Now()123t := time.Now()fmt.Println(&quot;当前时间：&quot;,t)fmt.Println(&quot;type:&quot;, reflect.TypeOf(t))  12当前时间： 2019-10-09 00:36:37.7604236 +0800 CST m=+0.002002501type: time.Ti">
+<meta name="keywords" content="go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go的time包使用">
+<meta property="og:url" content="http://yoursite.com/2019/10/08/go的time包使用/index.html">
 <meta property="og:site_name" content="Yezzi&#39;s blog">
+<meta property="og:description" content="详细信息  time包中，获取时间算是比较常用，这里记下常用方法以备用time.Now()123t := time.Now()fmt.Println(&quot;当前时间：&quot;,t)fmt.Println(&quot;type:&quot;, reflect.TypeOf(t))  12当前时间： 2019-10-09 00:36:37.7604236 +0800 CST m=+0.002002501type: time.Ti">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-10-08T17:00:37.032Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Yezzi&#39;s blog">
+<meta name="twitter:title" content="go的time包使用">
+<meta name="twitter:description" content="详细信息  time包中，获取时间算是比较常用，这里记下常用方法以备用time.Now()123t := time.Now()fmt.Println(&quot;当前时间：&quot;,t)fmt.Println(&quot;type:&quot;, reflect.TypeOf(t))  12当前时间： 2019-10-09 00:36:37.7604236 +0800 CST m=+0.002002501type: time.Ti">
   
     <link rel="alternative" href="/atom.xml" title="Yezzi&#39;s blog" type="application/atom+xml">
   
@@ -132,98 +137,210 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-go的time包使用" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/21/fabric-node-sdk开发初步/" class="archive-article-date">
-  	<time datetime="2019-08-21T09:26:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-21</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/21/fabric-node-sdk开发初步/">fabric-node-sdk开发初步</a>
+    <h1 class="article-title" itemprop="name">
+      go的time包使用
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/10/08/go的time包使用/" class="archive-article-date">
+  	<time datetime="2019-10-08T15:16:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <details>
+<summary>详细信息</summary>
+
+<h5 id="time包中，获取时间算是比较常用，这里记下常用方法以备用"><a href="#time包中，获取时间算是比较常用，这里记下常用方法以备用" class="headerlink" title="time包中，获取时间算是比较常用，这里记下常用方法以备用"></a>time包中，获取时间算是比较常用，这里记下常用方法以备用</h5><h6 id="time-Now"><a href="#time-Now" class="headerlink" title="time.Now()"></a>time.Now()</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">t := time.Now()</span><br><span class="line">fmt.Println(<span class="string">"当前时间："</span>,t)</span><br><span class="line">fmt.Println(<span class="string">"type:"</span>, reflect.TypeOf(t))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">当前时间： <span class="number">2019</span><span class="number">-10</span><span class="number">-09</span> <span class="number">00</span>:<span class="number">36</span>:<span class="number">37.7604236</span> +<span class="number">0800</span> CST m=+<span class="number">0.002002501</span></span><br><span class="line"><span class="keyword">type</span>: time.Time</span><br></pre></td></tr></table></figure>
+
+<p>返回一个Time结构体,感觉一般不咋用,都是在后面加一个Format</p>
+<h6 id="time-Now-Unix"><a href="#time-Now-Unix" class="headerlink" title="time.Now().Unix()"></a>time.Now().Unix()</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fmt.Println(<span class="string">"时间戳："</span>,time.Now().Unix())</span><br><span class="line">fmt.Println(<span class="string">"type:"</span>, reflect.TypeOf(time.Now().Unix()))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">时间戳： <span class="number">1570549117</span></span><br><span class="line"><span class="keyword">type</span>: <span class="keyword">int64</span></span><br></pre></td></tr></table></figure>
+
+<p>是对结构体Time的方法</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t Time)</span> <span class="title">Unix</span><span class="params">()</span> <span class="title">int64</span></span> &#123; <span class="keyword">return</span> t.unixSec()&#125;</span><br></pre></td></tr></table></figure>
+
+<p>返回当前的时间戳,int64类型，存储总用到，需要和time.Unix()区分开</p>
+<h6 id="time-Now-Format"><a href="#time-Now-Format" class="headerlink" title="time.Now().Format()"></a>time.Now().Format()</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Println(<span class="string">"格式化的时间："</span>,time.Now().Format(<span class="string">"2006.01.02 15:04:05"</span>))fmt.Println(<span class="string">"type:"</span>, reflect.TypeOf(t.Format(<span class="string">"2006.01.02 15:04:05"</span>)))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">格式化的时间： <span class="number">2019.10</span><span class="number">.09</span> <span class="number">00</span>:<span class="number">36</span>:<span class="number">37</span></span><br><span class="line"><span class="keyword">type</span>: <span class="keyword">string</span></span><br></pre></td></tr></table></figure>
+
+<p>其中Format有很多写法，源码写了一堆case，这个直接存储为string挺不错的，需要注意的是，那个2006.01.02必须是2006.01.02。</p>
+<p>注意Format()函数是对Time结构体的方法，例如time.Unix()，time.Now()返回的都是Time结构体，可以直接跟Formate()</p>
+<h6 id="time-Unix（）"><a href="#time-Unix（）" class="headerlink" title="time.Unix（）"></a>time.Unix（）</h6><p>这函数用于把一个int64的时间戳还原成Time结构体，具体实现如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">func Unix(sec int64, nsec int64) Time &#123;</span><br><span class="line">	if nsec &lt; 0 || nsec &gt;= 1e9 &#123;</span><br><span class="line">		n := nsec / 1e9</span><br><span class="line">		sec += n</span><br><span class="line">		nsec -= n * 1e9</span><br><span class="line">		if nsec &lt; 0 &#123;</span><br><span class="line">			nsec += 1e9</span><br><span class="line">			sec--</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return unixTime(sec, int32(nsec))</span><br><span class="line">&#125;</span><br><span class="line">func unixTime(sec int64, nsec int32) Time &#123;</span><br><span class="line">	return Time&#123;uint64(nsec), sec + unixToInternal, Local&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<!--注：纳秒:nanosecond(ns|nsec);物理学上,其数值为10的负9次方秒，好像不怎么用，一般填0就可以了，据说有时候32位系统会用到-->
+
+<p>把存储的时间戳转化为Time结构体以实现字符串传输经常用到,例如</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t := time.Unix(<span class="number">1570549117</span>, <span class="number">0</span>).Format(<span class="string">"2006-01-02 03:04:05 PM"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Time的结构体是这样的：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Time <span class="keyword">struct</span> &#123;  </span><br><span class="line"></span><br><span class="line"><span class="comment">// wall and ext encode the wall time seconds, wall time nanoseconds,  </span></span><br><span class="line"><span class="comment">// and optional monotonic clock reading in nanoseconds.   </span></span><br><span class="line"><span class="comment">// From high to low bit position, wall encodes a 1-bit flag (hasMonotonic),   </span></span><br><span class="line"><span class="comment">// a 33-bit seconds field, and a 30-bit wall time nanoseconds field.   </span></span><br><span class="line"><span class="comment">// The nanoseconds field is in the range [0, 999999999].   </span></span><br><span class="line"><span class="comment">// If the hasMonotonic bit is 0, then the 33-bit field must be zero   </span></span><br><span class="line"><span class="comment">// and the full signed 64-bit wall seconds since Jan 1 year 1 is stored in ext.   </span></span><br><span class="line"><span class="comment">// If the hasMonotonic bit is 1, then the 33-bit field holds a 33-bit  </span></span><br><span class="line"><span class="comment">// unsigned wall seconds since Jan 1 year 1885, and ext holds a   </span></span><br><span class="line"><span class="comment">// signed 64-bit monotonic clock reading, nanoseconds since process start.   </span></span><br><span class="line"></span><br><span class="line">wall <span class="keyword">uint64</span>   </span><br><span class="line">ext  <span class="keyword">int64</span>   </span><br><span class="line"></span><br><span class="line"><span class="comment">// loc specifies the Location that should be used to   </span></span><br><span class="line"><span class="comment">// determine the minute, hour, month, day, and year   </span></span><br><span class="line"><span class="comment">// that correspond to this Time.   </span></span><br><span class="line"><span class="comment">// The nil location means UTC.   </span></span><br><span class="line"><span class="comment">// All UTC times are represented with loc==nil, never loc==&amp;utcLoc.  </span></span><br><span class="line"></span><br><span class="line"> loc *Location</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中的成员都是私有，不容易直接显示出来</p>
+  </details>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">hyperledger fabric</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">go</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/10/08/go的time包使用/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/21/Fabric-环境搭建/" class="archive-article-date">
-  	<time datetime="2019-08-21T08:47:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-21</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/21/fabric-node-sdk开发初步/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">fabric-node-sdk开发初步</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/21/Fabric-环境搭建/">fabric 环境搭建</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">hyperledger fabric</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -246,8 +363,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

@@ -134,6 +134,113 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-go的time包使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/08/go的time包使用/">go的time包使用</a>
+    </h1>
+  
+
+        
+        <a href="/2019/10/08/go的time包使用/" class="archive-article-date">
+  	<time datetime="2019-10-08T15:16:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <details>
+<summary>详细信息</summary>
+
+<h5 id="time包中，获取时间算是比较常用，这里记下常用方法以备用"><a href="#time包中，获取时间算是比较常用，这里记下常用方法以备用" class="headerlink" title="time包中，获取时间算是比较常用，这里记下常用方法以备用"></a>time包中，获取时间算是比较常用，这里记下常用方法以备用</h5><h6 id="time-Now"><a href="#time-Now" class="headerlink" title="time.Now()"></a>time.Now()</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">t := time.Now()</span><br><span class="line">fmt.Println(<span class="string">"当前时间："</span>,t)</span><br><span class="line">fmt.Println(<span class="string">"type:"</span>, reflect.TypeOf(t))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">当前时间： <span class="number">2019</span><span class="number">-10</span><span class="number">-09</span> <span class="number">00</span>:<span class="number">36</span>:<span class="number">37.7604236</span> +<span class="number">0800</span> CST m=+<span class="number">0.002002501</span></span><br><span class="line"><span class="keyword">type</span>: time.Time</span><br></pre></td></tr></table></figure>
+
+<p>返回一个Time结构体,感觉一般不咋用,都是在后面加一个Format</p>
+<h6 id="time-Now-Unix"><a href="#time-Now-Unix" class="headerlink" title="time.Now().Unix()"></a>time.Now().Unix()</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fmt.Println(<span class="string">"时间戳："</span>,time.Now().Unix())</span><br><span class="line">fmt.Println(<span class="string">"type:"</span>, reflect.TypeOf(time.Now().Unix()))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">时间戳： <span class="number">1570549117</span></span><br><span class="line"><span class="keyword">type</span>: <span class="keyword">int64</span></span><br></pre></td></tr></table></figure>
+
+<p>是对结构体Time的方法</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t Time)</span> <span class="title">Unix</span><span class="params">()</span> <span class="title">int64</span></span> &#123; <span class="keyword">return</span> t.unixSec()&#125;</span><br></pre></td></tr></table></figure>
+
+<p>返回当前的时间戳,int64类型，存储总用到，需要和time.Unix()区分开</p>
+<h6 id="time-Now-Format"><a href="#time-Now-Format" class="headerlink" title="time.Now().Format()"></a>time.Now().Format()</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Println(<span class="string">"格式化的时间："</span>,time.Now().Format(<span class="string">"2006.01.02 15:04:05"</span>))fmt.Println(<span class="string">"type:"</span>, reflect.TypeOf(t.Format(<span class="string">"2006.01.02 15:04:05"</span>)))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">格式化的时间： <span class="number">2019.10</span><span class="number">.09</span> <span class="number">00</span>:<span class="number">36</span>:<span class="number">37</span></span><br><span class="line"><span class="keyword">type</span>: <span class="keyword">string</span></span><br></pre></td></tr></table></figure>
+
+<p>其中Format有很多写法，源码写了一堆case，这个直接存储为string挺不错的，需要注意的是，那个2006.01.02必须是2006.01.02。</p>
+<p>注意Format()函数是对Time结构体的方法，例如time.Unix()，time.Now()返回的都是Time结构体，可以直接跟Formate()</p>
+<h6 id="time-Unix（）"><a href="#time-Unix（）" class="headerlink" title="time.Unix（）"></a>time.Unix（）</h6><p>这函数用于把一个int64的时间戳还原成Time结构体，具体实现如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">func Unix(sec int64, nsec int64) Time &#123;</span><br><span class="line">	if nsec &lt; 0 || nsec &gt;= 1e9 &#123;</span><br><span class="line">		n := nsec / 1e9</span><br><span class="line">		sec += n</span><br><span class="line">		nsec -= n * 1e9</span><br><span class="line">		if nsec &lt; 0 &#123;</span><br><span class="line">			nsec += 1e9</span><br><span class="line">			sec--</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return unixTime(sec, int32(nsec))</span><br><span class="line">&#125;</span><br><span class="line">func unixTime(sec int64, nsec int32) Time &#123;</span><br><span class="line">	return Time&#123;uint64(nsec), sec + unixToInternal, Local&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<!--注：纳秒:nanosecond(ns|nsec);物理学上,其数值为10的负9次方秒，好像不怎么用，一般填0就可以了，据说有时候32位系统会用到-->
+
+<p>把存储的时间戳转化为Time结构体以实现字符串传输经常用到,例如</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t := time.Unix(<span class="number">1570549117</span>, <span class="number">0</span>).Format(<span class="string">"2006-01-02 03:04:05 PM"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Time的结构体是这样的：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Time <span class="keyword">struct</span> &#123;  </span><br><span class="line"></span><br><span class="line"><span class="comment">// wall and ext encode the wall time seconds, wall time nanoseconds,  </span></span><br><span class="line"><span class="comment">// and optional monotonic clock reading in nanoseconds.   </span></span><br><span class="line"><span class="comment">// From high to low bit position, wall encodes a 1-bit flag (hasMonotonic),   </span></span><br><span class="line"><span class="comment">// a 33-bit seconds field, and a 30-bit wall time nanoseconds field.   </span></span><br><span class="line"><span class="comment">// The nanoseconds field is in the range [0, 999999999].   </span></span><br><span class="line"><span class="comment">// If the hasMonotonic bit is 0, then the 33-bit field must be zero   </span></span><br><span class="line"><span class="comment">// and the full signed 64-bit wall seconds since Jan 1 year 1 is stored in ext.   </span></span><br><span class="line"><span class="comment">// If the hasMonotonic bit is 1, then the 33-bit field holds a 33-bit  </span></span><br><span class="line"><span class="comment">// unsigned wall seconds since Jan 1 year 1885, and ext holds a   </span></span><br><span class="line"><span class="comment">// signed 64-bit monotonic clock reading, nanoseconds since process start.   </span></span><br><span class="line"></span><br><span class="line">wall <span class="keyword">uint64</span>   </span><br><span class="line">ext  <span class="keyword">int64</span>   </span><br><span class="line"></span><br><span class="line"><span class="comment">// loc specifies the Location that should be used to   </span></span><br><span class="line"><span class="comment">// determine the minute, hour, month, day, and year   </span></span><br><span class="line"><span class="comment">// that correspond to this Time.   </span></span><br><span class="line"><span class="comment">// The nil location means UTC.   </span></span><br><span class="line"><span class="comment">// All UTC times are represented with loc==nil, never loc==&amp;utcLoc.  </span></span><br><span class="line"></span><br><span class="line"> loc *Location</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中的成员都是私有，不容易直接显示出来</p>
+  </details>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">go</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/10/08/go的time包使用/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-fabric-node-sdk开发初步" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -453,6 +560,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">hyperledger fabric</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">go</a>
               </li>
             
             <div class="clearfix"></div>
