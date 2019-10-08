@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>go中的struct和json | Yezzi&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.先说结构体首先定义一个结构体很容易，比如说： 123456type Person struct &amp;#123;     Id string `json:&quot;id&quot;`     Name string `json:&quot;name&quot;`     Sex    string `json:&quot;sex&quot;`     Born   string `json:&quot;born&quot;`&amp;#125;  不过要多多注意，go没有特意声明私">
+  <meta name="description" content="详细信息 ## 1.先说结构体  首先定义一个结构体很容易，比如说： 123456type Person struct &amp;#123;     Id string `json:&quot;id&quot;`     Name string `json:&quot;name&quot;`     Sex    string `json:&quot;sex&quot;`     Born   string `json:&quot;born&quot;`&amp;#125;  不过要多多注">
 <meta name="keywords" content="go">
 <meta property="og:type" content="article">
 <meta property="og:title" content="go中的struct和json">
 <meta property="og:url" content="http://yoursite.com/2019/10/09/json常用方法/index.html">
 <meta property="og:site_name" content="Yezzi&#39;s blog">
-<meta property="og:description" content="1.先说结构体首先定义一个结构体很容易，比如说： 123456type Person struct &amp;#123;     Id string `json:&quot;id&quot;`     Name string `json:&quot;name&quot;`     Sex    string `json:&quot;sex&quot;`     Born   string `json:&quot;born&quot;`&amp;#125;  不过要多多注意，go没有特意声明私">
+<meta property="og:description" content="详细信息 ## 1.先说结构体  首先定义一个结构体很容易，比如说： 123456type Person struct &amp;#123;     Id string `json:&quot;id&quot;`     Name string `json:&quot;name&quot;`     Sex    string `json:&quot;sex&quot;`     Born   string `json:&quot;born&quot;`&amp;#125;  不过要多多注">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-10-08T19:25:33.223Z">
+<meta property="og:updated_time" content="2019-10-08T19:40:21.177Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="go中的struct和json">
-<meta name="twitter:description" content="1.先说结构体首先定义一个结构体很容易，比如说： 123456type Person struct &amp;#123;     Id string `json:&quot;id&quot;`     Name string `json:&quot;name&quot;`     Sex    string `json:&quot;sex&quot;`     Born   string `json:&quot;born&quot;`&amp;#125;  不过要多多注意，go没有特意声明私">
+<meta name="twitter:description" content="详细信息 ## 1.先说结构体  首先定义一个结构体很容易，比如说： 123456type Person struct &amp;#123;     Id string `json:&quot;id&quot;`     Name string `json:&quot;name&quot;`     Sex    string `json:&quot;sex&quot;`     Born   string `json:&quot;born&quot;`&amp;#125;  不过要多多注">
   
     <link rel="alternative" href="/atom.xml" title="Yezzi&#39;s blog" type="application/atom+xml">
   
@@ -157,7 +157,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-先说结构体"><a href="#1-先说结构体" class="headerlink" title="1.先说结构体"></a>1.先说结构体</h2><p>首先定义一个结构体很容易，比如说：</p>
+        <details>
+<summary>详细信息</summary>
+## 1.先说结构体
+
+<p>首先定义一个结构体很容易，比如说：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;   </span><br><span class="line">  Id <span class="keyword">string</span> <span class="string">`json:"id"`</span>   </span><br><span class="line">  Name <span class="keyword">string</span> <span class="string">`json:"name"`</span>   </span><br><span class="line">  Sex    <span class="keyword">string</span> <span class="string">`json:"sex"`</span>   </span><br><span class="line">  Born   <span class="keyword">string</span> <span class="string">`json:"born"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>不过要多多注意，go没有特意声明私有成员，大写代表公有，小写就代表私有，结构体内部的命名也一样<br>$$<br>如果结构体命名为小写，则整个结构体其他包不能导出；</p>
@@ -191,7 +195,7 @@
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"github.com/tidwall/gjson"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> json = <span class="string">`&#123;"name":&#123;"first":"Janet","last":"Prichard"&#125;,"age":47&#125;`</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	value := gjson.Get(json, <span class="string">"name.last"</span>)</span><br><span class="line">	<span class="built_in">println</span>(value.String())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>比官方那个包好用多了。</p>
-
+</details>
       
 
       
@@ -425,11 +429,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">go</a>
+                <a href="javascript:void(0)" class="js-tag color4">hyperledger fabric</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hyperledger fabric</a>
+                <a href="javascript:void(0)" class="js-tag color3">go</a>
               </li>
             
             <div class="clearfix"></div>
