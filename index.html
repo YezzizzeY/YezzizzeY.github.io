@@ -134,6 +134,99 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-fisco-browser项目架构" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/22/fisco-browser项目架构/">fisco-browser项目架构</a>
+    </h1>
+  
+
+        
+        <a href="/2019/10/22/fisco-browser项目架构/" class="archive-article-date">
+  	<time datetime="2019-10-22T02:08:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>从微众的fisco-browser开源区块链浏览器中学习java和后端项目架构。</p>
+<p>目录结构：</p>
+<ul>
+<li>base</li>
+<li>config </li>
+<li>controller</li>
+<li>entity</li>
+<li>mapper</li>
+<li>schedule</li>
+<li>service</li>
+<li>util</li>
+</ul>
+<p>base: 基础，包括错误处理exception文件夹，所有controller的父类BaseController,自定义状态码ConstantCode，String类型常量Constants，状态码对象RetCode(包含一个String 和一个Integer类型)</p>
+<p>config: 基础配置，具体还没太弄明白，以后填坑</p>
+<p>controller：路由</p>
+<p>entity: 数据实体定义，由service层调用，返回给前端</p>
+<p>mapper： 数据到数据库的映射</p>
+<p>schedule:  用springboot自带的定时任务功能将区块链上数据导入数据库</p>
+<p>service： 由路由层调用，建立实体对象，从数据库中拿数据给实体对象，处理逻辑，返回</p>
+<p>util: 组件，包括Web3Rpc区块链交互组件,读取压缩文件,时间组件等等，暂时没弄太明白，等有时间填坑</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/10/22/fisco-browser项目架构/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-json常用方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -709,6 +802,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">hyperledger fabric</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
