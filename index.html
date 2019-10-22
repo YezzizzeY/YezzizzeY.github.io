@@ -134,6 +134,112 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-java包装类" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/22/java包装类/">java包装类</a>
+    </h1>
+  
+
+        
+        <a href="/2019/10/22/java包装类/" class="archive-article-date">
+  	<time datetime="2019-10-22T10:34:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <details>
+<summary>详细
+
+<p>java的基本数据类型都有包装类，所谓包装类，就是为了能将这些基本数据类型当做对象操作，从而有更多对它们的常用操作方法，并有自动装箱/拆箱机制使得二者可以相互转换。</p>
+<p>原始类型：boolean，char，byte，short，int，long，float，double</p>
+<p>包装类型：Boolean，Character，Byte，Short，Integer，Long，Float，Double</p>
+<p>下面列举一些常用操作，以Int包装类型Integer为例：</p>
+<p> Integer.ParseInt()</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String hash = <span class="string">"02138975"</span>;</span><br><span class="line">System.out.println(Integer.parseInt(hash));  <span class="comment">//2138975</span></span><br></pre></td></tr></table></figure>
+
+<p> 任何类型+””变成字符串</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Integer i = <span class="number">128</span>;</span><br><span class="line">String hash = <span class="string">"02138975"</span>;</span><br><span class="line">System.out.println(i+hash);  <span class="comment">//12802138975</span></span><br></pre></td></tr></table></figure>
+
+<p>toString()方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Integer i = <span class="number">128</span>;</span><br><span class="line">System.out.println(i.toString());  <span class="comment">//128</span></span><br></pre></td></tr></table></figure>
+
+<p>自动拆箱与装箱</p>
+<p>在使用Integer类型当作int类型使用时，会感觉和正常的int没有多大区别，自动装箱和拆箱的好处就在这。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Integer src = <span class="number">100</span>; <span class="comment">//这里就是自动装箱的过程，相当于Integer src = new Integer(100);</span></span><br><span class="line"><span class="keyword">int</span> dest = src + <span class="number">5</span>; <span class="comment">//我们知道src本身是引用数据类型，不能直接跟基本数据类型运算，首先它会自动进行拆箱操作，相当于：int dest = src.intValue() + 5 ;</span></span><br></pre></td></tr></table></figure>
+
+<p>不过需要注意的是，当Integer类型的值在-128-127之间时，会读取缓存而不创建对象：比如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Integer a = <span class="number">500</span>;</span><br><span class="line"></span><br><span class="line">Integer b = <span class="number">500</span>;</span><br><span class="line"></span><br><span class="line">Integer c = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line">Integer d = <span class="number">100</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这时a和b的值相等，但是是两个对象；c和d的值相等，而且是一个对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a==b : <span class="keyword">false</span></span><br><span class="line"></span><br><span class="line">a.equals(b) : <span class="keyword">true</span></span><br><span class="line"></span><br><span class="line">c==d : <span class="keyword">true</span></span><br><span class="line"></span><br><span class="line">c.equals(d) : <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+
+<p>原因是源码的valueOf()函数，这个函数对于-128到127之间的数，会进行缓存 ， 下次再写c==d时，就会直接从缓存中取，就不会new了 </p>
+<p>另外需要注意的是：</p>
+<ul>
+<li>int和Integer(无论new否)比，都为true，因为会把Integer自动拆箱为int再去比 。 </li>
+<li>Integer与new Integer不会相等。不会经历拆箱过程，new出来的对象存放在堆，而非new的Integer常量则在常量池（在方法区），他们的内存地址不一样 </li>
+<li>Integer初值为null，int初值为0</li></ul></summary></details>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/10/22/java包装类/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-fisco-browser项目架构" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -808,11 +914,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color3">go</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">go</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
             
             <div class="clearfix"></div>
