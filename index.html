@@ -253,8 +253,12 @@
       
         <details>
 <summary>详细</summary>
+java的基本数据类型都有包装类，所谓包装类，就是为了能将这些基本数据类型当做对象操作，从而有更多对它们的常用操作方法，并有自动装箱/拆箱机制使得二者可以相互转换。包装类继承自Number类。
 
-<p>java的基本数据类型都有包装类，所谓包装类，就是为了能将这些基本数据类型当做对象操作，从而有更多对它们的常用操作方法，并有自动装箱/拆箱机制使得二者可以相互转换。包装类继承自Number类。</p>
+<p>其中Number类继承自java.io.Serializable序列化接口，有实现各类值的函数，定义如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Number</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">intValue</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">long</span> <span class="title">longValue</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">float</span> <span class="title">floatValue</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">double</span> <span class="title">doubleValue</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">byte</span> <span class="title">byteValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">byte</span>)intValue();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">short</span> <span class="title">shortValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">short</span>)intValue();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">8742448824652078965L</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所有基本类型的包装类型都继承了该抽象类，并且是final声明不可继承改变；</p>
 <p>原始类型：boolean，char，byte，short，int，long，float，double</p>
 <p>包装类型：Boolean，Character，Byte，Short，Integer，Long，Float，Double</p>
 <p>下面列举一些常用操作，以Int包装类型Integer为例：</p>
@@ -269,7 +273,7 @@
 
 <p>自动拆箱与装箱</p>
 <p>在使用Integer类型当作int类型使用时，会感觉和正常的int没有多大区别，自动装箱和拆箱的好处就在这。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Integer src = <span class="number">100</span>; <span class="comment">//这里就是自动装箱的过程，相当于Integer src = new Integer(100);</span></span><br><span class="line"><span class="keyword">int</span> dest = src + <span class="number">5</span>; <span class="comment">//我们知道src本身是引用数据类型，不能直接跟基本数据类型运算，首先它会自动进行拆箱操作，相当于：int dest = src.intValue() + 5 ;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Integer src = <span class="number">100</span>; <span class="comment">//自动装箱的过程，相当于Integer src = new Integer(100);</span></span><br><span class="line"><span class="keyword">int</span> dest = src + <span class="number">5</span>; <span class="comment">//src本身是引用数据类型，不能直接跟基本数据类型运算，首先它会自动进行拆箱操作，相当于：int dest = src.intValue() + 5 ;</span></span><br></pre></td></tr></table></figure>
 
 <p>不过需要注意的是，当Integer类型的值在-128-127之间时，会读取缓存而不创建对象：比如：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Integer a = <span class="number">500</span>;</span><br><span class="line"></span><br><span class="line">Integer b = <span class="number">500</span>;</span><br><span class="line"></span><br><span class="line">Integer c = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line">Integer d = <span class="number">100</span>;</span><br></pre></td></tr></table></figure>
@@ -280,9 +284,12 @@
 <p>原因是源码的valueOf()函数，这个函数对于-128到127之间的数，会进行缓存 ， 下次再写c==d时，就会直接从缓存中取，就不会new了 </p>
 <p>另外需要注意的是：</p>
 <ul>
-<li>int和Integer(无论new否)比，都为true，因为会把Integer自动拆箱为int再去比 。 </li>
-<li>Integer与new Integer不会相等。不会经历拆箱过程，new出来的对象存放在堆，而非new的Integer常量则在常量池（在方法区），他们的内存地址不一样 </li>
-<li>Integer初值为null，int初值为0</li></ul></details>
+<li><p>int和Integer(无论new否)比，都为true，因为会把Integer自动拆箱为int再去比 。 </p>
+</li>
+<li><p>Integer与new Integer不会相等。不会经历拆箱过程，new出来的对象存放在堆，而非new的Integer常量则在常量池（在方法区），他们的内存地址不一样 </p>
+</li>
+<li><p>Integer初值为null，int初值为0</p>
+</li></ul></details>
 
 
       
@@ -1007,11 +1014,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hyperledger fabric</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color4">hyperledger fabric</a>
               </li>
              
               <li class="article-tag-list-item">
