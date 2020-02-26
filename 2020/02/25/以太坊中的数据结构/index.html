@@ -6,15 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: hyperledger fabric | Yezzi&#39;s blog</title>
+  <title>以太坊中的数据结构 | Yezzi&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Yezzi&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/tags/hyperledger-fabric/index.html">
+  <meta name="description" content="1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    `json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`      Un">
+<meta name="keywords" content="区块链">
+<meta property="og:type" content="article">
+<meta property="og:title" content="以太坊中的数据结构">
+<meta property="og:url" content="http://yoursite.com/2020/02/25/以太坊中的数据结构/index.html">
 <meta property="og:site_name" content="Yezzi&#39;s blog">
+<meta property="og:description" content="1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    `json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`      Un">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/picture/1.jpg">
+<meta property="og:image" content="http://yoursite.com/picture/2.png">
+<meta property="og:image" content="http://yoursite.com/picture/3.png">
+<meta property="og:image" content="http://yoursite.com/picture/4.png">
+<meta property="og:updated_time" content="2020-02-26T08:15:56.862Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Yezzi&#39;s blog">
+<meta name="twitter:title" content="以太坊中的数据结构">
+<meta name="twitter:description" content="1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    `json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`      Un">
+<meta name="twitter:image" content="http://yoursite.com/picture/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Yezzi&#39;s blog" type="application/atom+xml">
   
@@ -132,98 +142,250 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-以太坊中的数据结构" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/21/fabric-node-sdk开发初步/" class="archive-article-date">
-  	<time datetime="2019-08-21T09:26:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-21</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/21/fabric-node-sdk开发初步/">fabric-node-sdk开发初步</a>
+    <h1 class="article-title" itemprop="name">
+      以太坊中的数据结构
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2020/02/25/以太坊中的数据结构/" class="archive-article-date">
+  	<time datetime="2020-02-25T15:54:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-区块"><a href="#1-区块" class="headerlink" title="1.区块"></a>1.区块</h3><p>区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body）</p>
+<h4 id="区块头"><a href="#区块头" class="headerlink" title="区块头"></a>区块头</h4><p>区块头的结构体定义：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Header <span class="keyword">struct</span> &#123; </span><br><span class="line">    ParentHash  common.Hash    <span class="string">`json:"parentHash"       gencodec:"required"`</span>  </span><br><span class="line">    UncleHash   common.Hash    <span class="string">`json:"sha3Uncles"       gencodec:"required"`</span>  </span><br><span class="line">    Coinbase    common.Address <span class="string">`json:"miner"            gencodec:"required"`</span>  </span><br><span class="line">    Root        common.Hash    <span class="string">`json:"stateRoot"        gencodec:"required"`</span> </span><br><span class="line">    TxHash      common.Hash    <span class="string">`json:"transactionsRoot" gencodec:"required"`</span>              ReceiptHash common.Hash    <span class="string">`json:"receiptsRoot"     gencodec:"required"`</span></span><br><span class="line">    Bloom       Bloom          <span class="string">`json:"logsBloom"        gencodec:"required"`</span> </span><br><span class="line">    Difficulty  *big.Int       <span class="string">`json:"difficulty"       gencodec:"required"`</span></span><br><span class="line">    Number      *big.Int       <span class="string">`json:"number"           gencodec:"required"`</span> </span><br><span class="line">    GasLimit    <span class="keyword">uint64</span>         <span class="string">`json:"gasLimit"         gencodec:"required"`</span> </span><br><span class="line">    GasUsed     <span class="keyword">uint64</span>         <span class="string">`json:"gasUsed"          gencodec:"required"`</span></span><br><span class="line">    Time        <span class="keyword">uint64</span>         <span class="string">`json:"timestamp"        gencodec:"required"`</span> </span><br><span class="line">    Extra       []<span class="keyword">byte</span>         <span class="string">`json:"extraData"        gencodec:"required"`</span>  </span><br><span class="line">    MixDigest   common.Hash    <span class="string">`json:"mixHash"`</span> </span><br><span class="line">    Nonce       BlockNonce     <span class="string">`json:"nonce"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>释义如下：</p>
+<p>ParentHash  common.Hash   父区块的哈希值<br>UncleHash    common.Hash    叔父区块列表的哈希值<br>Coinbase    common.Address    打包该区块的矿工的地址，用于接收矿工费<br>Root    common.Hash    状态树的根哈希值<br>TxHash    common.Hash    交易树的根哈希值<br>ReceiptHash    common.Hash    收据树的根哈希值<br>Bloom    Bloom    交易收据日志组成的Bloom过滤器<br>Difficulty    *Big.Int    本区块的难度<br>Number    *Big.Int    本区块块号，区块号从0号开始算起<br>GasLimit    uint64    本区块中所有交易消耗的Gas上限，这个数值不等于所有交易的中Gas limit字段的和<br>GasUsed    uint64    本区块中所有交易使用的Gas之和<br>Time    *big.Int    区块产生的unix时间戳，一般是打包区块的时间，这个字段不是出块的时间戳<br>Extra    []byte    区块的附加数据<br>MixDigest    common.Hash    哈希值，与Nonce的组合用于工作量计算<br>Nonce    BlockNonce    区块产生时的随机值</p>
+<p>与比特币一样，以太坊中区块和区块之间用哈希指针向连，通过哈希可以追溯到最初的区块。</p>
+<p>轻节点只保存区块头。</p>
+<h4 id="叔块"><a href="#叔块" class="headerlink" title="叔块"></a>叔块</h4><h5 id="孤块-orphan-block"><a href="#孤块-orphan-block" class="headerlink" title="孤块(orphan block)"></a>孤块(orphan block)</h5><p>在比特币协议中，最长的链被认为是绝对的正确。如果一个块不是最长链的一部分，那么它被称为是“孤块”。一个孤立的块是一个块，它也是合法的，但是发现的稍晚，或者是网络传输稍慢，而没有能成为最长的链的一部分。在比特币中，孤块没有意义，随后将被抛弃，发现这个孤块的矿工也拿不到采矿相关的奖励。</p>
+<h5 id="最重的链-heaviest"><a href="#最重的链-heaviest" class="headerlink" title="最重的链(heaviest)"></a>最重的链(heaviest)</h5><p>Ethereum的GHOST协议，不认为孤块没有价值，而是会给与发现孤块的矿工以回报。在以太坊中，孤块被称为“叔块”(uncle block)，它们可以为主链的安全作出贡献。</p>
+<p>相对来说，比特币有很长的块间隔时间。在比特币区块中，平均约10分钟可以得到一个确认(也就是发现一个新的后续区块)。但是自从比特币成立以来，大量关于块链技术的研究已经发展起来。这些研究表明，更短的块间隔确实是可能的，而且在很多应用场景下是需要的。然而，随着拥有更快的出块速度，孤块的增加而带来的昂贵的成本和浪费也随之增加。</p>
+<p>GHOST协议支付报酬给叔块，这激励了矿工在新发现的块中去引用叔块。引用叔块使主链更重。在比特币，最长的链是主链。在以太坊中，主链是指最重的链。</p>
+<h5 id="叔块的好处"><a href="#叔块的好处" class="headerlink" title="叔块的好处"></a>叔块的好处</h5><p>解决了两个问题：</p>
+<ol>
+<li>以太坊十几秒的出块间隔，大大增加了孤块的产生，并且降低了安全性。通过鼓励引用叔块，使引用主链获得更多的安全保证(因为孤块本身也是合法的)</li>
+<li>比特币中，采矿中心化(大量的集中矿池)成为一个问题。给与叔块报酬，可以一定程度上缓解这个问题。</li>
+</ol>
+<h5 id="叔块的引用"><a href="#叔块的引用" class="headerlink" title="叔块的引用"></a>叔块的引用</h5><p>区块可以不引用，或者最多引用两个叔块<br>叔块必须是区块的前2层~前7层的祖先的直接的子块<br>被引用过的叔块不能重复引用<br>引用叔块的区块，可以获得挖矿报酬的1/32，也就是5<em>1/32=0.15625 Ether。最多获得2</em>0.15625=0.3125 Ether<br>被引用的叔块，其矿工的报酬和叔块与区块之间的间隔层数有关系。</p>
+<table>
+<thead>
+<tr>
+<th>间隔层数</th>
+<th>报酬比例</th>
+<th>报酬</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>7/8</td>
+<td>4.375</td>
+</tr>
+<tr>
+<td>2</td>
+<td>6/8</td>
+<td>3.75</td>
+</tr>
+<tr>
+<td>3</td>
+<td>5/8</td>
+<td>3.125</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4/8</td>
+<td>2.5</td>
+</tr>
+<tr>
+<td>5</td>
+<td>3/8</td>
+<td>1.875</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2/8</td>
+<td>1.25</td>
+</tr>
+</tbody></table>
+<h4 id="区块体"><a href="#区块体" class="headerlink" title="区块体"></a>区块体</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Body <span class="keyword">struct</span> &#123;</span><br><span class="line">    Transactions []*Transaction  </span><br><span class="line">    Uncles       []*Header</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Body是一个简单的（可变的、非安全的）数据容器，用于存储和移动块的数据内容（事务和uncles）。</p>
+<h4 id="完整的区块定义"><a href="#完整的区块定义" class="headerlink" title="完整的区块定义"></a>完整的区块定义</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Block <span class="keyword">struct</span> &#123;   </span><br><span class="line">    header       *Header  </span><br><span class="line">    uncles       []*Header </span><br><span class="line">    transactions Transactions </span><br><span class="line">    <span class="comment">// caches   hash atomic.Value   size atomic.Value  </span></span><br><span class="line">    <span class="comment">// Td is used by package core to store the total difficulty   </span></span><br><span class="line">    <span class="comment">// of the chain up to and including the block.   td *big.Int  </span></span><br><span class="line">    <span class="comment">// These fields are used by package eth to track  </span></span><br><span class="line">    <span class="comment">// inter-peer block relay.   ReceivedAt   time.</span></span><br><span class="line">    Time   ReceivedFrom <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-MPT树"><a href="#2-MPT树" class="headerlink" title="2.MPT树"></a>2.MPT树</h3><h4 id="trie"><a href="#trie" class="headerlink" title="trie"></a>trie</h4><p>trie也叫字典树，前缀树，因为它的搜索快捷的特性被单词搜索系统使用，故又称单词查找树。它是一种树形结构的数据结构。之所以快速，是因为它用空间代替了速度。</p>
+<p>如给出字符串”abc”,”ab”,”bd”,”dda”，根据该字符串序列构建一棵Trie树。则构建的树如下: </p>
+<p><img src="/picture/1.jpg" alt></p>
+<h4 id="Patricia-Trie"><a href="#Patricia-Trie" class="headerlink" title="Patricia Trie"></a>Patricia Trie</h4><p>又叫做基数树，压缩前缀树或紧凑前缀树（compact prefix tree)，是一种更节省空间的前缀树。它与 Trie 的区别是，如果某个节点只有一个子树，那么这个子树跟父节点合并，这样可以缩短 Trie 里不必要的深度，节约存储空间，加快搜索节点的速度。 </p>
+<p><img src="/picture/2.png" alt></p>
+<p> 以太坊中每个用户地址是160位存储，如果使用不压缩的trie会造成非常大的存储浪费，维护状态树会变得异常困难。所以使用压缩前缀树。 </p>
+<h4 id="Merkle-Tree"><a href="#Merkle-Tree" class="headerlink" title="Merkle Tree"></a>Merkle Tree</h4><p>比特币中，交易列表使用非排序的默克尔树存储，其和二叉树的区别主要是使用哈希指针代替了二叉树中的指针。</p>
+<p><img src="/picture/3.png" alt></p>
+<h4 id="Merkle-Patricia-Tree-Trie"><a href="#Merkle-Patricia-Tree-Trie" class="headerlink" title="Merkle Patricia Tree (Trie)"></a>Merkle Patricia Tree (Trie)</h4><p>Merkle Patricia Tree 默克尔-帕特里夏树是一种融合了默克尔树和前缀树两种结构优点的，经过改良的数据结构，在以太坊中用来组织交易信息、账户状态及其变更、收据相关的数据。</p>
+<p>以太坊中的MPT树是经过改良的，模范化的MPT树。</p>
+<p><img src="/picture/4.png" alt></p>
+<p>上图是以太坊的MPT树模型，叶子节点存储的是(KEC,RLP)的键值对，对应用户状态（在状态树中），重复字母对应的节点为Extension Node ，用于分支的节点为 Branch Node 。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">hyperledger fabric</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">区块链</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/02/25/以太坊中的数据结构/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/21/Fabric-环境搭建/" class="archive-article-date">
-  	<time datetime="2019-08-21T08:47:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-21</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/02/14/go-ethreum源码目录结构/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">go-ethreum源码目录结构</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/21/Fabric-环境搭建/">fabric 环境搭建</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">hyperledger fabric</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -246,9 +408,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
