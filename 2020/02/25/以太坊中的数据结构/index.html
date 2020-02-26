@@ -8,22 +8,22 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>以太坊中的数据结构 | Yezzi&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    `json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`      Un">
+  <meta name="description" content="详细信息  1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    `json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`">
 <meta name="keywords" content="区块链">
 <meta property="og:type" content="article">
 <meta property="og:title" content="以太坊中的数据结构">
 <meta property="og:url" content="http://yoursite.com/2020/02/25/以太坊中的数据结构/index.html">
 <meta property="og:site_name" content="Yezzi&#39;s blog">
-<meta property="og:description" content="1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    `json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`      Un">
+<meta property="og:description" content="详细信息  1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    `json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://yoursite.com/picture/1.jpg">
 <meta property="og:image" content="http://yoursite.com/picture/2.png">
 <meta property="og:image" content="http://yoursite.com/picture/3.png">
 <meta property="og:image" content="http://yoursite.com/picture/4.png">
-<meta property="og:updated_time" content="2020-02-26T08:15:56.862Z">
+<meta property="og:updated_time" content="2020-02-26T08:19:04.865Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="以太坊中的数据结构">
-<meta name="twitter:description" content="1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    `json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`      Un">
+<meta name="twitter:description" content="详细信息  1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    `json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`">
 <meta name="twitter:image" content="http://yoursite.com/picture/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Yezzi&#39;s blog" type="application/atom+xml">
@@ -162,7 +162,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="1-区块"><a href="#1-区块" class="headerlink" title="1.区块"></a>1.区块</h3><p>区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body）</p>
+        <details>
+<summary>详细信息</summary>
+
+<h3 id="1-区块"><a href="#1-区块" class="headerlink" title="1.区块"></a>1.区块</h3><p>区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body）</p>
 <h4 id="区块头"><a href="#区块头" class="headerlink" title="区块头"></a>区块头</h4><p>区块头的结构体定义：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Header <span class="keyword">struct</span> &#123; </span><br><span class="line">    ParentHash  common.Hash    <span class="string">`json:"parentHash"       gencodec:"required"`</span>  </span><br><span class="line">    UncleHash   common.Hash    <span class="string">`json:"sha3Uncles"       gencodec:"required"`</span>  </span><br><span class="line">    Coinbase    common.Address <span class="string">`json:"miner"            gencodec:"required"`</span>  </span><br><span class="line">    Root        common.Hash    <span class="string">`json:"stateRoot"        gencodec:"required"`</span> </span><br><span class="line">    TxHash      common.Hash    <span class="string">`json:"transactionsRoot" gencodec:"required"`</span>              ReceiptHash common.Hash    <span class="string">`json:"receiptsRoot"     gencodec:"required"`</span></span><br><span class="line">    Bloom       Bloom          <span class="string">`json:"logsBloom"        gencodec:"required"`</span> </span><br><span class="line">    Difficulty  *big.Int       <span class="string">`json:"difficulty"       gencodec:"required"`</span></span><br><span class="line">    Number      *big.Int       <span class="string">`json:"number"           gencodec:"required"`</span> </span><br><span class="line">    GasLimit    <span class="keyword">uint64</span>         <span class="string">`json:"gasLimit"         gencodec:"required"`</span> </span><br><span class="line">    GasUsed     <span class="keyword">uint64</span>         <span class="string">`json:"gasUsed"          gencodec:"required"`</span></span><br><span class="line">    Time        <span class="keyword">uint64</span>         <span class="string">`json:"timestamp"        gencodec:"required"`</span> </span><br><span class="line">    Extra       []<span class="keyword">byte</span>         <span class="string">`json:"extraData"        gencodec:"required"`</span>  </span><br><span class="line">    MixDigest   common.Hash    <span class="string">`json:"mixHash"`</span> </span><br><span class="line">    Nonce       BlockNonce     <span class="string">`json:"nonce"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -236,7 +239,7 @@
 <p>以太坊中的MPT树是经过改良的，模范化的MPT树。</p>
 <p><img src="/picture/4.png" alt></p>
 <p>上图是以太坊的MPT树模型，叶子节点存储的是(KEC,RLP)的键值对，对应用户状态（在状态树中），重复字母对应的节点为Extension Node ，用于分支的节点为 Branch Node 。</p>
-
+</details>
       
 
       
@@ -474,11 +477,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">以太坊</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color4">以太坊</a>
               </li>
              
               <li class="article-tag-list-item">
