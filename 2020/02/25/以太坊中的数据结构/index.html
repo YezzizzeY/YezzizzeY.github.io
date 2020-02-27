@@ -8,23 +8,23 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>以太坊中的数据结构 | Yezzi&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="详细信息  1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    `json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`">
+  <meta name="description" content="详细信息   1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    `json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`">
 <meta name="keywords" content="区块链">
 <meta property="og:type" content="article">
 <meta property="og:title" content="以太坊中的数据结构">
 <meta property="og:url" content="http://yoursite.com/2020/02/25/以太坊中的数据结构/index.html">
 <meta property="og:site_name" content="Yezzi&#39;s blog">
-<meta property="og:description" content="详细信息  1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    `json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`">
+<meta property="og:description" content="详细信息   1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    `json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/picture/1.jpg">
-<meta property="og:image" content="http://yoursite.com/picture/2.png">
-<meta property="og:image" content="http://yoursite.com/picture/3.png">
-<meta property="og:image" content="http://yoursite.com/picture/4.png">
-<meta property="og:updated_time" content="2020-02-26T08:19:04.865Z">
+<meta property="og:image" content="c:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/1.jpg">
+<meta property="og:image" content="c:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/2.png">
+<meta property="og:image" content="c:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/3.png">
+<meta property="og:image" content="c:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/4.png">
+<meta property="og:updated_time" content="2020-02-27T02:44:59.189Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="以太坊中的数据结构">
-<meta name="twitter:description" content="详细信息  1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    `json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`">
-<meta name="twitter:image" content="http://yoursite.com/picture/1.jpg">
+<meta name="twitter:description" content="详细信息   1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    `json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`">
+<meta name="twitter:image" content="c:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Yezzi&#39;s blog" type="application/atom+xml">
   
@@ -165,6 +165,7 @@
         <details>
 <summary>详细信息</summary>
 
+
 <h3 id="1-区块"><a href="#1-区块" class="headerlink" title="1.区块"></a>1.区块</h3><p>区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body）</p>
 <h4 id="区块头"><a href="#区块头" class="headerlink" title="区块头"></a>区块头</h4><p>区块头的结构体定义：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Header <span class="keyword">struct</span> &#123; </span><br><span class="line">    ParentHash  common.Hash    <span class="string">`json:"parentHash"       gencodec:"required"`</span>  </span><br><span class="line">    UncleHash   common.Hash    <span class="string">`json:"sha3Uncles"       gencodec:"required"`</span>  </span><br><span class="line">    Coinbase    common.Address <span class="string">`json:"miner"            gencodec:"required"`</span>  </span><br><span class="line">    Root        common.Hash    <span class="string">`json:"stateRoot"        gencodec:"required"`</span> </span><br><span class="line">    TxHash      common.Hash    <span class="string">`json:"transactionsRoot" gencodec:"required"`</span>              ReceiptHash common.Hash    <span class="string">`json:"receiptsRoot"     gencodec:"required"`</span></span><br><span class="line">    Bloom       Bloom          <span class="string">`json:"logsBloom"        gencodec:"required"`</span> </span><br><span class="line">    Difficulty  *big.Int       <span class="string">`json:"difficulty"       gencodec:"required"`</span></span><br><span class="line">    Number      *big.Int       <span class="string">`json:"number"           gencodec:"required"`</span> </span><br><span class="line">    GasLimit    <span class="keyword">uint64</span>         <span class="string">`json:"gasLimit"         gencodec:"required"`</span> </span><br><span class="line">    GasUsed     <span class="keyword">uint64</span>         <span class="string">`json:"gasUsed"          gencodec:"required"`</span></span><br><span class="line">    Time        <span class="keyword">uint64</span>         <span class="string">`json:"timestamp"        gencodec:"required"`</span> </span><br><span class="line">    Extra       []<span class="keyword">byte</span>         <span class="string">`json:"extraData"        gencodec:"required"`</span>  </span><br><span class="line">    MixDigest   common.Hash    <span class="string">`json:"mixHash"`</span> </span><br><span class="line">    Nonce       BlockNonce     <span class="string">`json:"nonce"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -229,16 +230,30 @@
 
 <h3 id="2-MPT树"><a href="#2-MPT树" class="headerlink" title="2.MPT树"></a>2.MPT树</h3><h4 id="trie"><a href="#trie" class="headerlink" title="trie"></a>trie</h4><p>trie也叫字典树，前缀树，因为它的搜索快捷的特性被单词搜索系统使用，故又称单词查找树。它是一种树形结构的数据结构。之所以快速，是因为它用空间代替了速度。</p>
 <p>如给出字符串”abc”,”ab”,”bd”,”dda”，根据该字符串序列构建一棵Trie树。则构建的树如下: </p>
-<p><img src="/picture/1.jpg" alt></p>
+<p><img src="C:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/1.jpg" alt></p>
 <h4 id="Patricia-Trie"><a href="#Patricia-Trie" class="headerlink" title="Patricia Trie"></a>Patricia Trie</h4><p>又叫做基数树，压缩前缀树或紧凑前缀树（compact prefix tree)，是一种更节省空间的前缀树。它与 Trie 的区别是，如果某个节点只有一个子树，那么这个子树跟父节点合并，这样可以缩短 Trie 里不必要的深度，节约存储空间，加快搜索节点的速度。 </p>
-<p><img src="/picture/2.png" alt></p>
+<p><img src="C:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/2.png" alt></p>
 <p> 以太坊中每个用户地址是160位存储，如果使用不压缩的trie会造成非常大的存储浪费，维护状态树会变得异常困难。所以使用压缩前缀树。 </p>
 <h4 id="Merkle-Tree"><a href="#Merkle-Tree" class="headerlink" title="Merkle Tree"></a>Merkle Tree</h4><p>比特币中，交易列表使用非排序的默克尔树存储，其和二叉树的区别主要是使用哈希指针代替了二叉树中的指针。</p>
-<p><img src="/picture/3.png" alt></p>
+<p><img src="C:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/3.png" alt></p>
 <h4 id="Merkle-Patricia-Tree-Trie"><a href="#Merkle-Patricia-Tree-Trie" class="headerlink" title="Merkle Patricia Tree (Trie)"></a>Merkle Patricia Tree (Trie)</h4><p>Merkle Patricia Tree 默克尔-帕特里夏树是一种融合了默克尔树和前缀树两种结构优点的，经过改良的数据结构，在以太坊中用来组织交易信息、账户状态及其变更、收据相关的数据。</p>
 <p>以太坊中的MPT树是经过改良的，模范化的MPT树。</p>
-<p><img src="/picture/4.png" alt></p>
-<p>上图是以太坊的MPT树模型，叶子节点存储的是(KEC,RLP)的键值对，对应用户状态（在状态树中），重复字母对应的节点为Extension Node ，用于分支的节点为 Branch Node 。</p>
+<p><img src="C:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/4.png" alt></p>
+<p>树中的节点分类：</p>
+<p>空节点 </p>
+<p>分支节点 </p>
+<p>叶子节点 </p>
+<p>扩展节点 </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> node <span class="keyword">interface</span> &#123;	</span><br><span class="line">    fstring(<span class="keyword">string</span>) <span class="keyword">string</span>	</span><br><span class="line">    cache() (hashNode, <span class="keyword">bool</span>)	</span><br><span class="line">    canUnload(cachegen, cachelimit <span class="keyword">uint16</span>) <span class="keyword">bool</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> (	</span><br><span class="line">    </span><br><span class="line">    fullNode <span class="keyword">struct</span> &#123;	</span><br><span class="line">        Children [<span class="number">17</span>]node		</span><br><span class="line">        flags    nodeFlag	</span><br><span class="line">    &#125;	</span><br><span class="line">    shortNode <span class="keyword">struct</span> &#123;	</span><br><span class="line">        Key   []<span class="keyword">byte</span>		Val   node		flags nodeFlag	</span><br><span class="line">    &#125;	</span><br><span class="line">    hashNode  []<span class="keyword">byte</span></span><br><span class="line">    valueNode []<span class="keyword">byte</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> nodeFlag <span class="keyword">struct</span></span><br><span class="line">&#123;	</span><br><span class="line">    hash  hashNode	</span><br><span class="line">    gen   <span class="keyword">uint16</span>	</span><br><span class="line">    dirty <span class="keyword">bool</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="fullNode"><a href="#fullNode" class="headerlink" title="fullNode"></a>fullNode</h6><p>fullNode 是一个可以携带多个子节点的节点。它有一个 node 数组类型的成员变量 Children，数组的前16个空位分别对应十六进制的0-9a-f，对于每个子节点，根据其 key 值的十六进制表示一一对应，Children 数组的第17位，fullNode 用来存储数据。</p>
+<p>对应黄皮书中的分支节点。</p>
+<h6 id="shortNode"><a href="#shortNode" class="headerlink" title="shortNode"></a>shortNode</h6><p>shortNode 是一个仅有一个子节点的节点。成员变量 Val 指向一个子节点，成员变量 Key 是一个由任意长度的字符串，这体现了压缩前缀树的特点，通过合并只有一个子节点的父节点和其子节点来缩短 Trie 的深度。</p>
+<p>对应黄皮书里的扩展节点和叶子节点，通过 <code>shortNode.Val</code> 的类型来对应。</p>
+<h6 id="valueNode"><a href="#valueNode" class="headerlink" title="valueNode"></a>valueNode</h6><p>valueNode 在 MPT 结构中存储真正的数据。充当 MPT 的叶子节点，不带子节点。</p>
+<p>valueNode 是一个字节数组，但是它实现了 <code>fstring(string) string</code>, <code>cache() (hashNode, bool)</code>, <code>canUnload(cachegen, cachelimit uint16) bool</code> 这三个接口（实际上 fullNode，shortNode，hashNode 也实现了这三个接口），因此可以作为 fullNode，shortNode 中的 <code>node</code> 使用。valueNode 可以承接数据，携带的的是数据的 RLP 哈希值，长度为 32 byte，RLP 编码的值存在 LevelDB 里。</p>
+<h6 id="hashNode"><a href="#hashNode" class="headerlink" title="hashNode"></a>hashNode</h6><p>hashNode 是 fullNode 或 shortNode 对象的 RLP 编码的32 byte 的哈希值，表明该节点还没有载入内存。遍历 MPT 时有时会遇到一个 hashNode，表明原来的 node 需要动态加载，hashNode 以 nodeFlag 结构体的成员 hash 的形式存在，如果 fullNode 或 shortNode 的成员变量发生变化，那么就需要更新它的 hashNode，在增删改的过程结束了都会调用 <code>trie.Hash()</code>，整个 MPT 自底向上变量，对所有清空的 hashNode 重新赋值，最终得到根节点的 hashNode，也就是整个 MPT 结构的哈希值。</p>
+<p>fullNode 体现了 Trie 的特点，shortNode 实现了 PatriciaTrie 的特性（当然也实现了 Trie 的特性），hashNode 既实现了 MPT 节点的动态加载，也实现了默克尔树的功能。</p>
 </details>
       
 
@@ -481,11 +496,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">以太坊</a>
+                <a href="javascript:void(0)" class="js-tag color3">go</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">go</a>
+                <a href="javascript:void(0)" class="js-tag color4">以太坊</a>
               </li>
              
               <li class="article-tag-list-item">
