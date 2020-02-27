@@ -16,15 +16,15 @@
 <meta property="og:site_name" content="Yezzi&#39;s blog">
 <meta property="og:description" content="详细信息   1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    `json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="c:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/1.jpg">
-<meta property="og:image" content="c:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/2.png">
-<meta property="og:image" content="c:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/3.png">
-<meta property="og:image" content="c:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/4.png">
-<meta property="og:updated_time" content="2020-02-27T02:44:59.189Z">
+<meta property="og:image" content="http://yoursite.com/2020/02/25/以太坊中的数据结构/picture/1.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/02/25/以太坊中的数据结构/picture/2.png">
+<meta property="og:image" content="http://yoursite.com/2020/02/25/以太坊中的数据结构/picture/3.png">
+<meta property="og:image" content="http://yoursite.com/2020/02/25/以太坊中的数据结构/picture/4.png">
+<meta property="og:updated_time" content="2020-02-27T03:21:43.483Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="以太坊中的数据结构">
 <meta name="twitter:description" content="详细信息   1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    `json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`">
-<meta name="twitter:image" content="c:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/1.jpg">
+<meta name="twitter:image" content="http://yoursite.com/2020/02/25/以太坊中的数据结构/picture/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Yezzi&#39;s blog" type="application/atom+xml">
   
@@ -230,15 +230,15 @@
 
 <h3 id="2-MPT树"><a href="#2-MPT树" class="headerlink" title="2.MPT树"></a>2.MPT树</h3><h4 id="trie"><a href="#trie" class="headerlink" title="trie"></a>trie</h4><p>trie也叫字典树，前缀树，因为它的搜索快捷的特性被单词搜索系统使用，故又称单词查找树。它是一种树形结构的数据结构。之所以快速，是因为它用空间代替了速度。</p>
 <p>如给出字符串”abc”,”ab”,”bd”,”dda”，根据该字符串序列构建一棵Trie树。则构建的树如下: </p>
-<p><img src="C:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/1.jpg" alt></p>
+<p><img src="./picture/1.jpg" alt></p>
 <h4 id="Patricia-Trie"><a href="#Patricia-Trie" class="headerlink" title="Patricia Trie"></a>Patricia Trie</h4><p>又叫做基数树，压缩前缀树或紧凑前缀树（compact prefix tree)，是一种更节省空间的前缀树。它与 Trie 的区别是，如果某个节点只有一个子树，那么这个子树跟父节点合并，这样可以缩短 Trie 里不必要的深度，节约存储空间，加快搜索节点的速度。 </p>
-<p><img src="C:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/2.png" alt></p>
+<p><img src="./picture/2.png" alt></p>
 <p> 以太坊中每个用户地址是160位存储，如果使用不压缩的trie会造成非常大的存储浪费，维护状态树会变得异常困难。所以使用压缩前缀树。 </p>
 <h4 id="Merkle-Tree"><a href="#Merkle-Tree" class="headerlink" title="Merkle Tree"></a>Merkle Tree</h4><p>比特币中，交易列表使用非排序的默克尔树存储，其和二叉树的区别主要是使用哈希指针代替了二叉树中的指针。</p>
-<p><img src="C:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/3.png" alt></p>
+<p><img src="./picture/3.png" alt></p>
 <h4 id="Merkle-Patricia-Tree-Trie"><a href="#Merkle-Patricia-Tree-Trie" class="headerlink" title="Merkle Patricia Tree (Trie)"></a>Merkle Patricia Tree (Trie)</h4><p>Merkle Patricia Tree 默克尔-帕特里夏树是一种融合了默克尔树和前缀树两种结构优点的，经过改良的数据结构，在以太坊中用来组织交易信息、账户状态及其变更、收据相关的数据。</p>
 <p>以太坊中的MPT树是经过改良的，模范化的MPT树。</p>
-<p><img src="C:/Users/Yezzi/Desktop/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%95%E5%B1%82%E7%A0%94%E5%8F%91/%E7%AC%94%E8%AE%B0/picture/4.png" alt></p>
+<p><img src="./picture/4.png" alt></p>
 <p>树中的节点分类：</p>
 <p>空节点 </p>
 <p>分支节点 </p>
