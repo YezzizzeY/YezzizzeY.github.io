@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Yezzi Tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="RLP编码RLP (递归长度前缀)提供了一种适用于任意二进制数据数组的编码，RLP已经成为以太坊中对对象进行序列化的主要编码方式。 RLP的唯一目标就是解决结构体的编码问题；对原子数据类型（比如，字符串，整数型，浮点型）的编码则交给更高层的协议；以太坊中要求数字必须是一个大端字节序的、没有零占位的存储的格式（也就是说，一个整数0和一个空数组是等同的）。 RLP编码规则总体可以概括为: 内容 (单字">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yezzi Tech">
+<meta property="og:url" content="https://yezzi.tech/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A0%81/index.html">
+<meta property="og:site_name" content="Yezzi Tech">
+<meta property="og:description" content="RLP编码RLP (递归长度前缀)提供了一种适用于任意二进制数据数组的编码，RLP已经成为以太坊中对对象进行序列化的主要编码方式。 RLP的唯一目标就是解决结构体的编码问题；对原子数据类型（比如，字符串，整数型，浮点型）的编码则交给更高层的协议；以太坊中要求数字必须是一个大端字节序的、没有零占位的存储的格式（也就是说，一个整数0和一个空数组是等同的）。 RLP编码规则总体可以概括为: 内容 (单字">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-07-02T11:06:38.793Z">
+<meta property="article:modified_time" content="2021-07-02T11:06:38.793Z">
+<meta property="article:author" content="Mingzhe Liu">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">Home</a></li>
+        
+          <li><a class=""
+                 href="/archives/">Archives</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">Yezzi Tech</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-以太坊中的编码" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      (no title)
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A0%81/" class="article-date"><time datetime="2021-07-02T11:06:38.793Z" itemprop="datePublished">2021-07-02</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="RLP编码"><a href="#RLP编码" class="headerlink" title="RLP编码"></a>RLP编码</h2><p>RLP (递归长度前缀)提供了一种适用于任意二进制数据数组的编码，RLP已经成为以太坊中对对象进行序列化的主要编码方式。 RLP的唯一目标就是解决结构体的编码问题；对原子数据类型（比如，字符串，整数型，浮点型）的编码则交给更高层的协议；以太坊中要求数字必须是一个大端字节序的、没有零占位的存储的格式（也就是说，一个整数0和一个空数组是等同的）。</p>
+<h4 id="RLP编码规则"><a href="#RLP编码规则" class="headerlink" title="RLP编码规则"></a>RLP编码规则</h4><p>总体可以概括为: <code>内容</code> (单字节) , <code>前缀+内容</code> (总长&lt;55) , 或 <code>前缀+长度+内容</code> (总长&gt;55)</p>
+<ol>
+<li><strong>规则1(内容).</strong> . [0x00, 0x7f] 范围内的 <code>单个字节</code> , RLP 编码内容就是字节内容本身。</li>
+</ol>
+<p>例子：</p>
+<ul>
+<li><code>‘a’ = 0x61</code></li>
+<li>整数  <code>15(&#39;\x0f&#39;) = 0x0f</code></li>
+</ul>
+<ol>
+<li><strong>规则2(前缀+内容).</strong> . 0-55字节长度的字符串，RLP编码是 <code>前缀（0x80+len(字符串)）+字符串内容</code></li>
+</ol>
+<p>例子：</p>
+<ul>
+<li>abc编码结果是0x83 0x61 0x62 0x63，其中0x83=0x80+len(“abc”)。</li>
+<li>整数 1024(‘\x04\00’) = [0x82, 0x04, 0x00]</li>
+<li>空字符串 “” = 0x80</li>
+<li>字符串  <code>&quot;dog&quot; = [0x83, &#39;d&#39;, &#39;o&#39;, &#39;g&#39; ]</code></li>
+</ul>
+<ol>
+<li><strong>规则3(前缀+长度+内容)</strong> . &gt;55字节长度字符串, RLP编码是 <code>前缀（0xb7＋len(len(字符串)))+len(字符串)+字符串内容</code></li>
+</ol>
+<p>例子:</p>
+<ul>
+<li>字符串 “Lorem ipsum dolor sit amet, consectetur adipisicing elit” = [0xb8, 0x38, ‘L’, ‘o’, ‘r’, ‘e’, ‘m’, ‘ ‘, … , ‘e’, ‘l’, ‘i’, ‘t’]</li>
+</ul>
+<ol>
+<li><strong>规则4(前缀+内容).</strong> . 列表的总长度（列表的总长度指的是它包含的项的数量加它包含的各项的长度之和）是0-55字节，它的RLP编码是 <code>前缀(0xc0+len(列表总))+列表中各元素项的RLP编码</code> ，前缀取值范围是 <code>[0xc0, 0xf7]</code> 。</li>
+</ol>
+<p>例子:</p>
+<ul>
+<li><p>列表  <code>[&quot;cate&quot;,&quot;dog&quot;] = [0xc9, 0x84, &#39;c&#39;, &#39;a&#39;, &#39;t&#39;, &#39;e&#39;,0x83, &#39;d&#39;, &#39;o&#39;, &#39;g&#39; ]</code></p>
+<p><code>0xc9</code> = 0xc0+ 1+4+1+3 (1:字符串长度的长度, 4:字符串长度, 1:字符串长度的长度,3:字符串长度)</p>
+</li>
+<li><p>列表  <code>[ [], [[]], [ [], [[]] ] ] = [0xc7, 0xc0, 0xc1, 0xc0, 0xc3, 0xc0, 0xc1, 0xc0]</code></p>
+</li>
+<li><p><strong>规则5(前缀+长度+内容).</strong> ** ** 列表的总长度大于55字节，它的RLP编码是 <code>前缀(0xf7+len(len(列表总)))+len(列表总)+列表中各元素项的RLP编码</code> ，前缀取值范围是 <code>[0xf8, 0xff]</code> 。</p>
+<p>例子:</p>
+<ul>
+<li><p>列表 <code>[&quot;The length of this sentence is more than 55 bytes, &quot;, &quot;I know it because I pre-designed it&quot;] = [0xf8 0x58 0xb3 &#39;T&#39;,&#39;h&#39;,&#39;e&#39;,...</code></p>
+<p>0xf8=0xf7+1 (1:列表总长度的长度)</p>
+<p>0x58=0x56+1+1 (0x56:列表总长度 1+1: 2个字符串长度的长度)</p>
+<p>0xb3=0x80+0x33 (33: 字符串长度)</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>综合编码的例子:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[&quot;abc&quot;,[&quot;The length of this sentence is more than 55 bytes, &quot;, &quot;I know it because I pre-designed it&quot;]]</span><br><span class="line">= [0xf8 0x5e 0x83 0x61 98 99 248 88 179 84 104 101 32 108 101 110 103 116 104 32 111 102 32 116 104 105 115 32 115 101 110 116 101 110 99 101 32 105 115 32 109 111 114 101 32 116 104 97 110 32 53 53 32 98 121 116 101 115 44 32 163 73 32 107 110 111 119 32 105 116 32 98 101 99 97 117 115 101 32 73 32 112 114 101 45 100 101 115 105 103 110 101 100 32 105 116]</span><br></pre></td></tr></table></figure>
+
+<p>0xf8=0xf7+1 (1:列表总长度的长度)</p>
+<p>0x5e=90 + 1 +2 +1 (90:字符串总长度 1:第一个字符串前缀长度 2: 第二个字符串前缀+长度 1: 第三个字符串前缀)</p>
+<h4 id="RLP解码规则"><a href="#RLP解码规则" class="headerlink" title="RLP解码规则"></a>RLP解码规则</h4><ol>
+<li>如果f∈ [0,128),　那么它是一个字节本身。</li>
+</ol>
+<p>2.　如果f∈[128,184)，那么它是一个长度不超过55的byte数组，数组的长度为  <code>l=f-128</code></p>
+<p>3.　如果f∈[184,192)，那么它是一个长度超过55的数组，长度本身的编码长度 <code>ll=f-183</code> ,然后从第二个字节开始读取长度为ll的bytes，按照BigEndian编码成整数l，l即为数组的长度。</p>
+<p>4.　如果f∈(192,247]，那么它是一个编码后总长度不超过55的列表，列表长度为 <code>l=f-192</code> 。递归使用规则1~4进行解码。</p>
+<p>5.　如果f∈(247,256]，那么它是编码后长度大于55的列表，其长度本身的编码长度 <code>ll=f-247</code> ,然后从第二个字节读取长度为ll的bytes,按BigEndian编码成整数l，l即为子列表长度。然后递归根据解码规则进行解码。</p>
+<h4 id="RLP在以太坊中的使用"><a href="#RLP在以太坊中的使用" class="headerlink" title="RLP在以太坊中的使用"></a>RLP在以太坊中的使用</h4><p>以构成交易树/状态树为例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">DeriveSha</span><span class="params">(list DerivableList)</span> <span class="title">common</span>.<span class="title">Hash</span></span> &#123;</span><br><span class="line">	keybuf := <span class="built_in">new</span>(bytes.Buffer)</span><br><span class="line">	trie := <span class="built_in">new</span>(trie.Trie)</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; list.Len(); i++ &#123;</span><br><span class="line">		keybuf.Reset()</span><br><span class="line">        <span class="comment">//编码序号</span></span><br><span class="line">		rlp.Encode(keybuf, <span class="keyword">uint</span>(i))</span><br><span class="line">        <span class="comment">//编码list[i]并存入mpt树中</span></span><br><span class="line">		trie.Update(keybuf.Bytes(), list.GetRlp(i))</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> trie.Hash()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>构成最底层mpt树的时候，将 序号rlp编码，交易内容的rlp编码 构成一个键值对 放入mpt树中存储</p>
+<h4 id="MPT中的编码"><a href="#MPT中的编码" class="headerlink" title="MPT中的编码"></a>MPT中的编码</h4><p>在以太坊协议中，不管是地址还是hash，都是一个16进制串，如”0x5b3edbcf7d0a97e95e57a4554a29ea66601b71ad”，数据最小的表示单位为一位16进制，如1、a等，但在编程实现中，数据的最小表示单位往往是byte（8bit，2位16进制数），这样在用byte来表示一串奇数长度的16进制串时会出现问题，如”5b3”和”5b30”，直接转成byte都是5b30。还有一种简单直观的转换方式，”5b3”-&gt;”050b03”，这种方式虽然简单，但是数据量会翻倍，不利于大量hash的计算，同时也会增加tree的大小，降低同步性能。Hex-Prefix Encoding能解决这些问题。</p>
+<h6 id="hex编码"><a href="#hex编码" class="headerlink" title="hex编码"></a>hex编码</h6><p>用于树路径中，是将数据 key 进行半字节拆解而成。即依次将 key[0],key[1],…,key[n] 分别进行半字节拆分成两个数，再依次存放在长度为 len(key)+1 的数组中。 并在数组末尾写入终止符 <code>16</code>。算法如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// trie/encoding.go:65</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">keybytesToHex</span><span class="params">(str []<span class="keyword">byte</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	l := <span class="built_in">len</span>(str)*<span class="number">2</span> + <span class="number">1</span></span><br><span class="line">	<span class="keyword">var</span> nibbles = <span class="built_in">make</span>([]<span class="keyword">byte</span>, l)</span><br><span class="line">	<span class="keyword">for</span> i, b := <span class="keyword">range</span> str &#123;</span><br><span class="line">		nibbles[i*<span class="number">2</span>] = b / <span class="number">16</span></span><br><span class="line">		nibbles[i*<span class="number">2</span>+<span class="number">1</span>] = b % <span class="number">16</span></span><br><span class="line">	&#125;</span><br><span class="line">	nibbles[l<span class="number">-1</span>] = <span class="number">16</span></span><br><span class="line">	<span class="keyword">return</span> nibbles</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>例如：字符串 “romane” 的 bytes 是 <code>[114 111 109 97 110 101]</code>，在 HEX 编码时将其依次处理：</p>
+<table>
+<thead>
+<tr>
+<th align="left">i</th>
+<th align="left">key[i]</th>
+<th align="left">key[i]二进制</th>
+<th align="left">nibbles[i*2]=高四位</th>
+<th align="left">nibbles[i*2+1]=低四位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">0</td>
+<td align="left">114</td>
+<td align="left">011100102</td>
+<td align="left">01112= 7</td>
+<td align="left">00102= 2</td>
+</tr>
+<tr>
+<td align="left">1</td>
+<td align="left">111</td>
+<td align="left">011011112</td>
+<td align="left">01102=6</td>
+<td align="left">11112=15</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">109</td>
+<td align="left">011011012</td>
+<td align="left">01102=6</td>
+<td align="left">11012=13</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">97</td>
+<td align="left">011000012</td>
+<td align="left">01102=6</td>
+<td align="left">00012=1</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">110</td>
+<td align="left">011011102</td>
+<td align="left">01102=6</td>
+<td align="left">11102=14</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">101</td>
+<td align="left">011001012</td>
+<td align="left">01102=6</td>
+<td align="left">01012=5</td>
+</tr>
+</tbody></table>
+<h6 id="HP-Hex-Prefix-编码"><a href="#HP-Hex-Prefix-编码" class="headerlink" title="HP(Hex-Prefix) 编码"></a>HP(Hex-Prefix) 编码</h6><p>输入 key 结尾为 0x10，则去掉这个终止符。</p>
+<p>key 之前补一个二进制flag四元组(Nibble)， 这个四元组第 0 位区分奇偶信息，第 1 位区分节点类型。</p>
+<p>如果输入 key 的长度是偶数，则再添加一个四元组 0x0 在 flag 四元组后。</p>
+<p>将原来的 key 内容压缩，将分离的两个 hex(Nibble) 以高四位低四位进行合并成一个byte。</p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://yezzi.tech/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A0%81/" data-id="ckqm8q8tr0014r8u7cdt99br0" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8ARPC%E9%80%9A%E4%BF%A1/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">(no title)</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%BA%A4%E6%98%93%E6%B1%A0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">(no title)</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p> Nice papers collected in the field of <em>AI</em>, <em>Apllied Cryptography</em> and <em>Blockchain</em>, records of some computer technologies, and personal thoughts.  If you are inteseted in my field, feel free to contact me. (Wechat: mzliu_xdu) </p>
+
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tags</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/go/" rel="tag">go</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hyperledger-fabric/" rel="tag">hyperledger fabric</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/java/" rel="tag">java</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/paper-notes/" rel="tag">paper notes</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tag Cloud</h4>
+    <p class="tagcloud">
+      <a href="/tags/go/" style="font-size: 20px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hyperledger-fabric/" style="font-size: 20px;">hyperledger fabric</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/paper-notes/" style="font-size: 10px;">paper notes</a> <a href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" style="font-size: 10px;">以太坊</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a>
+    </p>
+  </div>
+
+
+  
+  <div class="sidebar-module">
+    <h4>Archives</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">July 2021</a><span class="sidebar-module-list-count">28</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">July 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">February 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">October 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">August 2019</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Recents</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2021/07/02/%E9%97%AE%E9%A2%98/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E7%8A%B6%E6%80%81%EF%BC%9B%E7%8A%B6%E6%80%81%E6%A0%91%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%90%8E%E7%AB%AF%E6%96%87%E6%A1%A3/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%B5%8F%E8%A7%88%E5%99%A8%E5%90%8E%E7%AB%AF%E8%AF%B4%E6%98%8E/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E4%B8%AD%E7%9A%84%E4%BA%A4%E6%98%93%E5%92%8C%E5%9B%9E%E6%89%A7%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Mingzhe Liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</body>
+</html>

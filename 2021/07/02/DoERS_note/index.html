@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Yezzi Tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="As Strong As Its Weakest Link: How to Break Blockchain DApps at RPC ServiceoverviewBlockchain remote procedure call (RPC) services emerge as an  intermediary connecting the DApps to a blockchain netwo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yezzi Tech">
+<meta property="og:url" content="https://yezzi.tech/2021/07/02/DoERS_note/index.html">
+<meta property="og:site_name" content="Yezzi Tech">
+<meta property="og:description" content="As Strong As Its Weakest Link: How to Break Blockchain DApps at RPC ServiceoverviewBlockchain remote procedure call (RPC) services emerge as an  intermediary connecting the DApps to a blockchain netwo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://yezzi.tech/img/1.png">
+<meta property="og:image" content="https://yezzi.tech/img/2.png">
+<meta property="article:published_time" content="2021-07-02T11:06:38.670Z">
+<meta property="article:modified_time" content="2021-07-02T11:06:38.671Z">
+<meta property="article:author" content="Mingzhe Liu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yezzi.tech/img/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">Home</a></li>
+        
+          <li><a class=""
+                 href="/archives/">Archives</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">Yezzi Tech</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-DoERS_note" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      (no title)
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2021/07/02/DoERS_note/" class="article-date"><time datetime="2021-07-02T11:06:38.670Z" itemprop="datePublished">2021-07-02</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="As-Strong-As-Its-Weakest-Link-How-to-Break-Blockchain-DApps-at-RPC-Service"><a href="#As-Strong-As-Its-Weakest-Link-How-to-Break-Blockchain-DApps-at-RPC-Service" class="headerlink" title="As Strong As Its Weakest Link: How to Break Blockchain DApps at RPC Service"></a>As Strong As Its Weakest Link: How to Break Blockchain DApps at RPC Service</h1><h2 id="overview"><a href="#overview" class="headerlink" title="overview"></a>overview</h2><p>Blockchain remote procedure call (RPC) services emerge as an  intermediary connecting the DApps to a blockchain network.</p>
+<p>Conduct a systematic measurement study on nine real-world  RPC services which control most DApp clients’ connection  to the Ethereum mainnet</p>
+<p>Discover the previously unknown behaviors: load balancing and gas limiting; strategies are proposed to evade the protection</p>
+<p>The effectiveness of DoERS attacks on deployed  RPC services with minimal service interruption</p>
+<p>Propose mitigation techniques against DoERS without  dropping service usability, via unpredictable load balancing,  performance anomaly detection, and others</p>
+<h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><h3 id="DApps"><a href="#DApps" class="headerlink" title="DApps"></a><em>DApps</em></h3><p>“<strong>decentralized applications running atop operational blockchain systems</strong>“</p>
+<ul>
+<li>decentralized finances (DeFi)</li>
+<li>online gaming</li>
+<li>information-security infrastructures</li>
+<li>…</li>
+</ul>
+<h3 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a><em>RPC</em></h3><p><em><strong>Remote Procedure Call</strong></em> service that translates the clients’ requests to cryptocurrency transactions or<br>queries to a blockchain P2P network<img src="/img/1.png" alt="1"></p>
+<h4 id="category"><a href="#category" class="headerlink" title="category"></a>category</h4><p>maintained directly by the DApp owner (i.e., an in-house RPC node)</p>
+<p>a set of nodes hosted by a third party (i.e., a third-party RPC service)</p>
+<h4 id="providers"><a href="#providers" class="headerlink" title="providers"></a>providers</h4><p>Majority</p>
+<ul>
+<li>nine service providers supporting the Ethereum’s JSON-RPC interface (<strong>evaluated in this work</strong>) </li>
+<li>blockchain.info  : Bitcoin’s JSON-RPC</li>
+<li>dfuse.io: EOSIO’s Chain API</li>
+<li>greymass.com : EOSIO’s Chain API</li>
+<li>stellar.org: Stellar Horizon</li>
+</ul>
+<h4 id="shortcoming"><a href="#shortcoming" class="headerlink" title="shortcoming"></a>shortcoming</h4><p>less decentralized: one to hundreds of nodes, DoS attack could lead to the collapse of the<br>whole DApp ecosystem</p>
+<p>Harms:</p>
+<ul>
+<li>Bitcoin exchanges</li>
+<li>mining pools</li>
+<li>launched against a victim RPC service: allowing a service competitor to steal customers from the victim</li>
+</ul>
+<p> For instance:</p>
+<ul>
+<li>registering an Ethereum domain; purchasing a CryptoKitty: </li>
+</ul>
+<p>delay others’ bidding transactions and win the auction at an unfairly low price</p>
+<ul>
+<li>hash-time-lock contract (HTLC):</li>
+</ul>
+<p>defer the withdrawal of the deposit after the expiration of the lock (so-called grieving [51]) by denying the RPC service used by the withdrawal, thus retaining the deposit.</p>
+<h2 id="DoERS"><a href="#DoERS" class="headerlink" title="DoERS"></a>DoERS</h2><p>Menace of DoERS</p>
+<p>Measurement and findings</p>
+<p>Attacks</p>
+<p>Mitigation</p>
+<p>the research formulation is presented in <strong>Section III</strong></p>
+<p>measurement of DoERS exploitability among RPC services are presented in <strong>Section IV</strong></p>
+<p>Related works are presented in <strong>Section VII</strong> </p>
+<p>responsible disclosure in <strong>Section VIII</strong> </p>
+<p>conclusion in <strong>Section IX</strong></p>
+<h3 id="Threat-model"><a href="#Threat-model" class="headerlink" title="Threat model"></a><em>Threat model</em></h3><p><strong>an attacker:</strong> send crafted RPC requests to deny the RPC service</p>
+<p><strong>an Ethereum RPC service</strong>: a single Ethereum node or a group of Ethereum nodes behind a frontend infrastructure to accept RPC requests</p>
+<p><strong>a benign client</strong>: send regular RPC requests</p>
+<h3 id="Description-of-DoERS"><a href="#Description-of-DoERS" class="headerlink" title="Description of DoERS"></a><em>Description of DoERS</em></h3><p>Constructed based on an exploitable <strong>smart contract</strong> that contains <strong>resource-consuming procedures</strong></p>
+<p>Exploitable functions that aim at <strong>depleting CPU, memory and IO resources</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">contract DoERS-C &#123;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exhaustCPU</span>(<span class="params">uint256 payload_size1</span>) <span class="title">public</span> <span class="title">returns</span> (<span class="params">bool</span>)</span>&#123;</span><br><span class="line"> bytes32 target=<span class="number">0xf</span>...f;</span><br><span class="line"> <span class="keyword">for</span> (uint256 i=<span class="number">0</span>; i&lt;payload_size1; ++i)&#123;</span><br><span class="line"> target = keccak256(abi.encodePacked(target));&#125;</span><br><span class="line"> <span class="keyword">return</span> <span class="literal">true</span>;&#125;</span><br><span class="line"> bytes32[] storage;</span><br><span class="line">    </span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">exhaustIO</span>(<span class="params">uint256 payload_size1</span>) <span class="title">public</span> <span class="title">returns</span>(<span class="params">bool</span>)</span>&#123;</span><br><span class="line"> <span class="keyword">for</span> (uint256 j=<span class="number">0</span>; j&lt;payload_size2; ++j) &#123;</span><br><span class="line"> storage.push(<span class="number">0xf</span>...f);&#125;</span><br><span class="line"> <span class="keyword">return</span> <span class="literal">true</span>;&#125;</span><br><span class="line">    </span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">exhaustMem</span>(<span class="params">uint256 payload_size3</span>) <span class="title">pure</span> <span class="title">public</span> <span class="title">returns</span>(<span class="params">bool</span>) </span>&#123;</span><br><span class="line"> bytes32[] memory mem = <span class="keyword">new</span> bytes32[](payload_size3);</span><br><span class="line"> mem[payload_size3-<span class="number">1</span>] = <span class="number">0xf</span>...f;<span class="comment">//&quot;CODECOPY&quot; allocate memory</span></span><br><span class="line"> <span class="keyword">return</span> <span class="literal">true</span>;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Executed in two steps: </p>
+<ol>
+<li>Client deploys the DoERS-C smart contract to Ethereum.</li>
+<li>Send one or multiple eth_call RPCs to the victim node to trigger one of the three exhaustXX functions in DoERS-C</li>
+</ol>
+<p>Limitation: the configurations of Ethereum nodes may thwart the above basic attack: Ethereum’s Gas<br>limit, timeout, rate limiting, load balancing, as well as other unknown mechanisms inside the black box RPC services.</p>
+<h2 id="Measurement-of-DoERS-exploitability"><a href="#Measurement-of-DoERS-exploitability" class="headerlink" title="Measurement of DoERS exploitability"></a>Measurement of DoERS exploitability</h2><h3 id="load-balancer"><a href="#load-balancer" class="headerlink" title="load balancer"></a><em>load balancer</em></h3><p><strong>Measurement mechanisms</strong></p>
+<p>First, send an orphan transaction with nonce+ 2 and gas price to a target RPC service</p>
+<p>Second, send the second orphan transaction, with the same nonce+ 2 but paying gas price−1. If the second transaction fails, no load valancing is detected.</p>
+<p>Third, send RPC queries to eth_getTransactionByHash(txHash), after waiting for a time period, sends another one. If both return successfully, no load balancing is detected.</p>
+<p>Forth, send getBlockNumber RPC requests, if  anomaly detected (one smaller than last one), load balancing detected.</p>
+<p><strong>Results</strong></p>
+<p><img src="/img/2.png" alt="2"></p>
+<ul>
+<li>Type i) No load balancing </li>
+<li>Type ii-a) No load balancing detected when RPC queries are sent with the same API key and from different IPs</li>
+<li>Type ii-b) No load balancing detected when RPC queries are sent from the same IP but with different API keys;</li>
+<li>Type iii)  Comprehensive load balancing detected</li>
+</ul>
+<p><strong>Attack Strategies Evading Load Balancer</strong></p>
+<ul>
+<li>Type i) straightforward way</li>
+<li>Type ii-a) use same API Keys</li>
+<li>Type ii-b)  set up a token faucet, giving away free M-Tokens, internally calls exhaustXX</li>
+<li>Type iii)  “flash attack” (e.g., one minute for ServiceX6)</li>
+</ul>
+<h3 id="Gas-Limits"><a href="#Gas-Limits" class="headerlink" title="Gas Limits"></a><em>Gas Limits</em></h3><p><strong>Measurement mechanisms</strong></p>
+<p>First, the program starts with an initial guess on the target arrayLength value</p>
+<p>Then grows the guess exponentially until the first exception is observed.</p>
+<p>Second, binary-search the Gas-limit corresponding value of arrayLength, gain target value V</p>
+<p>Finally, run estimateGas() with function exhaustMem under V </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">float <span class="function"><span class="title">rpc_gasLimit</span>(<span class="params">IP rpcNode</span>)</span>&#123;</span><br><span class="line"> int lengthLower=<span class="number">0</span>; int lengthUpper=<span class="number">500</span>;<span class="comment">//0/500 block gas</span></span><br><span class="line"> <span class="keyword">while</span> (lengthUpper - lengthLower &gt; <span class="number">1</span>)&#123;</span><br><span class="line"> arrayLength = (lengthLower + lengthUpper) / <span class="number">2</span>;</span><br><span class="line"> <span class="keyword">try</span>&#123;</span><br><span class="line"> rpcNode.eth_call(exhaustMem,arrayLength);</span><br><span class="line"> &#125; (Exception e) &#123;</span><br><span class="line"> <span class="keyword">if</span>(e instanceOf OutofGasException)&#123;</span><br><span class="line"> lengthUpper = arrayLength;</span><br><span class="line"> &#125; <span class="keyword">else</span> &#123; <span class="comment">//no gas limits</span></span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;&#125;</span><br><span class="line"> &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"> lengthLower = arrayLength;&#125;&#125;</span><br><span class="line"> <span class="keyword">return</span> localNode.estmateGas(exhaustMem,arrayLength);&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Results</strong></p>
+<p>four out of nine services configure the Gas limit: ServiceX3/ServiceX6/ServiceX9/ServiceX8 respectively set Gas limit at 50/10/5/1.5 block gas</p>
+<p><strong>Attack Strategies Evading Gas Limit</strong></p>
+<p>send multiple DoERS requests at a sufficiently high rate</p>
+<h2 id="COUNTERMEASURE"><a href="#COUNTERMEASURE" class="headerlink" title="COUNTERMEASURE"></a><strong>COUNTERMEASURE</strong></h2><h3 id="Known-Countermeasures"><a href="#Known-Countermeasures" class="headerlink" title="Known Countermeasures"></a><em>Known Countermeasures</em></h3><h4 id="Gas-Limits-1"><a href="#Gas-Limits-1" class="headerlink" title="Gas Limits"></a>Gas Limits</h4><p>necessary but not sufficient</p>
+<h4 id="Contract-Banning"><a href="#Contract-Banning" class="headerlink" title="Contract Banning"></a>Contract Banning</h4><p>upload a smart contract at the invocation time of eth_call</p>
+<h3 id="Proposed-Countermeasures"><a href="#Proposed-Countermeasures" class="headerlink" title="Proposed Countermeasures"></a><em>Proposed Countermeasures</em></h3><p><strong>The root cause of DoERS</strong> : an <strong>open-membership</strong> RPC service that allows for <strong>free execution</strong> of <strong>arbitrary smart contract programs</strong> on its peers <strong>shared</strong> by different DApps</p>
+<p><strong>Change root condition:</strong> </p>
+<ul>
+<li>removing open-membership (e.g., by authenticating DApp clients based on their true identities)</li>
+<li>charging the contract execution triggered by eth_call</li>
+<li>limiting the computation expressiveness (e.g.,prohibiting loops)</li>
+<li>avoiding any sharing of a RPC node among DApps</li>
+<li>etc</li>
+</ul>
+<p><strong>Goal:</strong> encounter a fundamental trade-off between DoERS security and service usability</p>
+<h4 id="Unpredictable-yet-consistency-preserving-load-balancing"><a href="#Unpredictable-yet-consistency-preserving-load-balancing" class="headerlink" title="Unpredictable yet consistency-preserving load balancing"></a>Unpredictable yet consistency-preserving load balancing</h4><p>one balancer handles only transactions while the other forwards only RPC queries:</p>
+<p><strong>load balancer</strong> : nternally maintain a secret true-random number or the current workload that decides the destination backend peer a RPC query should be forwarded to</p>
+<p><strong>transaction-only balancer</strong> : distributes the requests under the constraint of preserving consistency</p>
+<h4 id="Performance-anomaly-detection-plus-security-deposit"><a href="#Performance-anomaly-detection-plus-security-deposit" class="headerlink" title="Performance anomaly detection plus security deposit"></a>Performance anomaly detection plus security deposit</h4><p>require security deposit from any potential clients</p>
+<p><strong>Key condition:</strong> the performance monitor can distinguish malicious DoERS requests from benign RPCs</p>
+<h4 id="Interruptible-EVM-instructions"><a href="#Interruptible-EVM-instructions" class="headerlink" title="Interruptible EVM instructions"></a>Interruptible EVM instructions</h4><p><strong>Problem</strong>: atomic EVM instructions: success of single- request DoERS</p>
+<p><strong>Solution</strong>: execution of a single instruction (e.g., CODECOPY in exhaustMem) to be interrupted by timeout</p>
+<p><strong>Specific way</strong>: change EVM’s instruction scheduling algorithm and to enforce the maximal memory size allocated by a single CODECOPY call.</p>
+<h2 id="CONCLUSION"><a href="#CONCLUSION" class="headerlink" title="CONCLUSION"></a>CONCLUSION</h2><p>The <strong>first measurement study</strong> on the security of <strong>Ethereum’s RPC-enabled nodes under DoS</strong> attacks.</p>
+<p><strong>No gas limits</strong>: can be crashed by the proposed DoERS attack</p>
+<p><strong>Configured Gas limits</strong>: a properly configured DoERS attack can cause a latency increase by 2.1× ∼ 50×</p>
+<p><strong>mitigation</strong>: beyond simply limits the Gas at zero Ether cost</p>
+<p>unpredictable load balancing</p>
+<p>performance anomaly detection</p>
+<p>interruptible EVM instructions.</p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://yezzi.tech/2021/07/02/DoERS_note/" data-id="ckqm8q8ro0000r8u73voj903l" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2021/07/02/2020.5.31%E8%AE%B0%E5%BD%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">(no title)</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/2021/07/02/bloom%E8%BF%87%E6%BB%A4%E5%99%A8%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">(no title)</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p> Nice papers collected in the field of <em>AI</em>, <em>Apllied Cryptography</em> and <em>Blockchain</em>, records of some computer technologies, and personal thoughts.  If you are inteseted in my field, feel free to contact me. (Wechat: mzliu_xdu) </p>
+
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tags</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/go/" rel="tag">go</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hyperledger-fabric/" rel="tag">hyperledger fabric</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/java/" rel="tag">java</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/paper-notes/" rel="tag">paper notes</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tag Cloud</h4>
+    <p class="tagcloud">
+      <a href="/tags/go/" style="font-size: 20px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hyperledger-fabric/" style="font-size: 20px;">hyperledger fabric</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/paper-notes/" style="font-size: 10px;">paper notes</a> <a href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" style="font-size: 10px;">以太坊</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a>
+    </p>
+  </div>
+
+
+  
+  <div class="sidebar-module">
+    <h4>Archives</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">July 2021</a><span class="sidebar-module-list-count">28</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">July 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">February 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">October 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">August 2019</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Recents</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2021/07/02/%E9%97%AE%E9%A2%98/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E7%8A%B6%E6%80%81%EF%BC%9B%E7%8A%B6%E6%80%81%E6%A0%91%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%90%8E%E7%AB%AF%E6%96%87%E6%A1%A3/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%B5%8F%E8%A7%88%E5%99%A8%E5%90%8E%E7%AB%AF%E8%AF%B4%E6%98%8E/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E4%B8%AD%E7%9A%84%E4%BA%A4%E6%98%93%E5%92%8C%E5%9B%9E%E6%89%A7%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Mingzhe Liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</body>
+</html>

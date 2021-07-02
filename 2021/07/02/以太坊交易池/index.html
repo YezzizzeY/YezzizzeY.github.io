@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Yezzi Tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="交易池txpool主要用来存放当前提交的等待写入区块的交易，有远端的和本地的。 交易池包含所有已知的交易。交易被本地提交或从网络接收时进入交易池，交易在被区块链收纳后退出交易池。 交易池把交易分成两种：可处理交易:pending，已加入交易池但不可以执行:queue。交易在被接收和处理的过程中在两种状态之间转换。  设置信息交易池交易池的主要内容有：区块链（主要实现了当前和从前的区块索引，和根据之">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yezzi Tech">
+<meta property="og:url" content="https://yezzi.tech/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%BA%A4%E6%98%93%E6%B1%A0/index.html">
+<meta property="og:site_name" content="Yezzi Tech">
+<meta property="og:description" content="交易池txpool主要用来存放当前提交的等待写入区块的交易，有远端的和本地的。 交易池包含所有已知的交易。交易被本地提交或从网络接收时进入交易池，交易在被区块链收纳后退出交易池。 交易池把交易分成两种：可处理交易:pending，已加入交易池但不可以执行:queue。交易在被接收和处理的过程中在两种状态之间转换。  设置信息交易池交易池的主要内容有：区块链（主要实现了当前和从前的区块索引，和根据之">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://yezzi.tech/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%BA%A4%E6%98%93%E6%B1%A0/picture/9.png">
+<meta property="article:published_time" content="2021-07-02T11:06:38.794Z">
+<meta property="article:modified_time" content="2021-07-02T11:06:38.794Z">
+<meta property="article:author" content="Mingzhe Liu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yezzi.tech/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%BA%A4%E6%98%93%E6%B1%A0/picture/9.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">Home</a></li>
+        
+          <li><a class=""
+                 href="/archives/">Archives</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">Yezzi Tech</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-以太坊交易池" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      (no title)
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%BA%A4%E6%98%93%E6%B1%A0/" class="article-date"><time datetime="2021-07-02T11:06:38.794Z" itemprop="datePublished">2021-07-02</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="交易池"><a href="#交易池" class="headerlink" title="交易池"></a>交易池</h4><p>txpool主要用来存放当前提交的等待写入区块的交易，有远端的和本地的。</p>
+<p>交易池包含所有已知的交易。交易被本地提交或从网络接收时进入交易池，交易在被区块链收纳后退出交易池。</p>
+<p>交易池把交易分成两种：可处理交易:pending，已加入交易池但不可以执行:queue。交易在被接收和处理的过程中在两种状态之间转换。</p>
+<p><img src="./picture/9.png"></p>
+<h4 id="设置信息"><a href="#设置信息" class="headerlink" title="设置信息"></a>设置信息</h4><h6 id="交易池-1"><a href="#交易池-1" class="headerlink" title="交易池"></a>交易池</h6><p>交易池的主要内容有：区块链（主要实现了当前和从前的区块索引，和根据之前一个状态树的树根实现之前某处的stateDB的索引）、状态树StateDB，交易列表、queue交易和pending状态的交易、本地账户列表、本地交易存储</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> TxPool <span class="keyword">struct</span> &#123;</span><br><span class="line">	config      TxPoolConfig</span><br><span class="line">	chainconfig *params.ChainConfig</span><br><span class="line">	chain       blockChain</span><br><span class="line">	gasPrice    *big.Int</span><br><span class="line">	txFeed      event.Feed</span><br><span class="line">	scope       event.SubscriptionScope</span><br><span class="line">	signer      types.Signer</span><br><span class="line">	mu          sync.RWMutex</span><br><span class="line"></span><br><span class="line">	istanbul <span class="keyword">bool</span> <span class="comment">// Fork indicator whether we are in the istanbul stage.</span></span><br><span class="line"></span><br><span class="line">	currentState  *state.StateDB <span class="comment">// Current state in the blockchain head</span></span><br><span class="line">	pendingNonces *txNoncer      <span class="comment">// Pending state tracking virtual nonces</span></span><br><span class="line">	currentMaxGas <span class="keyword">uint64</span>         <span class="comment">// Current gas limit for transaction caps</span></span><br><span class="line"></span><br><span class="line">	locals  *accountSet <span class="comment">// Set of local transaction to exempt from eviction rules</span></span><br><span class="line">	journal *txJournal  <span class="comment">// Journal of local transaction to back up to disk</span></span><br><span class="line"></span><br><span class="line">	pending <span class="keyword">map</span>[common.Address]*txList   <span class="comment">// All currently processable transactions</span></span><br><span class="line">	queue   <span class="keyword">map</span>[common.Address]*txList   <span class="comment">// Queued but non-processable transactions</span></span><br><span class="line">	beats   <span class="keyword">map</span>[common.Address]time.Time <span class="comment">// Last heartbeat from each known account</span></span><br><span class="line">	all     *txLookup                    <span class="comment">// All transactions to allow lookups</span></span><br><span class="line">	priced  *txPricedList                <span class="comment">// All transactions sorted by price</span></span><br><span class="line"></span><br><span class="line">	chainHeadCh     <span class="keyword">chan</span> ChainHeadEvent</span><br><span class="line">	chainHeadSub    event.Subscription</span><br><span class="line">	reqResetCh      <span class="keyword">chan</span> *txpoolResetRequest</span><br><span class="line">	reqPromoteCh    <span class="keyword">chan</span> *accountSet</span><br><span class="line">	queueTxEventCh  <span class="keyword">chan</span> *types.Transaction</span><br><span class="line">	reorgDoneCh     <span class="keyword">chan</span> <span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line">	reorgShutdownCh <span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;  <span class="comment">// requests shutdown of scheduleReorgLoop</span></span><br><span class="line">	wg              sync.WaitGroup <span class="comment">// tracks loop, scheduleReorgLoop</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>config：配置文件</li>
+<li>gasPrice：最低的gasprice限制</li>
+<li>txFeed：通过txFeed来订阅txPool的消息</li>
+<li>chainHeadCh：订阅了区块头的信息，当新的区块头生成时这里会收到通知</li>
+<li>chainHeadSub：区块头消息的订阅器</li>
+<li>signer：封装了事务签名处理</li>
+<li>currentMaxGas：目前交易的上限GasLimit</li>
+<li>locals：本地交易免除驱逐规则</li>
+<li>journal：本地交易会写入磁盘</li>
+<li>pending：正在处理的交易列表</li>
+<li>queue：等待处理的交易列表</li>
+<li>beats：每一个一直账号的最后一次心跳信息时间，用map存储</li>
+<li>all：可以查找到所有交易</li>
+<li>priced：按照价格排序的交易</li>
+</ul>
+<h6 id="交易池配置"><a href="#交易池配置" class="headerlink" title="交易池配置"></a>交易池配置</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// TxPoolConfig are the configuration parameters of the transaction pool.</span></span><br><span class="line"><span class="keyword">type</span> TxPoolConfig <span class="keyword">struct</span> &#123;</span><br><span class="line">	Locals    []common.Address <span class="comment">// Addresses that should be treated by default as local</span></span><br><span class="line">	NoLocals  <span class="keyword">bool</span>             <span class="comment">// Whether local transaction handling should be disabled</span></span><br><span class="line">	Journal   <span class="keyword">string</span>           <span class="comment">// Journal of local transactions to survive node restarts</span></span><br><span class="line">	Rejournal time.Duration    <span class="comment">// Time interval to regenerate the local transaction journal</span></span><br><span class="line"></span><br><span class="line">	PriceLimit <span class="keyword">uint64</span> <span class="comment">// Minimum gas price to enforce for acceptance into the pool</span></span><br><span class="line">	PriceBump  <span class="keyword">uint64</span> <span class="comment">// Minimum price bump percentage to replace an already existing transaction (nonce)</span></span><br><span class="line"></span><br><span class="line">	AccountSlots <span class="keyword">uint64</span> <span class="comment">// Number of executable transaction slots guaranteed per account</span></span><br><span class="line">	GlobalSlots  <span class="keyword">uint64</span> <span class="comment">// Maximum number of executable transaction slots for all accounts</span></span><br><span class="line">	AccountQueue <span class="keyword">uint64</span> <span class="comment">// Maximum number of non-executable transaction slots permitted per account</span></span><br><span class="line">	GlobalQueue  <span class="keyword">uint64</span> <span class="comment">// Maximum number of non-executable transaction slots for all accounts</span></span><br><span class="line"></span><br><span class="line">	Lifetime time.Duration <span class="comment">// Maximum amount of time non-executable transaction are queued</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Locals: 定义了一组视为local交易的账户地址。任何来自此清单的交易均被视为 local 交易。</li>
+<li>NoLocals: 是否禁止local交易处理。默认为 fasle,允许 local 交易。如果禁止，则来自 local 的交易均视为 remote 交易处理。</li>
+<li>Journal： 存储local交易记录的文件名，默认是 <code>./transactions.rlp</code>。</li>
+<li>Rejournal：定期将local交易存储文件中的时间间隔。默认为每小时一次。</li>
+<li>PriceLimit： remote交易进入交易池的最低 Price 要求。此设置对 local 交易无效。默认值1。</li>
+<li>PriceBump：替换交易时所要求的价格上调涨幅比例最低要求。任何低于要求的替换交易均被拒绝。</li>
+<li>AccountSlots： 当交易池中可执行交易（是已在等待矿工打包的交易）量超标时，允许每个账户可以保留在交易池最低交易数。默认值是 16 笔。</li>
+<li>GlobalSlots： 交易池中所允许的可执行交易量上限，高于上限时将释放部分交易。默认是 4096 笔交易。</li>
+<li>AccountQueue：交易池中单个账户非可执行交易上限，默认是64笔。</li>
+<li>GlobalQueue： 交易池中所有非可执行交易上限，默认1024 笔。</li>
+<li>Lifetime： 允许 remote 的非可执行交易可在交易池存活的最长时间。交易池每分钟检查一次，一旦发现有超期的remote 账户，则移除该账户下的所有非可执行交易。默认为3小时。 </li>
+</ul>
+<h4 id="监听事件"><a href="#监听事件" class="headerlink" title="监听事件"></a>监听事件</h4><p>开启交易池后，以太坊开启一个goroutine执行loop函数用来监听主要事件</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(pool *TxPool)</span> <span class="title">loop</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">case</span> ev := &lt;-pool.chainHeadCh</span><br><span class="line">    <span class="keyword">case</span> &lt;-pool.chainHeadSub.Err()</span><br><span class="line">    <span class="keyword">case</span> &lt;-report.C</span><br><span class="line">    <span class="keyword">case</span> &lt;-evict.C</span><br><span class="line">    <span class="keyword">case</span> &lt;-journal.C</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>同时开启一个goroutine来调度reset和promoteExecutables事件</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//requestPromoteExecutables requests a pool reset to the new head block.</span></span><br><span class="line"><span class="comment">//The returned channel is closed when the reset has occurred.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(pool *TxPool)</span> <span class="title">requestReset</span><span class="params">(oldHead *types.Header, newHead *types.Header)</span> <span class="title">chan</span> <span class="title">struct</span></span>&#123;&#125; &#123;</span><br><span class="line">	<span class="keyword">select</span> &#123;</span><br><span class="line">	<span class="keyword">case</span> pool.reqResetCh &lt;- &amp;txpoolResetRequest&#123;oldHead, newHead&#125;:</span><br><span class="line">		<span class="keyword">return</span> &lt;-pool.reorgDoneCh</span><br><span class="line">	<span class="keyword">case</span> &lt;-pool.reorgShutdownCh:</span><br><span class="line">		<span class="keyword">return</span> pool.reorgShutdownCh</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//requestPromoteExecutables requests transaction promotion checks for the given addresses.</span></span><br><span class="line"><span class="comment">//The returned channel is closed when the promotion checks have occurred.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(pool *TxPool)</span> <span class="title">requestPromoteExecutables</span><span class="params">(set *accountSet)</span> <span class="title">chan</span> <span class="title">struct</span></span>&#123;&#125; &#123;</span><br><span class="line">	<span class="keyword">select</span> &#123;</span><br><span class="line">	<span class="keyword">case</span> pool.reqPromoteCh &lt;- set:</span><br><span class="line">		<span class="keyword">return</span> &lt;-pool.reorgDoneCh</span><br><span class="line">	<span class="keyword">case</span> &lt;-pool.reorgShutdownCh:</span><br><span class="line">		<span class="keyword">return</span> pool.reorgShutdownCh</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func (pool *TxPool) scheduleReorgLoop() &#123;</span><br><span class="line">case req := &lt;-pool.reqResetCh</span><br><span class="line">case req := &lt;-pool.reqPromoteCh</span><br><span class="line">case tx := &lt;-pool.queueTxEventCh</span><br><span class="line">case &lt;-curDone</span><br><span class="line">case &lt;-pool.reorgShutdownCh</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="本地交易处理"><a href="#本地交易处理" class="headerlink" title="本地交易处理"></a>本地交易处理</h4><p>为了不丢失未完成的本地交易，以太坊交易池通过 journal 文件存储和管理当前交易池中的本地交易，并定期更新存储。</p>
+<p>启动交易池时根据配置开启本地交易存储</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// If local transactions and journaling is enabled, load from disk</span></span><br><span class="line"><span class="keyword">if</span> !config.NoLocals &amp;&amp; config.Journal != <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">	pool.journal = newTxJournal(config.Journal)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := pool.journal.load(pool.AddLocals); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Warn(<span class="string">&quot;Failed to load transaction journal&quot;</span>, <span class="string">&quot;err&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err := pool.journal.rotate(pool.local()); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Warn(<span class="string">&quot;Failed to rotate transaction journal&quot;</span>, <span class="string">&quot;err&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 在新的local 交易进入交易池时，将被实时写入 journal 文件。 </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(pool *TxPool)</span> <span class="title">journalTx</span><span class="params">(from common.Address, tx *types.Transaction)</span></span> &#123;</span><br><span class="line">	<span class="comment">// Only journal if it&#x27;s enabled and the transaction is local</span></span><br><span class="line">	<span class="keyword">if</span> pool.journal == <span class="literal">nil</span> || !pool.locals.contains(from) &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err := pool.journal.insert(tx); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Warn(<span class="string">&quot;Failed to journal local transaction&quot;</span>, <span class="string">&quot;err&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p> 定期对 journal 文件执行 <code>rotate</code>，将交易池中的本地交易写入journal文件，并丢弃旧数据。 </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> &lt;-journal.C:</span><br><span class="line">			<span class="keyword">if</span> pool.journal != <span class="literal">nil</span> &#123;</span><br><span class="line">				pool.mu.Lock()</span><br><span class="line">				<span class="keyword">if</span> err := pool.journal.rotate(pool.local()); err != <span class="literal">nil</span> &#123;</span><br><span class="line">					log.Warn(<span class="string">&quot;Failed to rotate local tx journal&quot;</span>, <span class="string">&quot;err&quot;</span>, err)</span><br><span class="line">				&#125;</span><br><span class="line">				pool.mu.Unlock()</span><br><span class="line">			&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 在交易池首次启动 journal 时，将主动将该文件已存储的交易加载到交易池。 </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(journal *txJournal)</span> <span class="title">load</span><span class="params">(add <span class="keyword">func</span>([]*types.Transaction)</span> []<span class="title">error</span>) <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="comment">// Skip the parsing if the journal file doesn&#x27;t exist at all</span></span><br><span class="line">	<span class="keyword">if</span> _, err := os.Stat(journal.path); os.IsNotExist(err) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// Open the journal for loading any past transactions</span></span><br><span class="line">	input, err := os.Open(journal.path)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> input.Close()</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="交易进池"><a href="#交易进池" class="headerlink" title="交易进池"></a>交易进池</h4><p>交易增加add函数</p>
+<p>func (pool *TxPool) add(tx *types.Transaction, local bool) (replaced bool, err error)</p>
+<p>由一下几个部分组成：</p>
+<p>先检查交易是否已经在交易池，如果是，则抛弃</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hash := tx.Hash()</span><br><span class="line">	<span class="keyword">if</span> pool.all.Get(hash) != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Trace(<span class="string">&quot;Discarding already known transaction&quot;</span>, <span class="string">&quot;hash&quot;</span>, hash)</span><br><span class="line">		knownTxMeter.Mark(<span class="number">1</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>, ErrAlreadyKnown</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>验证交易有效性（在之后会解析这个函数）</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> err := pool.validateTx(tx, local); err != <span class="literal">nil</span> &#123;</span><br><span class="line">	log.Trace(<span class="string">&quot;Discarding invalid transaction&quot;</span>, <span class="string">&quot;hash&quot;</span>, hash, <span class="string">&quot;err&quot;</span>, err)</span><br><span class="line">	invalidTxMeter.Mark(<span class="number">1</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>, err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>查看交易池是否已经满，如果满了，则抛弃价格低且非本地的交易。主要调用removeTx函数进行删除交易操作。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">uint64</span>(pool.all.Count()) &gt;= pool.config.GlobalSlots+pool.config.GlobalQueue &#123;</span><br><span class="line">	<span class="comment">// If the new transaction is underpriced, don&#x27;t accept it</span></span><br><span class="line">	<span class="keyword">if</span> !local &amp;&amp; pool.priced.Underpriced(tx, pool.locals) &#123;</span><br><span class="line">		log.Trace(<span class="string">&quot;Discarding underpriced transaction&quot;</span>, <span class="string">&quot;hash&quot;</span>, hash, <span class="string">&quot;price&quot;</span>, tx.GasPrice())</span><br><span class="line">		underpricedTxMeter.Mark(<span class="number">1</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>, ErrUnderpriced</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// New transaction is better than our worse ones, make room for it</span></span><br><span class="line">	drop := pool.priced.Discard(pool.all.Slots()-<span class="keyword">int</span>(pool.config.GlobalSlots+pool.config.GlobalQueue)+numSlots(tx), pool.locals)</span><br><span class="line">	<span class="keyword">for</span> _, tx := <span class="keyword">range</span> drop &#123;</span><br><span class="line">		log.Trace(<span class="string">&quot;Discarding freshly underpriced transaction&quot;</span>, <span class="string">&quot;hash&quot;</span>, tx.Hash(), <span class="string">&quot;price&quot;</span>, tx.GasPrice())</span><br><span class="line">		underpricedTxMeter.Mark(<span class="number">1</span>)</span><br><span class="line">		pool.removeTx(tx.Hash(), <span class="literal">false</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果关联到该账户的可执行队列中存在一个相同 nonce 的交易时，需要进一步识别是否能替换。</p>
+<p>以太坊早起的默认设计是，只要价格(gasPrice)高于原交易，则允许替换。但是17年7月底在 <a target="_blank" rel="noopener" href="https://github.com/ethereum/go-ethereum/pull/15401">#15401</a>被改进。人们愿意支付更多手续费的原因有两种情况，一是急于处理交易，但如果真是紧急交易，那么在发送交易之处，会使用高于推荐的gasprice来处理交易。另一种情况时，以太坊价格下跌，人们愿意支付更多手续费。上调多少手续费是合理的呢？以太币下跌10%，那么便可以上调10%的手续费，毕竟对于用户来说，手续费的面值是一样的。交易池的默认配置（pool.config.PriceBump）是10%，只有上调10%手续费的交易才允许替换掉已在等待执行的交易。一旦可以替换，则替换掉旧交易，移除旧交易，并将交易同步存储到 all 交易内存池中。  </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">from, _ := types.Sender(pool.signer, tx) <span class="comment">// already validated</span></span><br><span class="line"><span class="keyword">if</span> list := pool.pending[from]; list != <span class="literal">nil</span> &amp;&amp; list.Overlaps(tx) &#123;</span><br><span class="line">	<span class="comment">// Nonce already pending, check if required price bump is met</span></span><br><span class="line">	inserted, old := list.Add(tx, pool.config.PriceBump)</span><br><span class="line">	<span class="keyword">if</span> !inserted &#123;</span><br><span class="line">		pendingDiscardMeter.Mark(<span class="number">1</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>, ErrReplaceUnderpriced</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// New transaction is better, replace old one</span></span><br><span class="line">	<span class="keyword">if</span> old != <span class="literal">nil</span> &#123;</span><br><span class="line">		pool.all.Remove(old.Hash())</span><br><span class="line">		pool.priced.Removed(<span class="number">1</span>)</span><br><span class="line">		pendingReplaceMeter.Mark(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	pool.all.Add(tx)</span><br><span class="line">	pool.priced.Put(tx)</span><br><span class="line">	pool.journalTx(from, tx)</span><br><span class="line">	pool.queueTxEvent(tx)</span><br><span class="line">	log.Trace(<span class="string">&quot;Pooled new executable transaction&quot;</span>, <span class="string">&quot;hash&quot;</span>, hash, <span class="string">&quot;from&quot;</span>, from, <span class="string">&quot;to&quot;</span>, tx.To())</span><br><span class="line">	<span class="keyword">return</span> old != <span class="literal">nil</span>, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果该交易不需要替代可执行交易，则放入不可执行交易中。在进入非可执行队列之前，也要检查是否需要替换掉相同 nonce 的交易(enqueueTx)。 ：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// New transaction isn&#x27;t replacing a pending one, push into queue</span></span><br><span class="line">replaced, err = pool.enqueueTx(hash, tx)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>, err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对交易检查是否为本地交易。如果是本地交易，则先检查本地账户列表是否有交易from的地址，如没有则添加。之后把交易加入本地交易列表中。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Mark local addresses and journal local transactions</span></span><br><span class="line"><span class="keyword">if</span> local &#123;</span><br><span class="line">	<span class="keyword">if</span> !pool.locals.contains(from) &#123;</span><br><span class="line">		log.Info(<span class="string">&quot;Setting new local account&quot;</span>, <span class="string">&quot;address&quot;</span>, from)</span><br><span class="line">		pool.locals.add(from)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> local || pool.locals.contains(from) &#123;</span><br><span class="line">	localGauge.Inc(<span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line">pool.journalTx(from, tx)</span><br></pre></td></tr></table></figure>
+
+<h4 id="交易有效性检验"><a href="#交易有效性检验" class="headerlink" title="交易有效性检验"></a>交易有效性检验</h4><p>func (pool *TxPool) validateTx(tx *types.Transaction, local bool)解释如下：</p>
+<p>首先检查交易大小不能过大</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">uint64</span>(tx.Size()) &gt; txMaxSize &#123;</span><br><span class="line">	<span class="keyword">return</span> ErrOversizedData</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>交易的金额不能为负数：理论上因为交易经过RLP编码不能处理负数，但如通过RPC直接发送交易则有这种错误的可能性。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> tx.Value().Sign() &lt; <span class="number">0</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> ErrNegativeValue</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>交易的GAS费用不能超过区块的gas上限</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> pool.currentMaxGas &lt; tx.Gas() &#123;   <span class="keyword">return</span> ErrGasLimit&#125;</span><br></pre></td></tr></table></figure>
+
+<p>观察能否解析签名信息 </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from, err := types.Sender(pool.signer, tx)<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;   <span class="keyword">return</span> ErrInvalidSender&#125;</span><br></pre></td></tr></table></figure>
+
+<p>本地交易是否低于了最低gas费用</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">local = local || pool.locals.contains(from) <span class="comment">// account may be local even if the transaction arrived from the network</span></span><br><span class="line"><span class="keyword">if</span> !local &amp;&amp; pool.gasPrice.Cmp(tx.GasPrice()) &gt; <span class="number">0</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> ErrUnderpriced</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>检查nonce值是否高于交易者的nonce值</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> pool.currentState.GetNonce(from) &gt; tx.Nonce() &#123;   <span class="keyword">return</span> ErrNonceTooLow&#125;</span><br></pre></td></tr></table></figure>
+
+<p>检查交易者剩余钱够不够交易的</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> pool.currentState.GetBalance(from).Cmp(tx.Cost()) &lt; <span class="number">0</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> ErrInsufficientFunds</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>检查交易设置的gas费用不能少于预估的最小费用</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">intrGas, err := IntrinsicGas(tx.Data(), tx.To() == <span class="literal">nil</span>, pool.homestead)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">   <span class="keyword">return</span> err</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> tx.Gas() &lt; intrGas &#123;</span><br><span class="line">   <span class="keyword">return</span> ErrIntrinsicGas</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="交易池更新"><a href="#交易池更新" class="headerlink" title="交易池更新"></a>交易池更新</h4><p>每当收到交易池更新信号的时候都会开启一个goroutine执行下runReorg函数，具体可分为交易池重置，交易池升级，交易池降级三个步骤。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(pool *TxPool)</span> <span class="title">runReorg</span><span class="params">(done <span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;, reset *txpoolResetRequest, dirtyAccounts *accountSet, events <span class="keyword">map</span>[common.Address]*txSortedMap)</span></span></span><br></pre></td></tr></table></figure>
+
+<h6 id="交易池重置"><a href="#交易池重置" class="headerlink" title="交易池重置"></a><strong>交易池重置</strong></h6><p>什么时候要执行交易池重置操作呢？分别是 创建交易池：NewTxPool；</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewTxPool</span><span class="params">(config TxPoolConfig, chainconfig *params.ChainConfig, chain blockChain)</span> *<span class="title">TxPool</span></span>&#123;</span><br><span class="line">...</span><br><span class="line">pool.reset(<span class="literal">nil</span>, chain.CurrentBlock().Header())</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>收到信号时：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="comment">// Launch next background reorg if needed</span></span><br><span class="line">		<span class="keyword">if</span> curDone == <span class="literal">nil</span> &amp;&amp; launchNextRun &#123;</span><br><span class="line">			<span class="comment">// Run the background reorg and announcements</span></span><br><span class="line">            <span class="comment">// 在这里执行的reset操作，执行完操作后把reset又重新建了一个，以便接受下次信号并执行相关操作</span></span><br><span class="line">			<span class="keyword">go</span> pool.runReorg(nextDone, reset, dirtyAccounts, queuedEvents)</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Prepare everything for the next round of reorg</span></span><br><span class="line">			curDone, nextDone = nextDone, <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;)</span><br><span class="line">			launchNextRun = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">			reset, dirtyAccounts = <span class="literal">nil</span>, <span class="literal">nil</span></span><br><span class="line">			queuedEvents = <span class="built_in">make</span>(<span class="keyword">map</span>[common.Address]*txSortedMap)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">case</span> req := &lt;-pool.reqResetCh:</span><br><span class="line">			<span class="comment">// Reset request: update head if request is already pending.</span></span><br><span class="line">			<span class="keyword">if</span> reset == <span class="literal">nil</span> &#123;</span><br><span class="line">				reset = req</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				reset.newHead = req.newHead</span><br><span class="line">			&#125;</span><br><span class="line">			launchNextRun = <span class="literal">true</span></span><br><span class="line">			pool.reorgDoneCh &lt;- nextDone</span><br><span class="line"></span><br><span class="line">		<span class="keyword">case</span> &lt;-curDone:</span><br><span class="line">			curDone = <span class="literal">nil</span></span><br></pre></td></tr></table></figure>
+
+<p>func (pool *TxPool) reset(oldHead, newHead *types.Header)解释如下：</p>
+<p>找到由于规范链更新而作废的交易：新区快头的父区块不等于老区块，说明新老区块不在同一条链。如果新头区块和旧头区块相差大于64，则所有交易不必回退到交易池。如果旧链的头区块大于新链的头区块高度，旧链向后退并回收所有回退的交易。如果新链的头区块大于旧链的头区块，新链后退并回收交易。当新旧链到达同一高度的时候同时回退，知道找到共同的父节点。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> oldHead != <span class="literal">nil</span> &amp;&amp; oldHead.Hash() != newHead.ParentHash &#123;</span><br><span class="line">	<span class="comment">// If the reorg is too deep, avoid doing it (will happen during fast sync)</span></span><br><span class="line">	oldNum := oldHead.Number.Uint64()</span><br><span class="line">	newNum := newHead.Number.Uint64()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> depth := <span class="keyword">uint64</span>(math.Abs(<span class="keyword">float64</span>(oldNum) - <span class="keyword">float64</span>(newNum))); depth &gt; <span class="number">64</span> &#123;</span><br><span class="line">		log.Debug(<span class="string">&quot;Skipping deep transaction reorg&quot;</span>, <span class="string">&quot;depth&quot;</span>, depth)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Reorg seems shallow enough to pull in all transactions into memory</span></span><br><span class="line">		<span class="keyword">var</span> discarded, included types.Transactions</span><br><span class="line">		<span class="keyword">var</span> (</span><br><span class="line">			rem = pool.chain.GetBlock(oldHead.Hash(), oldHead.Number.Uint64())</span><br><span class="line">			add = pool.chain.GetBlock(newHead.Hash(), newHead.Number.Uint64())</span><br><span class="line">		)</span><br><span class="line">		<span class="keyword">if</span> rem == <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="comment">// This can happen if a setHead is performed, where we simply discard the old</span></span><br><span class="line">			<span class="comment">// head from the chain.</span></span><br><span class="line">			<span class="comment">// If that is the case, we don&#x27;t have the lost transactions any more, and</span></span><br><span class="line">			<span class="comment">// there&#x27;s nothing to add</span></span><br><span class="line">			<span class="keyword">if</span> newNum &lt; oldNum &#123;</span><br><span class="line">				<span class="comment">// If the reorg ended up on a lower number, it&#x27;s indicative of setHead being the cause</span></span><br><span class="line">				log.Debug(<span class="string">&quot;Skipping transaction reset caused by setHead&quot;</span>,</span><br><span class="line">					<span class="string">&quot;old&quot;</span>, oldHead.Hash(), <span class="string">&quot;oldnum&quot;</span>, oldNum, <span class="string">&quot;new&quot;</span>, newHead.Hash(), <span class="string">&quot;newnum&quot;</span>, newNum)</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="comment">// If we reorged to a same or higher number, then it&#x27;s not a case of setHead</span></span><br><span class="line">				log.Warn(<span class="string">&quot;Transaction pool reset with missing oldhead&quot;</span>,</span><br><span class="line">					<span class="string">&quot;old&quot;</span>, oldHead.Hash(), <span class="string">&quot;oldnum&quot;</span>, oldNum, <span class="string">&quot;new&quot;</span>, newHead.Hash(), <span class="string">&quot;newnum&quot;</span>, newNum)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> rem.NumberU64() &gt; add.NumberU64() &#123;</span><br><span class="line">			discarded = <span class="built_in">append</span>(discarded, rem.Transactions()...)</span><br><span class="line">			<span class="keyword">if</span> rem = pool.chain.GetBlock(rem.ParentHash(), rem.NumberU64()<span class="number">-1</span>); rem == <span class="literal">nil</span> &#123;</span><br><span class="line">				log.Error(<span class="string">&quot;Unrooted old chain seen by tx pool&quot;</span>, <span class="string">&quot;block&quot;</span>, oldHead.Number, <span class="string">&quot;hash&quot;</span>, oldHead.Hash())</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> add.NumberU64() &gt; rem.NumberU64() &#123;</span><br><span class="line">			included = <span class="built_in">append</span>(included, add.Transactions()...)</span><br><span class="line">			<span class="keyword">if</span> add = pool.chain.GetBlock(add.ParentHash(), add.NumberU64()<span class="number">-1</span>); add == <span class="literal">nil</span> &#123;</span><br><span class="line">				log.Error(<span class="string">&quot;Unrooted new chain seen by tx pool&quot;</span>, <span class="string">&quot;block&quot;</span>, newHead.Number, <span class="string">&quot;hash&quot;</span>, newHead.Hash())</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> rem.Hash() != add.Hash() &#123;</span><br><span class="line">			discarded = <span class="built_in">append</span>(discarded, rem.Transactions()...)</span><br><span class="line">			<span class="keyword">if</span> rem = pool.chain.GetBlock(rem.ParentHash(), rem.NumberU64()<span class="number">-1</span>); rem == <span class="literal">nil</span> &#123;</span><br><span class="line">				log.Error(<span class="string">&quot;Unrooted old chain seen by tx pool&quot;</span>, <span class="string">&quot;block&quot;</span>, oldHead.Number, <span class="string">&quot;hash&quot;</span>, oldHead.Hash())</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">			included = <span class="built_in">append</span>(included, add.Transactions()...)</span><br><span class="line">			<span class="keyword">if</span> add = pool.chain.GetBlock(add.ParentHash(), add.NumberU64()<span class="number">-1</span>); add == <span class="literal">nil</span> &#123;</span><br><span class="line">				log.Error(<span class="string">&quot;Unrooted new chain seen by tx pool&quot;</span>, <span class="string">&quot;block&quot;</span>, newHead.Number, <span class="string">&quot;hash&quot;</span>, newHead.Hash())</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		reinject = types.TxDifference(discarded, included)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Initialize the internal state to the current head</span></span><br><span class="line"><span class="keyword">if</span> newHead == <span class="literal">nil</span> &#123;</span><br><span class="line">	</span><br></pre></td></tr></table></figure>
+
+<p>给交易池设置最新的世界状态</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">statedb, err := pool.chain.StateAt(newHead.Root)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">	log.Error(<span class="string">&quot;Failed to reset txpool state&quot;</span>, <span class="string">&quot;err&quot;</span>, err)</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>交易池参数设置</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pool.currentState = statedb</span><br><span class="line">pool.pendingNonces = newTxNoncer(statedb)</span><br><span class="line">pool.currentMaxGas = newHead.GasLimit</span><br></pre></td></tr></table></figure>
+
+<p>把旧链回退的交易放回交易池</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">log.Debug(<span class="string">&quot;Reinjecting stale transactions&quot;</span>, <span class="string">&quot;count&quot;</span>, <span class="built_in">len</span>(reinject))</span><br><span class="line">senderCacher.<span class="built_in">recover</span>(pool.signer, reinject)</span><br><span class="line">pool.addTxsLocked(reinject, <span class="literal">false</span>)</span><br></pre></td></tr></table></figure>
+
+<p>更新分叉指示器</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">next := <span class="built_in">new</span>(big.Int).Add(newHead.Number, big.NewInt(<span class="number">1</span>))pool.istanbul = pool.chainconfig.IsIstanbul(next)</span><br></pre></td></tr></table></figure>
+
+<h6 id="交易池升级"><a href="#交易池升级" class="headerlink" title="交易池升级"></a>交易池升级</h6><p>promoteTx是将queue列表中的Txs放入pending并随时广播。把交易放入queue状态时不广播。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(pool *TxPool)</span> <span class="title">promoteExecutables</span><span class="params">(accounts []common.Address)</span> []*<span class="title">types</span>.<span class="title">Transaction</span></span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 跟踪这些被升级的交易以便第一时间广播她们</span></span><br><span class="line">	<span class="keyword">var</span> promoted []*types.Transaction</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 用list跟踪一个账户的交易列表</span></span><br><span class="line">	<span class="keyword">for</span> _, addr := <span class="keyword">range</span> accounts &#123;</span><br><span class="line">		list := pool.queue[addr]</span><br><span class="line">		<span class="keyword">if</span> list == <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">continue</span> <span class="comment">// Just in case someone calls with a non existing account</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//删除所有被认为太旧的事务（低nonce）</span></span><br><span class="line">		forwards := list.Forward(pool.currentState.GetNonce(addr))</span><br><span class="line">		<span class="keyword">for</span> _, tx := <span class="keyword">range</span> forwards &#123;</span><br><span class="line">			hash := tx.Hash()</span><br><span class="line">			pool.all.Remove(hash)</span><br><span class="line">			log.Trace(<span class="string">&quot;Removed old queued transaction&quot;</span>, <span class="string">&quot;hash&quot;</span>, hash)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 放弃所有成本过高的交易（低余额或无gas）</span></span><br><span class="line">		drops, _ := list.Filter(pool.currentState.GetBalance(addr), pool.currentMaxGas)</span><br><span class="line">		<span class="keyword">for</span> _, tx := <span class="keyword">range</span> drops &#123;</span><br><span class="line">			hash := tx.Hash()</span><br><span class="line">			pool.all.Remove(hash)</span><br><span class="line">			log.Trace(<span class="string">&quot;Removed unpayable queued transaction&quot;</span>, <span class="string">&quot;hash&quot;</span>, hash)</span><br><span class="line">		&#125;</span><br><span class="line">		queuedNofundsMeter.Mark(<span class="keyword">int64</span>(<span class="built_in">len</span>(drops)))</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 执行promote操作</span></span><br><span class="line">		readies := list.Ready(pool.pendingNonces.get(addr))</span><br><span class="line">		<span class="keyword">for</span> _, tx := <span class="keyword">range</span> readies &#123;</span><br><span class="line">			hash := tx.Hash()</span><br><span class="line">			<span class="keyword">if</span> pool.promoteTx(addr, hash, tx) &#123;</span><br><span class="line">				log.Trace(<span class="string">&quot;Promoting queued transaction&quot;</span>, <span class="string">&quot;hash&quot;</span>, hash)</span><br><span class="line">				promoted = <span class="built_in">append</span>(promoted, tx)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		queuedGauge.Dec(<span class="keyword">int64</span>(<span class="built_in">len</span>(readies)))</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 删除超过允许限制的所有事务</span></span><br><span class="line">		<span class="keyword">var</span> caps types.Transactions</span><br><span class="line">		<span class="keyword">if</span> !pool.locals.contains(addr) &#123;</span><br><span class="line">			caps = list.Cap(<span class="keyword">int</span>(pool.config.AccountQueue))</span><br><span class="line">			<span class="keyword">for</span> _, tx := <span class="keyword">range</span> caps &#123;</span><br><span class="line">				hash := tx.Hash()</span><br><span class="line">				pool.all.Remove(hash)</span><br><span class="line">				log.Trace(<span class="string">&quot;Removed cap-exceeding queued transaction&quot;</span>, <span class="string">&quot;hash&quot;</span>, hash)</span><br><span class="line">			&#125;</span><br><span class="line">			queuedRateLimitMeter.Mark(<span class="keyword">int64</span>(<span class="built_in">len</span>(caps)))</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 将所有丢弃的项目标记为已删除</span></span><br><span class="line">		pool.priced.Removed(<span class="built_in">len</span>(forwards) + <span class="built_in">len</span>(drops) + <span class="built_in">len</span>(caps))</span><br><span class="line">		queuedGauge.Dec(<span class="keyword">int64</span>(<span class="built_in">len</span>(forwards) + <span class="built_in">len</span>(drops) + <span class="built_in">len</span>(caps)))</span><br><span class="line">		<span class="keyword">if</span> pool.locals.contains(addr) &#123;</span><br><span class="line">			localGauge.Dec(<span class="keyword">int64</span>(<span class="built_in">len</span>(forwards) + <span class="built_in">len</span>(drops) + <span class="built_in">len</span>(caps)))</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// Delete the entire queue entry if it became empty.</span></span><br><span class="line">		<span class="keyword">if</span> list.Empty() &#123;</span><br><span class="line">			<span class="built_in">delete</span>(pool.queue, addr)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> promoted</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="交易池降级"><a href="#交易池降级" class="headerlink" title="交易池降级"></a>交易池降级</h6><p>如果出现新块，验证pending池。这将删除已包含在区块中的任何交易或因另一个交易（例如更高的gas）而无效的任何交易。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(pool *TxPool)</span> <span class="title">demoteUnexecutables</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// 遍历pending列表，获取每个addr的最新nonce值</span></span><br><span class="line">	<span class="keyword">for</span> addr, list := <span class="keyword">range</span> pool.pending &#123;</span><br><span class="line">		nonce := pool.currentState.GetNonce(addr)</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 剔除nonce小于上面nonce值的交易，从all和priced中删除</span></span><br><span class="line">		olds := list.Forward(nonce)</span><br><span class="line">		<span class="keyword">for</span> _, tx := <span class="keyword">range</span> olds &#123;</span><br><span class="line">			hash := tx.Hash()</span><br><span class="line">			pool.all.Remove(hash)</span><br><span class="line">			log.Trace(<span class="string">&quot;Removed old pending transaction&quot;</span>, <span class="string">&quot;hash&quot;</span>, hash)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 返回账户余额已经不足以支付交易费用和一些暂时无效的交易</span></span><br><span class="line">		drops, invalids := list.Filter(pool.currentState.GetBalance(addr), pool.currentMaxGas)</span><br><span class="line">		<span class="keyword">for</span> _, tx := <span class="keyword">range</span> drops &#123;</span><br><span class="line">			hash := tx.Hash()</span><br><span class="line">			log.Trace(<span class="string">&quot;Removed unpayable pending transaction&quot;</span>, <span class="string">&quot;hash&quot;</span>, hash)</span><br><span class="line">			pool.all.Remove(hash)</span><br><span class="line">		&#125;</span><br><span class="line">		pool.priced.Removed(<span class="built_in">len</span>(olds) + <span class="built_in">len</span>(drops))</span><br><span class="line">		pendingNofundsMeter.Mark(<span class="keyword">int64</span>(<span class="built_in">len</span>(drops)))</span><br><span class="line">		<span class="comment">//将暂时无效的交易放到queue中</span></span><br><span class="line">		<span class="keyword">for</span> _, tx := <span class="keyword">range</span> invalids &#123;</span><br><span class="line">			hash := tx.Hash()</span><br><span class="line">			log.Trace(<span class="string">&quot;Demoting pending transaction&quot;</span>, <span class="string">&quot;hash&quot;</span>, hash)</span><br><span class="line">			pool.enqueueTx(hash, tx)</span><br><span class="line">		&#125;</span><br><span class="line">		pendingGauge.Dec(<span class="keyword">int64</span>(<span class="built_in">len</span>(olds) + <span class="built_in">len</span>(drops) + <span class="built_in">len</span>(invalids)))</span><br><span class="line">		<span class="keyword">if</span> pool.locals.contains(addr) &#123;</span><br><span class="line">			localGauge.Dec(<span class="keyword">int64</span>(<span class="built_in">len</span>(olds) + <span class="built_in">len</span>(drops) + <span class="built_in">len</span>(invalids)))</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 如果有间隙，将后面的交易移动到queue列表中</span></span><br><span class="line">		<span class="keyword">if</span> list.Len() &gt; <span class="number">0</span> &amp;&amp; list.txs.Get(nonce) == <span class="literal">nil</span> &#123;</span><br><span class="line">			gapped := list.Cap(<span class="number">0</span>)</span><br><span class="line">			<span class="keyword">for</span> _, tx := <span class="keyword">range</span> gapped &#123;</span><br><span class="line">				hash := tx.Hash()</span><br><span class="line">				log.Error(<span class="string">&quot;Demoting invalidated transaction&quot;</span>, <span class="string">&quot;hash&quot;</span>, hash)</span><br><span class="line">				pool.enqueueTx(hash, tx)</span><br><span class="line">			&#125;</span><br><span class="line">			pendingGauge.Dec(<span class="keyword">int64</span>(<span class="built_in">len</span>(gapped)))</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 如果经过上面的降级，pending里某个addr一个交易都没有，就把该账户给删除</span></span><br><span class="line">		<span class="keyword">if</span> list.Empty() &#123;</span><br><span class="line">			<span class="built_in">delete</span>(pool.pending, addr)</span><br><span class="line">			<span class="built_in">delete</span>(pool.beats, addr)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://yezzi.tech/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%BA%A4%E6%98%93%E6%B1%A0/" data-id="ckqm8q8uc001hr8u7h4u0hu6b" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A0%81/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">(no title)</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%8C%96%E7%9F%BF/" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">(no title)</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p> Nice papers collected in the field of <em>AI</em>, <em>Apllied Cryptography</em> and <em>Blockchain</em>, records of some computer technologies, and personal thoughts.  If you are inteseted in my field, feel free to contact me. (Wechat: mzliu_xdu) </p>
+
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tags</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/go/" rel="tag">go</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hyperledger-fabric/" rel="tag">hyperledger fabric</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/java/" rel="tag">java</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/paper-notes/" rel="tag">paper notes</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tag Cloud</h4>
+    <p class="tagcloud">
+      <a href="/tags/go/" style="font-size: 20px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hyperledger-fabric/" style="font-size: 20px;">hyperledger fabric</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/paper-notes/" style="font-size: 10px;">paper notes</a> <a href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" style="font-size: 10px;">以太坊</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a>
+    </p>
+  </div>
+
+
+  
+  <div class="sidebar-module">
+    <h4>Archives</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">July 2021</a><span class="sidebar-module-list-count">28</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">July 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">February 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">October 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">August 2019</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Recents</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2021/07/02/%E9%97%AE%E9%A2%98/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E7%8A%B6%E6%80%81%EF%BC%9B%E7%8A%B6%E6%80%81%E6%A0%91%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%90%8E%E7%AB%AF%E6%96%87%E6%A1%A3/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%B5%8F%E8%A7%88%E5%99%A8%E5%90%8E%E7%AB%AF%E8%AF%B4%E6%98%8E/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E4%B8%AD%E7%9A%84%E4%BA%A4%E6%98%93%E5%92%8C%E5%9B%9E%E6%89%A7%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Mingzhe Liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</body>
+</html>

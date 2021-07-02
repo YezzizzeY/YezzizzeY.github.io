@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>go的time包使用 | Yezzi Tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="详细信息  1.和时间记录有关time.Now()123t :&#x3D; time.Now()fmt.Println(&quot;当前时间：&quot;,t)fmt.Println(&quot;type:&quot;, reflect.TypeOf(t))  12当前时间： 2019-10-09 00:36:37.7604236 +0800 CST m&#x3D;+0.002002501type: time.Ti">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go的time包使用">
+<meta property="og:url" content="https://yezzi.tech/2019/10/08/go%E7%9A%84time%E5%8C%85%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="Yezzi Tech">
+<meta property="og:description" content="详细信息  1.和时间记录有关time.Now()123t :&#x3D; time.Now()fmt.Println(&quot;当前时间：&quot;,t)fmt.Println(&quot;type:&quot;, reflect.TypeOf(t))  12当前时间： 2019-10-09 00:36:37.7604236 +0800 CST m&#x3D;+0.002002501type: time.Ti">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-10-08T15:16:21.000Z">
+<meta property="article:modified_time" content="2021-07-02T11:06:38.689Z">
+<meta property="article:author" content="Mingzhe Liu">
+<meta property="article:tag" content="go">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">Home</a></li>
+        
+          <li><a class=""
+                 href="/archives/">Archives</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">Yezzi Tech</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-go的time包使用" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      go的time包使用
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2019/10/08/go%E7%9A%84time%E5%8C%85%E4%BD%BF%E7%94%A8/" class="article-date"><time datetime="2019-10-08T15:16:21.000Z" itemprop="datePublished">2019-10-08</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <details>
+<summary>详细信息</summary>
+
+<h3 id="1-和时间记录有关"><a href="#1-和时间记录有关" class="headerlink" title="1.和时间记录有关"></a>1.和时间记录有关</h3><h6 id="time-Now"><a href="#time-Now" class="headerlink" title="time.Now()"></a>time.Now()</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">t := time.Now()</span><br><span class="line">fmt.Println(<span class="string">&quot;当前时间：&quot;</span>,t)</span><br><span class="line">fmt.Println(<span class="string">&quot;type:&quot;</span>, reflect.TypeOf(t))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">当前时间： <span class="number">2019</span><span class="number">-10</span><span class="number">-09</span> <span class="number">00</span>:<span class="number">36</span>:<span class="number">37.7604236</span> +<span class="number">0800</span> CST m=+<span class="number">0.002002501</span></span><br><span class="line"><span class="keyword">type</span>: time.Time</span><br></pre></td></tr></table></figure>
+
+<p>返回一个Time结构体，使用time.Now()的时候调用了一堆location有关的东西，自动生成了时区</p>
+<h6 id="time-Now-Unix"><a href="#time-Now-Unix" class="headerlink" title="time.Now().Unix()"></a>time.Now().Unix()</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fmt.Println(<span class="string">&quot;时间戳：&quot;</span>,time.Now().Unix())</span><br><span class="line">fmt.Println(<span class="string">&quot;type:&quot;</span>, reflect.TypeOf(time.Now().Unix()))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">时间戳： <span class="number">1570549117</span></span><br><span class="line"><span class="keyword">type</span>: <span class="keyword">int64</span></span><br></pre></td></tr></table></figure>
+
+<p>是对结构体Time的方法</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t Time)</span> <span class="title">Unix</span><span class="params">()</span> <span class="title">int64</span></span> &#123; <span class="keyword">return</span> t.unixSec()&#125;</span><br></pre></td></tr></table></figure>
+
+<p>返回当前的时间戳,int64类型，存储总用到，需要和time.Unix()区分开</p>
+<h6 id="time-Now-Format"><a href="#time-Now-Format" class="headerlink" title="time.Now().Format()"></a>time.Now().Format()</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Println(<span class="string">&quot;格式化的时间：&quot;</span>,time.Now().Format(<span class="string">&quot;2006.01.02 15:04:05&quot;</span>))fmt.Println(<span class="string">&quot;type:&quot;</span>, reflect.TypeOf(t.Format(<span class="string">&quot;2006.01.02 15:04:05&quot;</span>)))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">格式化的时间： <span class="number">2019.10</span><span class="number">.09</span> <span class="number">00</span>:<span class="number">36</span>:<span class="number">37</span></span><br><span class="line"><span class="keyword">type</span>: <span class="keyword">string</span></span><br></pre></td></tr></table></figure>
+
+<p>其中Format有很多写法，源码写了一堆case，这个直接存储为string挺不错的，需要注意的是，那个2006.01.02必须是2006.01.02。</p>
+<p>注意Format()函数是对Time结构体的方法，例如time.Unix()，time.Now()返回的都是Time结构体，可以直接跟Formate()</p>
+<h6 id="time-Unix（）"><a href="#time-Unix（）" class="headerlink" title="time.Unix（）"></a>time.Unix（）</h6><p>这函数用于把一个int64的时间戳还原成Time结构体，具体实现如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">func Unix(sec int64, nsec int64) Time &#123;</span><br><span class="line">	if nsec &lt; 0 || nsec &gt;= 1e9 &#123;</span><br><span class="line">		n := nsec / 1e9</span><br><span class="line">		sec += n</span><br><span class="line">		nsec -= n * 1e9</span><br><span class="line">		if nsec &lt; 0 &#123;</span><br><span class="line">			nsec += 1e9</span><br><span class="line">			sec--</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return unixTime(sec, int32(nsec))</span><br><span class="line">&#125;</span><br><span class="line">func unixTime(sec int64, nsec int32) Time &#123;</span><br><span class="line">	return Time&#123;uint64(nsec), sec + unixToInternal, Local&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<!--注：纳秒:nanosecond(ns|nsec);物理学上,其数值为10的负9次方秒，好像不怎么用，一般填0就可以了，据说有时候32位系统会用到-->
+
+<p>把存储的时间戳转化为Time结构体以实现字符串传输经常用到,例如</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t := time.Unix(<span class="number">1570549117</span>, <span class="number">0</span>).Format(<span class="string">&quot;2006-01-02 03:04:05 PM&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h6 id="time-Now-Second"><a href="#time-Now-Second" class="headerlink" title="time.Now.Second()"></a>time.Now.Second()</h6><p>源码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t Time)</span> <span class="title">Second</span><span class="params">()</span> <span class="title">int</span></span> &#123;   <span class="keyword">return</span> <span class="keyword">int</span>(t.abs() % secondsPerMinute)&#125;</span><br><span class="line"><span class="comment">// Second returns the second offset within the minute specified by t, in the range [0, 59].</span></span><br></pre></td></tr></table></figure>
+
+<p>用于把一个Time结构体转化为秒数，类似的，还有</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t Time)</span> <span class="title">Hour</span><span class="params">()</span></span> </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t Time)</span> <span class="title">Minute</span><span class="params">()</span></span> </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t Time)</span> <span class="title">Nanosecond</span><span class="params">()</span></span> </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t Time)</span> <span class="title">YearDay</span><span class="params">()</span></span> </span><br></pre></td></tr></table></figure>
+
+<p>Time的结构体是这样的：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Time <span class="keyword">struct</span> &#123;  </span><br><span class="line"></span><br><span class="line"><span class="comment">// wall and ext encode the wall time seconds, wall time nanoseconds,  </span></span><br><span class="line"><span class="comment">// and optional monotonic clock reading in nanoseconds.   </span></span><br><span class="line"><span class="comment">// From high to low bit position, wall encodes a 1-bit flag (hasMonotonic),   </span></span><br><span class="line"><span class="comment">// a 33-bit seconds field, and a 30-bit wall time nanoseconds field.   </span></span><br><span class="line"><span class="comment">// The nanoseconds field is in the range [0, 999999999].   </span></span><br><span class="line"><span class="comment">// If the hasMonotonic bit is 0, then the 33-bit field must be zero   </span></span><br><span class="line"><span class="comment">// and the full signed 64-bit wall seconds since Jan 1 year 1 is stored in ext.   </span></span><br><span class="line"><span class="comment">// If the hasMonotonic bit is 1, then the 33-bit field holds a 33-bit  </span></span><br><span class="line"><span class="comment">// unsigned wall seconds since Jan 1 year 1885, and ext holds a   </span></span><br><span class="line"><span class="comment">// signed 64-bit monotonic clock reading, nanoseconds since process start.   </span></span><br><span class="line"></span><br><span class="line">wall <span class="keyword">uint64</span>  </span><br><span class="line">ext  <span class="keyword">int64</span>   </span><br><span class="line"></span><br><span class="line"><span class="comment">// loc specifies the Location that should be used to   </span></span><br><span class="line"><span class="comment">// determine the minute, hour, month, day, and year   </span></span><br><span class="line"><span class="comment">// that correspond to this Time.   </span></span><br><span class="line"><span class="comment">// The nil location means UTC.   </span></span><br><span class="line"><span class="comment">// All UTC times are represented with loc==nil, never loc==&amp;utcLoc.  </span></span><br><span class="line"></span><br><span class="line"> loc *Location</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注释里有具体含义，其中的成员都是私有，不容易直接显示出来</p>
+<h3 id="2-进程阻塞"><a href="#2-进程阻塞" class="headerlink" title="2.进程阻塞"></a>2.进程阻塞</h3><p>阻塞多少时间的函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func Sleep(d Duration)</span><br></pre></td></tr></table></figure>
+
+<p>比如 <code>Sleep(time.Second*2)</code></p>
+<p>time.Second或者其他单位数据类型都是Duration，也可以直接Sleep(1000)这样子</p>
+<p>其中Duration也是int64数据类型，表示阻塞多少时间，等同Nanosecond（十亿分之一秒），还有个范围，用的位运算表示</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> (   </span><br><span class="line">minDuration Duration = <span class="number">-1</span> &lt;&lt; <span class="number">63</span>   </span><br><span class="line">maxDuration Duration = <span class="number">1</span>&lt;&lt;<span class="number">63</span> - <span class="number">1</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>最小是-1乘以2的63次方纳秒，   计算的结果是-2562047h47m16.854775808s,   -2.5620477880152157e+06h</p>
+<p>最大是1乘以2的63次方纳秒减1, 计算结果就不写了，官方给出的最大时间为 2540400h10m10.000000000s</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const (   </span><br><span class="line">Nanosecond  Duration = 1   </span><br><span class="line">Microsecond          = 1000 * Nanosecond   </span><br><span class="line">Millisecond          = 1000 * Microsecond   </span><br><span class="line">Second               = 1000 * Millisecond   </span><br><span class="line">Minute               = 60 * Second   </span><br><span class="line">Hour                 = 60 * Minute</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>它本身是int64，对它封装了一系列方法操作，感觉就有点像面向对象编程</p>
+<p>举几个例子：</p>
+<p>将Duration变量转化为其他单位</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d Duration)</span> <span class="title">Seconds</span><span class="params">()</span> <span class="title">float64</span></span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d Duration)</span> <span class="title">Minutes</span><span class="params">()</span> <span class="title">float64</span></span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d Duration)</span> <span class="title">Hours</span><span class="params">()</span> <span class="title">float64</span></span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d Duration)</span> <span class="title">Nanoseconds</span><span class="params">()</span> <span class="title">int64</span></span> &#123; <span class="keyword">return</span> <span class="keyword">int64</span>(d) &#125;  （这个操作有点意思）</span><br></pre></td></tr></table></figure>
+
+<p> 将Duration变量输出为合适的String</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d Duration)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span></span><br></pre></td></tr></table></figure>
+
+<!--注：fmt.Println()输出时默认输出Duration的String函数转化后的字符串-->
+
+<p>求时间的近似值</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d Duration)</span> <span class="title">Round</span><span class="params">(m Duration)</span> <span class="title">Duration</span></span></span><br></pre></td></tr></table></figure>
+
+<p>比较好用的还有时间相加减的函数，是对Time对象的操作</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t Time)</span> <span class="title">Add</span><span class="params">(d Duration)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>比如<code>time.Now().Add(time.Second)</code></p>
+<p>如果想两个时间相加，两个Duration对象直接相加就行</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Println(time.Second+time.Second)     <span class="comment">//2s</span></span><br></pre></td></tr></table></figure>
+
+
+
+</details>
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://yezzi.tech/2019/10/08/go%E7%9A%84time%E5%8C%85%E4%BD%BF%E7%94%A8/" data-id="ckqm8q8td000rr8u7gry3hnpk" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2019/08/21/fabric-node-sdk%E5%BC%80%E5%8F%91%E5%88%9D%E6%AD%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">fabric-node-sdk开发初步</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/2019/10/09/json%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">go中的struct和json</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p> Nice papers collected in the field of <em>AI</em>, <em>Apllied Cryptography</em> and <em>Blockchain</em>, records of some computer technologies, and personal thoughts.  If you are inteseted in my field, feel free to contact me. (Wechat: mzliu_xdu) </p>
+
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tags</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/go/" rel="tag">go</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hyperledger-fabric/" rel="tag">hyperledger fabric</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/java/" rel="tag">java</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/paper-notes/" rel="tag">paper notes</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tag Cloud</h4>
+    <p class="tagcloud">
+      <a href="/tags/go/" style="font-size: 20px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hyperledger-fabric/" style="font-size: 20px;">hyperledger fabric</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/paper-notes/" style="font-size: 10px;">paper notes</a> <a href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" style="font-size: 10px;">以太坊</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a>
+    </p>
+  </div>
+
+
+  
+  <div class="sidebar-module">
+    <h4>Archives</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">July 2021</a><span class="sidebar-module-list-count">28</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">July 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">February 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">October 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">August 2019</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Recents</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2021/07/02/%E9%97%AE%E9%A2%98/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E7%8A%B6%E6%80%81%EF%BC%9B%E7%8A%B6%E6%80%81%E6%A0%91%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%90%8E%E7%AB%AF%E6%96%87%E6%A1%A3/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%B5%8F%E8%A7%88%E5%99%A8%E5%90%8E%E7%AB%AF%E8%AF%B4%E6%98%8E/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E4%B8%AD%E7%9A%84%E4%BA%A4%E6%98%93%E5%92%8C%E5%9B%9E%E6%89%A7%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Mingzhe Liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</body>
+</html>

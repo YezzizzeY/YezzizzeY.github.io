@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>以太坊中的数据结构 | Yezzi Tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="详细信息   1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    &#96;json:&quot;parentHash&quot;       gencodec:&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="以太坊中的数据结构">
+<meta property="og:url" content="https://yezzi.tech/2020/02/25/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/index.html">
+<meta property="og:site_name" content="Yezzi Tech">
+<meta property="og:description" content="详细信息   1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    &#96;json:&quot;parentHash&quot;       gencodec:&amp;">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://yezzi.tech/2020/02/25/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/1.jpg">
+<meta property="og:image" content="https://yezzi.tech/2020/02/25/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/2.png">
+<meta property="og:image" content="https://yezzi.tech/2020/02/25/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/3.png">
+<meta property="og:image" content="https://yezzi.tech/2020/02/25/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/4.png">
+<meta property="article:published_time" content="2020-02-25T15:54:34.000Z">
+<meta property="article:modified_time" content="2021-07-02T11:06:38.792Z">
+<meta property="article:author" content="Mingzhe Liu">
+<meta property="article:tag" content="区块链">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yezzi.tech/2020/02/25/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/1.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">Home</a></li>
+        
+          <li><a class=""
+                 href="/archives/">Archives</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">Yezzi Tech</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-以太坊中的数据结构" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      以太坊中的数据结构
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2020/02/25/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="article-date"><time datetime="2020-02-25T15:54:34.000Z" itemprop="datePublished">2020-02-25</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <details>
+<summary>详细信息</summary>
+
+
+<h3 id="1-区块"><a href="#1-区块" class="headerlink" title="1.区块"></a>1.区块</h3><p>区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body）</p>
+<h4 id="区块头"><a href="#区块头" class="headerlink" title="区块头"></a>区块头</h4><p>区块头的结构体定义：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Header <span class="keyword">struct</span> &#123; </span><br><span class="line">    ParentHash  common.Hash    <span class="string">`json:&quot;parentHash&quot;       gencodec:&quot;required&quot;`</span>  </span><br><span class="line">    UncleHash   common.Hash    <span class="string">`json:&quot;sha3Uncles&quot;       gencodec:&quot;required&quot;`</span>  </span><br><span class="line">    Coinbase    common.Address <span class="string">`json:&quot;miner&quot;            gencodec:&quot;required&quot;`</span>  </span><br><span class="line">    Root        common.Hash    <span class="string">`json:&quot;stateRoot&quot;        gencodec:&quot;required&quot;`</span> </span><br><span class="line">    TxHash      common.Hash    <span class="string">`json:&quot;transactionsRoot&quot; gencodec:&quot;required&quot;`</span>              ReceiptHash common.Hash    <span class="string">`json:&quot;receiptsRoot&quot;     gencodec:&quot;required&quot;`</span></span><br><span class="line">    Bloom       Bloom          <span class="string">`json:&quot;logsBloom&quot;        gencodec:&quot;required&quot;`</span> </span><br><span class="line">    Difficulty  *big.Int       <span class="string">`json:&quot;difficulty&quot;       gencodec:&quot;required&quot;`</span></span><br><span class="line">    Number      *big.Int       <span class="string">`json:&quot;number&quot;           gencodec:&quot;required&quot;`</span> </span><br><span class="line">    GasLimit    <span class="keyword">uint64</span>         <span class="string">`json:&quot;gasLimit&quot;         gencodec:&quot;required&quot;`</span> </span><br><span class="line">    GasUsed     <span class="keyword">uint64</span>         <span class="string">`json:&quot;gasUsed&quot;          gencodec:&quot;required&quot;`</span></span><br><span class="line">    Time        <span class="keyword">uint64</span>         <span class="string">`json:&quot;timestamp&quot;        gencodec:&quot;required&quot;`</span> </span><br><span class="line">    Extra       []<span class="keyword">byte</span>         <span class="string">`json:&quot;extraData&quot;        gencodec:&quot;required&quot;`</span>  </span><br><span class="line">    MixDigest   common.Hash    <span class="string">`json:&quot;mixHash&quot;`</span> </span><br><span class="line">    Nonce       BlockNonce     <span class="string">`json:&quot;nonce&quot;`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>释义如下：</p>
+<p>ParentHash  common.Hash   父区块的哈希值<br>UncleHash    common.Hash    叔父区块列表的哈希值<br>Coinbase    common.Address    打包该区块的矿工的地址，用于接收矿工费<br>Root    common.Hash    状态树的根哈希值<br>TxHash    common.Hash    交易树的根哈希值<br>ReceiptHash    common.Hash    收据树的根哈希值<br>Bloom    Bloom    交易收据日志组成的Bloom过滤器<br>Difficulty    *Big.Int    本区块的难度<br>Number    *Big.Int    本区块块号，区块号从0号开始算起<br>GasLimit    uint64    本区块中所有交易消耗的Gas上限，这个数值不等于所有交易的中Gas limit字段的和<br>GasUsed    uint64    本区块中所有交易使用的Gas之和<br>Time    *big.Int    区块产生的unix时间戳，一般是打包区块的时间，这个字段不是出块的时间戳<br>Extra    []byte    区块的附加数据<br>MixDigest    common.Hash    哈希值，与Nonce的组合用于工作量计算<br>Nonce    BlockNonce    区块产生时的随机值</p>
+<p>与比特币一样，以太坊中区块和区块之间用哈希指针向连，通过哈希可以追溯到最初的区块。</p>
+<p>轻节点只保存区块头。</p>
+<h4 id="叔块"><a href="#叔块" class="headerlink" title="叔块"></a>叔块</h4><h5 id="孤块-orphan-block"><a href="#孤块-orphan-block" class="headerlink" title="孤块(orphan block)"></a>孤块(orphan block)</h5><p>在比特币协议中，最长的链被认为是绝对的正确。如果一个块不是最长链的一部分，那么它被称为是“孤块”。一个孤立的块是一个块，它也是合法的，但是发现的稍晚，或者是网络传输稍慢，而没有能成为最长的链的一部分。在比特币中，孤块没有意义，随后将被抛弃，发现这个孤块的矿工也拿不到采矿相关的奖励。</p>
+<h5 id="最重的链-heaviest"><a href="#最重的链-heaviest" class="headerlink" title="最重的链(heaviest)"></a>最重的链(heaviest)</h5><p>Ethereum的GHOST协议，不认为孤块没有价值，而是会给与发现孤块的矿工以回报。在以太坊中，孤块被称为“叔块”(uncle block)，它们可以为主链的安全作出贡献。</p>
+<p>相对来说，比特币有很长的块间隔时间。在比特币区块中，平均约10分钟可以得到一个确认(也就是发现一个新的后续区块)。但是自从比特币成立以来，大量关于块链技术的研究已经发展起来。这些研究表明，更短的块间隔确实是可能的，而且在很多应用场景下是需要的。然而，随着拥有更快的出块速度，孤块的增加而带来的昂贵的成本和浪费也随之增加。</p>
+<p>GHOST协议支付报酬给叔块，这激励了矿工在新发现的块中去引用叔块。引用叔块使主链更重。在比特币，最长的链是主链。在以太坊中，主链是指最重的链。</p>
+<h5 id="叔块的好处"><a href="#叔块的好处" class="headerlink" title="叔块的好处"></a>叔块的好处</h5><p>解决了两个问题：</p>
+<ol>
+<li>以太坊十几秒的出块间隔，大大增加了孤块的产生，并且降低了安全性。通过鼓励引用叔块，使引用主链获得更多的安全保证(因为孤块本身也是合法的)</li>
+<li>比特币中，采矿中心化(大量的集中矿池)成为一个问题。给与叔块报酬，可以一定程度上缓解这个问题。</li>
+</ol>
+<h5 id="叔块的引用"><a href="#叔块的引用" class="headerlink" title="叔块的引用"></a>叔块的引用</h5><p>区块可以不引用，或者最多引用两个叔块<br>叔块必须是区块的前2层~前7层的祖先的直接的子块<br>被引用过的叔块不能重复引用<br>引用叔块的区块，可以获得挖矿报酬的1/32，也就是5<em>1/32=0.15625 Ether。最多获得2</em>0.15625=0.3125 Ether<br>被引用的叔块，其矿工的报酬和叔块与区块之间的间隔层数有关系。</p>
+<table>
+<thead>
+<tr>
+<th>间隔层数</th>
+<th>报酬比例</th>
+<th>报酬</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>7/8</td>
+<td>4.375</td>
+</tr>
+<tr>
+<td>2</td>
+<td>6/8</td>
+<td>3.75</td>
+</tr>
+<tr>
+<td>3</td>
+<td>5/8</td>
+<td>3.125</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4/8</td>
+<td>2.5</td>
+</tr>
+<tr>
+<td>5</td>
+<td>3/8</td>
+<td>1.875</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2/8</td>
+<td>1.25</td>
+</tr>
+</tbody></table>
+<h4 id="区块体"><a href="#区块体" class="headerlink" title="区块体"></a>区块体</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Body <span class="keyword">struct</span> &#123;</span><br><span class="line">    Transactions []*Transaction  </span><br><span class="line">    Uncles       []*Header</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Body是一个简单的（可变的、非安全的）数据容器，用于存储和移动块的数据内容（事务和uncles）。</p>
+<h4 id="完整的区块定义"><a href="#完整的区块定义" class="headerlink" title="完整的区块定义"></a>完整的区块定义</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Block <span class="keyword">struct</span> &#123;   </span><br><span class="line">    header       *Header  </span><br><span class="line">    uncles       []*Header </span><br><span class="line">    transactions Transactions </span><br><span class="line">    <span class="comment">// caches   hash atomic.Value   size atomic.Value  </span></span><br><span class="line">    <span class="comment">// Td is used by package core to store the total difficulty   </span></span><br><span class="line">    <span class="comment">// of the chain up to and including the block.   td *big.Int  </span></span><br><span class="line">    <span class="comment">// These fields are used by package eth to track  </span></span><br><span class="line">    <span class="comment">// inter-peer block relay.   ReceivedAt   time.</span></span><br><span class="line">    Time   ReceivedFrom <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-MPT树"><a href="#2-MPT树" class="headerlink" title="2.MPT树"></a>2.MPT树</h3><h4 id="trie"><a href="#trie" class="headerlink" title="trie"></a>trie</h4><p>trie也叫字典树，前缀树，因为它的搜索快捷的特性被单词搜索系统使用，故又称单词查找树。它是一种树形结构的数据结构。之所以快速，是因为它用空间代替了速度。</p>
+<p>如给出字符串”abc”,”ab”,”bd”,”dda”，根据该字符串序列构建一棵Trie树。则构建的树如下: </p>
+<p><img src="./1.jpg"></p>
+<h4 id="Patricia-Trie"><a href="#Patricia-Trie" class="headerlink" title="Patricia Trie"></a>Patricia Trie</h4><p>又叫做基数树，压缩前缀树或紧凑前缀树（compact prefix tree)，是一种更节省空间的前缀树。它与 Trie 的区别是，如果某个节点只有一个子树，那么这个子树跟父节点合并，这样可以缩短 Trie 里不必要的深度，节约存储空间，加快搜索节点的速度。 </p>
+<p><img src="./2.png"></p>
+<p> 以太坊中每个用户地址是160位存储，如果使用不压缩的trie会造成非常大的存储浪费，维护状态树会变得异常困难。所以使用压缩前缀树。 </p>
+<h4 id="Merkle-Tree"><a href="#Merkle-Tree" class="headerlink" title="Merkle Tree"></a>Merkle Tree</h4><p>比特币中，交易列表使用非排序的默克尔树存储，其和二叉树的区别主要是使用哈希指针代替了二叉树中的指针。</p>
+<p><img src="./3.png"></p>
+<h4 id="Merkle-Patricia-Tree-Trie"><a href="#Merkle-Patricia-Tree-Trie" class="headerlink" title="Merkle Patricia Tree (Trie)"></a>Merkle Patricia Tree (Trie)</h4><p>Merkle Patricia Tree 默克尔-帕特里夏树是一种融合了默克尔树和前缀树两种结构优点的，经过改良的数据结构，在以太坊中用来组织交易信息、账户状态及其变更、收据相关的数据。</p>
+<p>以太坊中的MPT树是经过改良的，模范化的MPT树。</p>
+<p><img src="./4.png"></p>
+<p>树中的节点分类：</p>
+<p>空节点 </p>
+<p>分支节点 </p>
+<p>叶子节点 </p>
+<p>扩展节点 </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> node <span class="keyword">interface</span> &#123;	</span><br><span class="line">    fstring(<span class="keyword">string</span>) <span class="keyword">string</span>	</span><br><span class="line">    cache() (hashNode, <span class="keyword">bool</span>)	</span><br><span class="line">    canUnload(cachegen, cachelimit <span class="keyword">uint16</span>) <span class="keyword">bool</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> (	</span><br><span class="line">    </span><br><span class="line">    fullNode <span class="keyword">struct</span> &#123;	</span><br><span class="line">        Children [<span class="number">17</span>]node		</span><br><span class="line">        flags    nodeFlag	</span><br><span class="line">    &#125;	</span><br><span class="line">    shortNode <span class="keyword">struct</span> &#123;	</span><br><span class="line">        Key   []<span class="keyword">byte</span>		Val   node		flags nodeFlag	</span><br><span class="line">    &#125;	</span><br><span class="line">    hashNode  []<span class="keyword">byte</span></span><br><span class="line">    valueNode []<span class="keyword">byte</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> nodeFlag <span class="keyword">struct</span></span><br><span class="line">&#123;	</span><br><span class="line">    hash  hashNode	</span><br><span class="line">    gen   <span class="keyword">uint16</span>	</span><br><span class="line">    dirty <span class="keyword">bool</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="fullNode"><a href="#fullNode" class="headerlink" title="fullNode"></a>fullNode</h6><p>fullNode 是一个可以携带多个子节点的节点。它有一个 node 数组类型的成员变量 Children，数组的前16个空位分别对应十六进制的0-9a-f，对于每个子节点，根据其 key 值的十六进制表示一一对应，Children 数组的第17位，fullNode 用来存储数据。</p>
+<p>对应黄皮书中的分支节点。</p>
+<h6 id="shortNode"><a href="#shortNode" class="headerlink" title="shortNode"></a>shortNode</h6><p>shortNode 是一个仅有一个子节点的节点。成员变量 Val 指向一个子节点，成员变量 Key 是一个由任意长度的字符串，这体现了压缩前缀树的特点，通过合并只有一个子节点的父节点和其子节点来缩短 Trie 的深度。</p>
+<p>对应黄皮书里的扩展节点和叶子节点，通过 <code>shortNode.Val</code> 的类型来对应。</p>
+<h6 id="valueNode"><a href="#valueNode" class="headerlink" title="valueNode"></a>valueNode</h6><p>valueNode 在 MPT 结构中存储真正的数据。充当 MPT 的叶子节点，不带子节点。</p>
+<p>valueNode 是一个字节数组，但是它实现了 <code>fstring(string) string</code>, <code>cache() (hashNode, bool)</code>, <code>canUnload(cachegen, cachelimit uint16) bool</code> 这三个接口（实际上 fullNode，shortNode，hashNode 也实现了这三个接口），因此可以作为 fullNode，shortNode 中的 <code>node</code> 使用。valueNode 可以承接数据，携带的的是数据的 RLP 哈希值，长度为 32 byte，RLP 编码的值存在 LevelDB 里。</p>
+<h6 id="hashNode"><a href="#hashNode" class="headerlink" title="hashNode"></a>hashNode</h6><p>hashNode 是 fullNode 或 shortNode 对象的 RLP 编码的32 byte 的哈希值，表明该节点还没有载入内存。遍历 MPT 时有时会遇到一个 hashNode，表明原来的 node 需要动态加载，hashNode 以 nodeFlag 结构体的成员 hash 的形式存在，如果 fullNode 或 shortNode 的成员变量发生变化，那么就需要更新它的 hashNode，在增删改的过程结束了都会调用 <code>trie.Hash()</code>，整个 MPT 自底向上变量，对所有清空的 hashNode 重新赋值，最终得到根节点的 hashNode，也就是整个 MPT 结构的哈希值。</p>
+<p>fullNode 体现了 Trie 的特点，shortNode 实现了 PatriciaTrie 的特性（当然也实现了 Trie 的特性），hashNode 既实现了 MPT 节点的动态加载，也实现了默克尔树的功能。</p>
+</details>
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://yezzi.tech/2020/02/25/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" data-id="ckqm8q8tp0012r8u74ofm46ov" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2020/02/14/go-ethreum%E6%BA%90%E7%A0%81%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">go-ethreum源码目录结构</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/2020/07/17/go-http%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">go http源码解析</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p> Nice papers collected in the field of <em>AI</em>, <em>Apllied Cryptography</em> and <em>Blockchain</em>, records of some computer technologies, and personal thoughts.  If you are inteseted in my field, feel free to contact me. (Wechat: mzliu_xdu) </p>
+
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tags</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/go/" rel="tag">go</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hyperledger-fabric/" rel="tag">hyperledger fabric</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/java/" rel="tag">java</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/paper-notes/" rel="tag">paper notes</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tag Cloud</h4>
+    <p class="tagcloud">
+      <a href="/tags/go/" style="font-size: 20px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hyperledger-fabric/" style="font-size: 20px;">hyperledger fabric</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/paper-notes/" style="font-size: 10px;">paper notes</a> <a href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" style="font-size: 10px;">以太坊</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a>
+    </p>
+  </div>
+
+
+  
+  <div class="sidebar-module">
+    <h4>Archives</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">July 2021</a><span class="sidebar-module-list-count">28</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">July 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">February 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">October 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">August 2019</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Recents</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2021/07/02/%E9%97%AE%E9%A2%98/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E7%8A%B6%E6%80%81%EF%BC%9B%E7%8A%B6%E6%80%81%E6%A0%91%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%90%8E%E7%AB%AF%E6%96%87%E6%A1%A3/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%B5%8F%E8%A7%88%E5%99%A8%E5%90%8E%E7%AB%AF%E8%AF%B4%E6%98%8E/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E4%B8%AD%E7%9A%84%E4%BA%A4%E6%98%93%E5%92%8C%E5%9B%9E%E6%89%A7%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Mingzhe Liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</body>
+</html>

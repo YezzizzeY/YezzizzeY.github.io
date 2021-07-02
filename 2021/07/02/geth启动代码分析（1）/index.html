@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Yezzi Tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.内置函数appendappend主要用于给某个切片追加元素，如果切片长度cap足够，则直接追加，长度变长,如果空间不足，则扩展切片的长度，再加入元素 例： 12345678910111213141516171819func main() &amp;#123;    s1 :&#x3D; []int&amp;#123;&amp;#125;    fmt.Printf(&quot;len &#x3D; %d, cap &#x3D; %d\n&amp;quot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yezzi Tech">
+<meta property="og:url" content="https://yezzi.tech/2021/07/02/geth%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%881%EF%BC%89/index.html">
+<meta property="og:site_name" content="Yezzi Tech">
+<meta property="og:description" content="1.内置函数appendappend主要用于给某个切片追加元素，如果切片长度cap足够，则直接追加，长度变长,如果空间不足，则扩展切片的长度，再加入元素 例： 12345678910111213141516171819func main() &amp;#123;    s1 :&#x3D; []int&amp;#123;&amp;#125;    fmt.Printf(&quot;len &#x3D; %d, cap &#x3D; %d\n&amp;quot">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-07-02T11:06:38.678Z">
+<meta property="article:modified_time" content="2021-07-02T11:06:38.678Z">
+<meta property="article:author" content="Mingzhe Liu">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">Home</a></li>
+        
+          <li><a class=""
+                 href="/archives/">Archives</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">Yezzi Tech</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-geth启动代码分析（1）" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      (no title)
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2021/07/02/geth%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%881%EF%BC%89/" class="article-date"><time datetime="2021-07-02T11:06:38.678Z" itemprop="datePublished">2021-07-02</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h6 id="1-内置函数append"><a href="#1-内置函数append" class="headerlink" title="1.内置函数append"></a>1.内置函数append</h6><p>append主要用于给某个切片追加元素，如果切片长度cap足够，则直接追加，长度变长,如果空间不足，则扩展切片的长度，再加入元素</p>
+<p>例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    s1 := []<span class="keyword">int</span>&#123;&#125;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;len = %d, cap = %d\n&quot;</span>, <span class="built_in">len</span>(s1), <span class="built_in">cap</span>(s1))</span><br><span class="line">    fmt.Println(<span class="string">&quot;s1 = &quot;</span>, s1)</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//在原切片的末尾添加元素</span></span><br><span class="line">    s1 = <span class="built_in">append</span>(s1, <span class="number">1</span>)</span><br><span class="line">    s1 = <span class="built_in">append</span>(s1, <span class="number">2</span>)</span><br><span class="line">    s1 = <span class="built_in">append</span>(s1, <span class="number">3</span>)</span><br><span class="line">    fmt.Printf(<span class="string">&quot;len = %d, cap = %d\n&quot;</span>, <span class="built_in">len</span>(s1), <span class="built_in">cap</span>(s1))</span><br><span class="line">    fmt.Println(<span class="string">&quot;s1 = &quot;</span>, s1)</span><br><span class="line"> </span><br><span class="line">    s2 := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">    fmt.Println(<span class="string">&quot;s2 = &quot;</span>, s2)</span><br><span class="line">    s2 = <span class="built_in">append</span>(s2, <span class="number">5</span>)</span><br><span class="line">    s2 = <span class="built_in">append</span>(s2, <span class="number">5</span>)</span><br><span class="line">    s2 = <span class="built_in">append</span>(s2, <span class="number">5</span>)</span><br><span class="line">    fmt.Println(<span class="string">&quot;s2 = &quot;</span>, s2)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">len = 0, cap = 0</span><br><span class="line">s1 =  []</span><br><span class="line">len = 3, cap = 4</span><br><span class="line">s1 =  [1 2 3]</span><br><span class="line"> </span><br><span class="line">s2 =  [1 2 3]</span><br><span class="line">s2 =  [1 2 3 5 5 5]</span><br></pre></td></tr></table></figure>
+
+<p>如果第二个参数是另一个切片，则将它里面的所有元素拷贝追加到第一个切片后边。要注意的是，这种用法函数的参数只能接收两个slice，并且末尾要加三个点</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">slice := <span class="built_in">append</span>([]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;,[]<span class="keyword">int</span>&#123;<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>&#125;...)</span><br><span class="line">fmt.Println(slice) <span class="comment">//[1 2 3 4 5 6]</span></span><br></pre></td></tr></table></figure>
+
+<p>还有种特殊用法，将字符串当作[]byte类型作为第二个参数传入</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bytes := <span class="built_in">append</span>([]<span class="keyword">byte</span>(<span class="string">&quot;hello&quot;</span>),<span class="string">&quot;world&quot;</span>...)</span><br></pre></td></tr></table></figure>
+
+<p>·append函数返回值必须有变量接收</p>
+<h6 id="2-urfave-cli：golang命令行构建工具"><a href="#2-urfave-cli：golang命令行构建工具" class="headerlink" title="2.urfave/cli：golang命令行构建工具"></a>2.urfave/cli：golang命令行构建工具</h6><p>根据源码大概讲一下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span>(</span><br><span class="line"><span class="comment">// The app that holds all commands and flags.</span></span><br><span class="line">	app = utils.NewApp(gitCommit, gitDate, <span class="string">&quot;the go-ethereum command line interface&quot;</span>)</span><br><span class="line">	<span class="comment">// flags that configure the node</span></span><br><span class="line">	nodeFlags = []cli.Flag&#123;</span><br><span class="line">        。。。</span><br><span class="line">    &#125;</span><br><span class="line">    rpcFlags = []cli.Flag&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    whisperFlags = []cli.Flag&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    metricsFlags = []cli.Flag&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewApp</span><span class="params">(gitCommit, gitDate, usage <span class="keyword">string</span>)</span> *<span class="title">cli</span>.<span class="title">App</span></span> &#123;</span><br><span class="line">	app := cli.NewApp()</span><br><span class="line">	app.Name = filepath.Base(os.Args[<span class="number">0</span>])</span><br><span class="line">	app.Author = <span class="string">&quot;&quot;</span></span><br><span class="line">	app.Email = <span class="string">&quot;&quot;</span></span><br><span class="line">	app.Version = params.VersionWithCommit(gitCommit, gitDate)</span><br><span class="line">	app.Usage = usage</span><br><span class="line">	<span class="keyword">return</span> app</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// Initialize the CLI app and start Geth</span></span><br><span class="line">	app.Action = geth</span><br><span class="line">	app.HideVersion = <span class="literal">true</span> <span class="comment">// we have a command to print the version</span></span><br><span class="line">	app.Copyright = <span class="string">&quot;Copyright 2013-2020 The go-ethereum Authors&quot;</span></span><br><span class="line">	app.Commands = []cli.Command&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    	sort.Sort(cli.CommandsByName(app.Commands))</span><br><span class="line"></span><br><span class="line">	app.Flags = <span class="built_in">append</span>(app.Flags, nodeFlags...)</span><br><span class="line">	app.Flags = <span class="built_in">append</span>(app.Flags, rpcFlags...)</span><br><span class="line">	app.Flags = <span class="built_in">append</span>(app.Flags, consoleFlags...)</span><br><span class="line">	app.Flags = <span class="built_in">append</span>(app.Flags, debug.Flags...)</span><br><span class="line">	app.Flags = <span class="built_in">append</span>(app.Flags, whisperFlags...)</span><br><span class="line">	app.Flags = <span class="built_in">append</span>(app.Flags, metricsFlags...)</span><br><span class="line"></span><br><span class="line">	app.Before = <span class="function"><span class="keyword">func</span><span class="params">(ctx *cli.Context)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">		<span class="keyword">return</span> debug.Setup(ctx)</span><br><span class="line">	&#125;</span><br><span class="line">	app.After = <span class="function"><span class="keyword">func</span><span class="params">(ctx *cli.Context)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">		debug.Exit()</span><br><span class="line">		console.Stdin.Close() <span class="comment">// Resets terminal mode.</span></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在该例中，首先通过new实例化一个App对象，源码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// NewApp creates a new cli Application with some reasonable defaults for Name,</span></span><br><span class="line"><span class="comment">// Usage, Version and Action.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewApp</span><span class="params">()</span> *<span class="title">App</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;App&#123;</span><br><span class="line">		Name:         filepath.Base(os.Args[<span class="number">0</span>]),</span><br><span class="line">		HelpName:     filepath.Base(os.Args[<span class="number">0</span>]),</span><br><span class="line">		Usage:        <span class="string">&quot;A new cli application&quot;</span>,</span><br><span class="line">		UsageText:    <span class="string">&quot;&quot;</span>,</span><br><span class="line">		Version:      <span class="string">&quot;0.0.0&quot;</span>,</span><br><span class="line">		BashComplete: DefaultAppComplete,</span><br><span class="line">		Action:       helpCommand.Action,</span><br><span class="line">		Compiled:     compileTime(),</span><br><span class="line">		Writer:       os.Stdout,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中结构体没有被定义的地方很多都有默认的初始化参数，说明一下：</p>
+<p>filepath.Base : 获取path中最后一个分隔符之后的部分(不包含分隔符)</p>
+<p>Action是一个空接口，要定义的是app执行的方法</p>
+<p>compileTime返回一个标准包的time.Time类型，想了解可参考<a target="_blank" rel="noopener" href="https://yezzi.xyz/2019/10/08/go%E7%9A%84time%E5%8C%85%E4%BD%BF%E7%94%A8/">以下博客</a></p>
+<p>其中比较重要的是Action，因为命令最后会在这里开始执行，其实已经定义好了，就是geth函数，之后再看geth函数，先写一下其他的构成。</p>
+<p>Flags：</p>
+<p>flag是构建启动参数，以太的Flag都写在了flags.go文件里。</p>
+<p>cli包中flag的定义如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Flag <span class="keyword">interface</span> &#123;</span><br><span class="line">	fmt.Stringer</span><br><span class="line">	<span class="comment">// Apply Flag settings to the given flag set</span></span><br><span class="line">	Apply(*flag.FlagSet)</span><br><span class="line">	GetName() <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Flag是一个接口，可以自己定义，但至少包含一个Stringer接口，和Apply，GetName两个方法</p>
+<p>Stringer接口定义如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Stringer is implemented by any value that has a String method,</span></span><br><span class="line"><span class="comment">// which defines the ``native&#x27;&#x27; format for that value.</span></span><br><span class="line"><span class="comment">// The String method is used to print values passed as an operand</span></span><br><span class="line"><span class="comment">// to any format that accepts a string or to an unformatted printer</span></span><br><span class="line"><span class="comment">// such as Print.</span></span><br><span class="line"><span class="keyword">type</span> Stringer <span class="keyword">interface</span> &#123;</span><br><span class="line">	String() <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至少要有返回string的String（）方法，就可以成为Stringer接口。</p>
+<p>以太坊中既有用到cli包内置的flag类型，如：StringFlag, BoolFlag, Float64Flag等，也有自定义的Flag，放在customflags.go中，如DirectoryFlag等。</p>
+<p>其中cli中类似StringFlag的定义如下</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// StringFlag is a flag with type string</span></span><br><span class="line"><span class="keyword">type</span> StringFlag <span class="keyword">struct</span> &#123;</span><br><span class="line">	Name        <span class="keyword">string</span></span><br><span class="line">	Usage       <span class="keyword">string</span></span><br><span class="line">	EnvVar      <span class="keyword">string</span></span><br><span class="line">	FilePath    <span class="keyword">string</span></span><br><span class="line">	Required    <span class="keyword">bool</span></span><br><span class="line">	Hidden      <span class="keyword">bool</span></span><br><span class="line">	TakesFile   <span class="keyword">bool</span></span><br><span class="line">	Value       <span class="keyword">string</span></span><br><span class="line">	Destination *<span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如其说明一样，就是个带有string值的flag.</p>
+<p>自定义的flag的值一般都有特殊含义和用处，DirectoryFlag定义如下</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> DirectoryString <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *DirectoryString)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">string</span>(*s)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *DirectoryString)</span> <span class="title">Set</span><span class="params">(value <span class="keyword">string</span>)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	*s = DirectoryString(expandPath(value))</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Custom cli.Flag type which expand the received string to an absolute path.</span></span><br><span class="line"><span class="comment">// e.g. ~/.ethereum -&gt; /home/username/.ethereum</span></span><br><span class="line"><span class="keyword">type</span> DirectoryFlag <span class="keyword">struct</span> &#123;</span><br><span class="line">	Name   <span class="keyword">string</span></span><br><span class="line">	Value  DirectoryString</span><br><span class="line">	Usage  <span class="keyword">string</span></span><br><span class="line">	EnvVar <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f DirectoryFlag)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> cli.FlagStringer(f)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// called by cli library, grabs variable from environment (if in env)</span></span><br><span class="line"><span class="comment">// and adds variable to flag set for parsing.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f DirectoryFlag)</span> <span class="title">Apply</span><span class="params">(set *flag.FlagSet)</span></span> &#123;</span><br><span class="line">	eachName(f.Name, <span class="function"><span class="keyword">func</span><span class="params">(name <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">		set.Var(&amp;f.Value, f.Name, f.Usage)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f DirectoryFlag)</span> <span class="title">GetName</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> f.Name</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *DirectoryFlag)</span> <span class="title">Set</span><span class="params">(value <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	f.Value.Set(value)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Commands:</p>
+<p>首先Command的定义如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Command <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// The name of the command</span></span><br><span class="line">	Name <span class="keyword">string</span></span><br><span class="line">	<span class="comment">// short name of the command. Typically one character (deprecated, use `Aliases`)</span></span><br><span class="line">	ShortName <span class="keyword">string</span></span><br><span class="line">	<span class="comment">// A list of aliases for the command</span></span><br><span class="line">	Aliases []<span class="keyword">string</span></span><br><span class="line">	<span class="comment">// A short description of the usage of this command</span></span><br><span class="line">	Usage <span class="keyword">string</span></span><br><span class="line">	<span class="comment">// Custom text to show on USAGE section of help</span></span><br><span class="line">	UsageText <span class="keyword">string</span></span><br><span class="line">	<span class="comment">// A longer explanation of how the command works</span></span><br><span class="line">	Description <span class="keyword">string</span></span><br><span class="line">	<span class="comment">// A short description of the arguments of this command</span></span><br><span class="line">	ArgsUsage <span class="keyword">string</span></span><br><span class="line">	<span class="comment">// The category the command is part of</span></span><br><span class="line">	Category <span class="keyword">string</span></span><br><span class="line">	<span class="comment">// The function to call when checking for bash command completions</span></span><br><span class="line">	BashComplete BashCompleteFunc</span><br><span class="line">	<span class="comment">// An action to execute before any sub-subcommands are run, but after the context is ready</span></span><br><span class="line">	<span class="comment">// If a non-nil error is returned, no sub-subcommands are run</span></span><br><span class="line">	Before BeforeFunc</span><br><span class="line">	<span class="comment">// An action to execute after any subcommands are run, but after the subcommand has finished</span></span><br><span class="line">	<span class="comment">// It is run even if Action() panics</span></span><br><span class="line">	After AfterFunc</span><br><span class="line">	<span class="comment">// The function to call when this command is invoked</span></span><br><span class="line">	Action <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line">	<span class="comment">// <span class="doctag">TODO:</span> replace `Action: interface&#123;&#125;` with `Action: ActionFunc` once some kind</span></span><br><span class="line">	<span class="comment">// of deprecation period has passed, maybe?</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Execute this function if a usage error occurs.</span></span><br><span class="line">	OnUsageError OnUsageErrorFunc</span><br><span class="line">	<span class="comment">// List of child commands</span></span><br><span class="line">	Subcommands Commands</span><br><span class="line">	<span class="comment">// List of flags to parse</span></span><br><span class="line">	Flags []Flag</span><br><span class="line">	<span class="comment">// Treat all flags as normal arguments if true</span></span><br><span class="line">	SkipFlagParsing <span class="keyword">bool</span></span><br><span class="line">	<span class="comment">// Skip argument reordering which attempts to move flags before arguments,</span></span><br><span class="line">	<span class="comment">// but only works if all flags appear after all arguments. This behavior was</span></span><br><span class="line">	<span class="comment">// removed n version 2 since it only works under specific conditions so we</span></span><br><span class="line">	<span class="comment">// backport here by exposing it as an option for compatibility.</span></span><br><span class="line">	SkipArgReorder <span class="keyword">bool</span></span><br><span class="line">	<span class="comment">// Boolean to hide built-in help command</span></span><br><span class="line">	HideHelp <span class="keyword">bool</span></span><br><span class="line">	<span class="comment">// Boolean to hide this command from help or completion</span></span><br><span class="line">	Hidden <span class="keyword">bool</span></span><br><span class="line">	<span class="comment">// Boolean to enable short-option handling so user can combine several</span></span><br><span class="line">	<span class="comment">// single-character bool arguments into one</span></span><br><span class="line">	<span class="comment">// i.e. foobar -o -v -&gt; foobar -ov</span></span><br><span class="line">	UseShortOptionHandling <span class="keyword">bool</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Full name of command for help, defaults to full command name, including parent commands.</span></span><br><span class="line">	HelpName        <span class="keyword">string</span></span><br><span class="line">	commandNamePath []<span class="keyword">string</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// CustomHelpTemplate the text template for the command help topic.</span></span><br><span class="line">	<span class="comment">// cli.go uses text/template to render templates. You can</span></span><br><span class="line">	<span class="comment">// render custom help text by setting this variable.</span></span><br><span class="line">	CustomHelpTemplate <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中比较重要的是：</p>
+<p>name：启动的命令</p>
+<p>Action：输入参数之后的运行函数</p>
+<p>Flags：要解析的flag</p>
+<p>现在看一下初始化区块链的命令：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">	initCommand = cli.Command&#123;</span><br><span class="line">		Action:    utils.MigrateFlags(initGenesis),</span><br><span class="line">		Name:      <span class="string">&quot;init&quot;</span>,</span><br><span class="line">		Usage:     <span class="string">&quot;Bootstrap and initialize a new genesis block&quot;</span>,</span><br><span class="line">		ArgsUsage: <span class="string">&quot;&lt;genesisPath&gt;&quot;</span>,</span><br><span class="line">		Flags: []cli.Flag&#123;</span><br><span class="line">			utils.DataDirFlag,</span><br><span class="line">		&#125;,</span><br><span class="line">		Category: <span class="string">&quot;BLOCKCHAIN COMMANDS&quot;</span>,</span><br><span class="line">		Description: <span class="string">`</span></span><br><span class="line"><span class="string">The init command initializes a new genesis block and definition for the network.</span></span><br><span class="line"><span class="string">This is a destructive action and changes the network in which you will be</span></span><br><span class="line"><span class="string">participating.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">It expects the genesis file as argument.`</span></span><br></pre></td></tr></table></figure>
+
+<p>其utils.MigrateFlags方法可以先不管，大概就是格式化一下</p>
+<p>其解析了DataDirFlag，对应着输入的命令 geth –datadir /data genesis.json init 这行启动命令中的datadir设置。</p>
+<p>Before和After：</p>
+<p>源码定义如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Before BeforeFunc</span><br><span class="line"><span class="comment">// An action to execute after any subcommands are run, but after the subcommand has finished</span></span><br><span class="line"><span class="comment">// It is run even if Action() panics</span></span><br><span class="line">After AfterFunc</span><br><span class="line"></span><br><span class="line"><span class="comment">// The action to execute when no subcommands are specified</span></span><br><span class="line"><span class="comment">// Expects a `cli.ActionFunc` but will accept the *deprecated* signature of `func(*cli.Context) &#123;&#125;`</span></span><br><span class="line"><span class="comment">// *Note*: support for the deprecated `Action` signature will be removed in a future version</span></span><br></pre></td></tr></table></figure>
+
+<p>就是在命令构建之前和之后跑的工具</p>
+<p>函数定义：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">app.Before = <span class="function"><span class="keyword">func</span><span class="params">(ctx *cli.Context)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> debug.Setup(ctx)</span><br><span class="line">&#125;</span><br><span class="line">app.After = <span class="function"><span class="keyword">func</span><span class="params">(ctx *cli.Context)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	debug.Exit()</span><br><span class="line">	console.Stdin.Close() <span class="comment">// Resets terminal mode.</span></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>大概干了这几件事：</p>
+<p>开始之前启动日志系统，结束之后关闭日志系统，并且重置终端。</p>
+<h6 id="3-geth启动函数："><a href="#3-geth启动函数：" class="headerlink" title="3.geth启动函数："></a>3.geth启动函数：</h6><p>定义如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// geth is the main entry point into the system if no special subcommand is ran.</span></span><br><span class="line"><span class="comment">// It creates a default node based on the command line arguments and runs it in</span></span><br><span class="line"><span class="comment">// blocking mode, waiting for it to be shut down.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">geth</span><span class="params">(ctx *cli.Context)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> args := ctx.Args(); <span class="built_in">len</span>(args) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;invalid command: %q&quot;</span>, args[<span class="number">0</span>])</span><br><span class="line">	&#125;</span><br><span class="line">	prepare(ctx)</span><br><span class="line">	node := makeFullNode(ctx)</span><br><span class="line">	<span class="keyword">defer</span> node.Close()</span><br><span class="line">	startNode(ctx, node)</span><br><span class="line">	node.Wait()</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>基于命令行参数创建一个默认节点，并以阻塞模式运行它，等待它关闭。</p>
+<h6 id="4-initGenesis方法："><a href="#4-initGenesis方法：" class="headerlink" title="4.initGenesis方法："></a>4.initGenesis方法：</h6><p>完整的定义如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// initGenesis will initialise the given JSON format genesis file and writes it as</span></span><br><span class="line"><span class="comment">// the zero&#x27;d block (i.e. genesis) or will fail hard if it can&#x27;t succeed.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">initGenesis</span><span class="params">(ctx *cli.Context)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="comment">// Make sure we have a valid genesis JSON</span></span><br><span class="line">	genesisPath := ctx.Args().First()</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(genesisPath) == <span class="number">0</span> &#123;</span><br><span class="line">		utils.Fatalf(<span class="string">&quot;Must supply path to genesis JSON file&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	file, err := os.Open(genesisPath)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		utils.Fatalf(<span class="string">&quot;Failed to read genesis file: %v&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> file.Close()</span><br><span class="line"></span><br><span class="line">	genesis := <span class="built_in">new</span>(core.Genesis)</span><br><span class="line">	<span class="keyword">if</span> err := json.NewDecoder(file).Decode(genesis); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		utils.Fatalf(<span class="string">&quot;invalid genesis file: %v&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// Open an initialise both full and light databases</span></span><br><span class="line">	stack := makeFullNode(ctx)</span><br><span class="line">	<span class="keyword">defer</span> stack.Close()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> _, name := <span class="keyword">range</span> []<span class="keyword">string</span>&#123;<span class="string">&quot;chaindata&quot;</span>, <span class="string">&quot;lightchaindata&quot;</span>&#125; &#123;</span><br><span class="line">		chaindb, err := stack.OpenDatabase(name, <span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			utils.Fatalf(<span class="string">&quot;Failed to open database: %v&quot;</span>, err)</span><br><span class="line">		&#125;</span><br><span class="line">		_, hash, err := core.SetupGenesisBlock(chaindb, genesis)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			utils.Fatalf(<span class="string">&quot;Failed to write genesis block: %v&quot;</span>, err)</span><br><span class="line">		&#125;</span><br><span class="line">		chaindb.Close()</span><br><span class="line">		log.Info(<span class="string">&quot;Successfully wrote genesis state&quot;</span>, <span class="string">&quot;database&quot;</span>, name, <span class="string">&quot;hash&quot;</span>, hash)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>大概是先检查json文件格式是否存在，是否符合要求，之后构建数据库</p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://yezzi.tech/2021/07/02/geth%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%881%EF%BC%89/" data-id="ckqm8q8sm000ar8u70zeyebow" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2021/07/02/btcoin%E4%B8%AD%E7%9A%84utxo%E5%AD%98%E5%82%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">(no title)</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/2021/07/02/geth%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%883%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">(no title)</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p> Nice papers collected in the field of <em>AI</em>, <em>Apllied Cryptography</em> and <em>Blockchain</em>, records of some computer technologies, and personal thoughts.  If you are inteseted in my field, feel free to contact me. (Wechat: mzliu_xdu) </p>
+
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tags</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/go/" rel="tag">go</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hyperledger-fabric/" rel="tag">hyperledger fabric</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/java/" rel="tag">java</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/paper-notes/" rel="tag">paper notes</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tag Cloud</h4>
+    <p class="tagcloud">
+      <a href="/tags/go/" style="font-size: 20px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hyperledger-fabric/" style="font-size: 20px;">hyperledger fabric</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/paper-notes/" style="font-size: 10px;">paper notes</a> <a href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" style="font-size: 10px;">以太坊</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a>
+    </p>
+  </div>
+
+
+  
+  <div class="sidebar-module">
+    <h4>Archives</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">July 2021</a><span class="sidebar-module-list-count">28</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">July 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">February 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">October 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">August 2019</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Recents</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2021/07/02/%E9%97%AE%E9%A2%98/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E7%8A%B6%E6%80%81%EF%BC%9B%E7%8A%B6%E6%80%81%E6%A0%91%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%90%8E%E7%AB%AF%E6%96%87%E6%A1%A3/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%B5%8F%E8%A7%88%E5%99%A8%E5%90%8E%E7%AB%AF%E8%AF%B4%E6%98%8E/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E4%B8%AD%E7%9A%84%E4%BA%A4%E6%98%93%E5%92%8C%E5%9B%9E%E6%89%A7%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Mingzhe Liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</body>
+</html>

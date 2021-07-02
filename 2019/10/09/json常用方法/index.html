@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>go中的struct和json | Yezzi Tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="详细信息 ## 1.先说结构体  首先定义一个结构体很容易，比如说： 123456type Person struct &amp;#123;     Id string &#96;json:&quot;id&quot;&#96;     Name string &#96;json:&quot;name&quot;&#96;     Sex    string &#96;json:&quot;sex&quot;&#96;     Born   stri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go中的struct和json">
+<meta property="og:url" content="https://yezzi.tech/2019/10/09/json%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="Yezzi Tech">
+<meta property="og:description" content="详细信息 ## 1.先说结构体  首先定义一个结构体很容易，比如说： 123456type Person struct &amp;#123;     Id string &#96;json:&quot;id&quot;&#96;     Name string &#96;json:&quot;name&quot;&#96;     Sex    string &#96;json:&quot;sex&quot;&#96;     Born   stri">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-10-08T18:33:27.000Z">
+<meta property="article:modified_time" content="2021-07-02T11:06:38.716Z">
+<meta property="article:author" content="Mingzhe Liu">
+<meta property="article:tag" content="go">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">Home</a></li>
+        
+          <li><a class=""
+                 href="/archives/">Archives</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">Yezzi Tech</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-json常用方法" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      go中的struct和json
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2019/10/09/json%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/" class="article-date"><time datetime="2019-10-08T18:33:27.000Z" itemprop="datePublished">2019-10-09</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <details>
+<summary>详细信息</summary>
+## 1.先说结构体
+
+<p>首先定义一个结构体很容易，比如说：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;   </span><br><span class="line">  Id <span class="keyword">string</span> <span class="string">`json:&quot;id&quot;`</span>   </span><br><span class="line">  Name <span class="keyword">string</span> <span class="string">`json:&quot;name&quot;`</span>   </span><br><span class="line">  Sex    <span class="keyword">string</span> <span class="string">`json:&quot;sex&quot;`</span>   </span><br><span class="line">  Born   <span class="keyword">string</span> <span class="string">`json:&quot;born&quot;`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不过要多多注意，go没有特意声明私有成员，大写代表公有，小写就代表私有，结构体内部的命名也一样<br>$$<br>如果结构体命名为小写，则整个结构体其他包不能导出；</p>
+<p>如果内部名称有小写，则改结构体内部的成员其他包不能导出<br>$$<br><strong>也就是说，使用json.Marshal的时候会出大问题，（这容易被忽视掉）</strong></p>
+<p>结构体的声明：go的结构体声明方法还是很多的</p>
+<p>佚名结构体：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">p2 := <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="keyword">string</span></span><br><span class="line">    Age  <span class="keyword">int</span></span><br><span class="line">&#125;&#123;</span><br><span class="line">    <span class="string">&quot;张三&quot;</span>, <span class="number">20</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>声明并赋值：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ming := Person&#123;Id:<span class="string">&quot;1&quot;</span>,Name:<span class="string">&quot;Ming&quot;</span>,Sex:<span class="string">&quot;Male&quot;</span>,born:<span class="string">&quot;1999-11-06&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正常声明：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Xiaoli := <span class="built_in">new</span>(Person)</span><br><span class="line"><span class="keyword">var</span> Ming Person = Person&#123;&#125;</span><br><span class="line">Feng := &amp;Person&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结构体还可以嵌套，这玩意有点像继承：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;   </span><br><span class="line">	Id <span class="keyword">string</span> <span class="string">`json:&quot;id&quot;`</span>   </span><br><span class="line">	Name <span class="keyword">string</span> <span class="string">`json:&quot;name&quot;`</span>   </span><br><span class="line">	Sex    <span class="keyword">string</span> <span class="string">`json:&quot;sex&quot;`</span>   </span><br><span class="line">	Born   <span class="keyword">string</span> <span class="string">`json:&quot;born&quot;`</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> Pig <span class="keyword">struct</span>&#123;   </span><br><span class="line">	Person   </span><br><span class="line">	Tag <span class="keyword">string</span> <span class="string">`json:&quot;tag&quot;`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而且可以直接对Pig结构体P 使用 P.Id这样的式子，很舒服</p>
+<h2 id="go-中的Json操作："><a href="#go-中的Json操作：" class="headerlink" title="go 中的Json操作："></a>go 中的Json操作：</h2><p>标准的encoding/json包中使用的最多的是json.Marshal和json.Unmarshal</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">b,err := json.Marshal(Xiaoli)</span><br><span class="line">fmt.Println(b)</span><br><span class="line">fmt.Println(<span class="string">&quot;b type :&quot;</span>,reflect.TypeOf(b))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">123</span> <span class="number">34</span> <span class="number">105</span> <span class="number">100</span> <span class="number">34</span> <span class="number">58</span> <span class="number">34</span> <span class="number">49</span> <span class="number">50</span> <span class="number">51</span> <span class="number">34</span> <span class="number">44</span> <span class="number">34</span> <span class="number">110</span> <span class="number">97</span> <span class="number">109</span> <span class="number">101</span> <span class="number">34</span> <span class="number">58</span> <span class="number">34</span> <span class="number">88</span> <span class="number">105</span> <span class="number">97</span> <span class="number">111</span> <span class="number">108</span> <span class="number">105</span> <span class="number">34</span> <span class="number">44</span> <span class="number">34</span> <span class="number">115</span> <span class="number">101</span> <span class="number">120</span> <span class="number">34</span> <span class="number">58</span> <span class="number">34</span> <span class="number">70</span> <span class="number">101</span> <span class="number">109</span> <span class="number">97</span> <span class="number">108</span> <span class="number">101</span> <span class="number">34</span> <span class="number">44</span> <span class="number">34</span> <span class="number">98</span> <span class="number">111</span> <span class="number">114</span> <span class="number">110</span> <span class="number">34</span> <span class="number">58</span> <span class="number">34</span> <span class="number">49</span> <span class="number">57</span> <span class="number">57</span> <span class="number">57</span> <span class="number">45</span> <span class="number">48</span> <span class="number">57</span> <span class="number">45</span> <span class="number">50</span> <span class="number">57</span> <span class="number">34</span> <span class="number">125</span>]</span><br><span class="line">b <span class="keyword">type</span> : []<span class="keyword">uint8</span></span><br></pre></td></tr></table></figure>
+
+<p>Marshal出来的是个字节码，想显示还得用string()</p>
+<p>上面的成员变量都是已知的类型，只能接收指定的类型，比如string类型的Name只能赋值string类型的数据。<br>但有时为了通用性，或使代码简洁，我们希望有一种类型可以接受各种类型的数据，并进行json编码。这就用到了interface{}类型。</p>
+<!--interface{}类型其实是个空接口，即没有方法的接口。go的每一种类型都实现了该接口。因此，任何其他类型的数据都可以赋值给interface{}类型。-->
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;   </span><br><span class="line">	Id <span class="keyword">interface</span>&#123;&#125; <span class="string">`json:&quot;id&quot;`</span>   </span><br><span class="line">	Name <span class="keyword">interface</span>&#123;&#125; <span class="string">`json:&quot;name&quot;`</span>   </span><br><span class="line">	Sex    <span class="keyword">interface</span>&#123;&#125; <span class="string">`json:&quot;sex&quot;`</span>   </span><br><span class="line">	Born <span class="keyword">interface</span>&#123;&#125; <span class="string">`json:&quot;born&quot;`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关于接收json的操作，我推荐用个别的包：<a target="_blank" rel="noopener" href="https://github.com/tidwall/gjson">https://github.com/tidwall/gjson</a></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;github.com/tidwall/gjson&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> json = <span class="string">`&#123;&quot;name&quot;:&#123;&quot;first&quot;:&quot;Janet&quot;,&quot;last&quot;:&quot;Prichard&quot;&#125;,&quot;age&quot;:47&#125;`</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	value := gjson.Get(json, <span class="string">&quot;name.last&quot;</span>)</span><br><span class="line">	<span class="built_in">println</span>(value.String())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>比官方那个包好用多了。</p>
+</details>
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://yezzi.tech/2019/10/09/json%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/" data-id="ckqm8q8tf000tr8u7gc86bk2q" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2019/10/08/go%E7%9A%84time%E5%8C%85%E4%BD%BF%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">go的time包使用</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/2019/10/22/fisco-browser%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84/" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">fisco-browser项目架构</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p> Nice papers collected in the field of <em>AI</em>, <em>Apllied Cryptography</em> and <em>Blockchain</em>, records of some computer technologies, and personal thoughts.  If you are inteseted in my field, feel free to contact me. (Wechat: mzliu_xdu) </p>
+
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tags</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/go/" rel="tag">go</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hyperledger-fabric/" rel="tag">hyperledger fabric</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/java/" rel="tag">java</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/paper-notes/" rel="tag">paper notes</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tag Cloud</h4>
+    <p class="tagcloud">
+      <a href="/tags/go/" style="font-size: 20px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hyperledger-fabric/" style="font-size: 20px;">hyperledger fabric</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/paper-notes/" style="font-size: 10px;">paper notes</a> <a href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" style="font-size: 10px;">以太坊</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a>
+    </p>
+  </div>
+
+
+  
+  <div class="sidebar-module">
+    <h4>Archives</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">July 2021</a><span class="sidebar-module-list-count">28</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">July 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">February 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">October 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">August 2019</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Recents</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2021/07/02/%E9%97%AE%E9%A2%98/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E7%8A%B6%E6%80%81%EF%BC%9B%E7%8A%B6%E6%80%81%E6%A0%91%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%90%8E%E7%AB%AF%E6%96%87%E6%A1%A3/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%B5%8F%E8%A7%88%E5%99%A8%E5%90%8E%E7%AB%AF%E8%AF%B4%E6%98%8E/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E4%B8%AD%E7%9A%84%E4%BA%A4%E6%98%93%E5%92%8C%E5%9B%9E%E6%89%A7%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Mingzhe Liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</body>
+</html>

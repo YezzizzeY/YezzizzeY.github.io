@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Yezzi Tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MPT树在我的一个笔记中已经将过了（以太坊中的数据结构） 在&#x2F;trie目录下，geth给出了通用的MPT树的具体实现，下面分析一下代码。  可以将 Trie 看做一个黑盒，分析下它暴露了什么接口。 [TOC] 1.各个模块的大概作用database.go：数据库是在trie数据结构和磁盘数据库之间的中间写入层。 目的是在内存中积累trie写操作，并且仅定期刷新一对尝试写入磁盘的内容，垃圾收集剩余的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yezzi Tech">
+<meta property="og:url" content="https://yezzi.tech/2021/07/02/trie%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Yezzi Tech">
+<meta property="og:description" content="MPT树在我的一个笔记中已经将过了（以太坊中的数据结构） 在&#x2F;trie目录下，geth给出了通用的MPT树的具体实现，下面分析一下代码。  可以将 Trie 看做一个黑盒，分析下它暴露了什么接口。 [TOC] 1.各个模块的大概作用database.go：数据库是在trie数据结构和磁盘数据库之间的中间写入层。 目的是在内存中积累trie写操作，并且仅定期刷新一对尝试写入磁盘的内容，垃圾收集剩余的">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://yezzi.tech/2021/07/02/trie%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/picture/4.png">
+<meta property="article:published_time" content="2021-07-02T11:06:38.789Z">
+<meta property="article:modified_time" content="2021-07-02T11:06:38.789Z">
+<meta property="article:author" content="Mingzhe Liu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yezzi.tech/2021/07/02/trie%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/picture/4.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">Home</a></li>
+        
+          <li><a class=""
+                 href="/archives/">Archives</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">Yezzi Tech</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-trie代码分析" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      (no title)
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2021/07/02/trie%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" class="article-date"><time datetime="2021-07-02T11:06:38.789Z" itemprop="datePublished">2021-07-02</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>MPT树在我的一个笔记中已经将过了（<a href="./%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">以太坊中的数据结构</a>）</p>
+<p>在/trie目录下，geth给出了通用的MPT树的具体实现，下面分析一下代码。</p>
+<p> 可以将 Trie 看做一个黑盒，分析下它暴露了什么接口。</p>
+<p>[TOC]</p>
+<h5 id="1-各个模块的大概作用"><a href="#1-各个模块的大概作用" class="headerlink" title="1.各个模块的大概作用"></a>1.各个模块的大概作用</h5><p>database.go：数据库是在trie数据结构和磁盘数据库之间的中间写入层。 目的是在内存中积累trie写操作，并且仅定期刷新一对尝试写入磁盘的内容，垃圾收集剩余的内容。</p>
+<p>encoding.go：和hex编码有关</p>
+<p>iterator.go：迭代器</p>
+<p>node.go：定义了trie的四种节点和对节点的编码，数值类型操作，错误处理等。</p>
+<p>proof.go：默克尔证明</p>
+<p>secure_trie.go：SecureTrie使用密钥散列来包装Trie。 在安全的尝试下，所有访问操作使用keccak256对密钥进行哈希处理。 这样可以防止通过创建较长的节点链来调用代码，这会增加访问时间。与常规树相反，SecureTrie只能使用新建，并且必须具有附加的数据库。 该数据库还存储每个键的原像。不能并发使用。</p>
+<p>sync.go：同步是主要的状态Trie同步调度程序，它提供了要检索的未知trie哈希，接受与所述哈希关联的节点数据并逐步重建trie，直到全部完成。</p>
+<p>sync_bloom.go：快速同步过程中使用的Bloom筛选器，用于快速确定磁盘上是否已经存在Trie节点。 </p>
+<p>trie.go：主要的定义</p>
+<h5 id="2-一些比较重要的接口"><a href="#2-一些比较重要的接口" class="headerlink" title="2.一些比较重要的接口"></a>2.一些比较重要的接口</h5><h6 id="定义trie的结构："><a href="#定义trie的结构：" class="headerlink" title="定义trie的结构："></a>定义trie的结构：</h6><p>trie/go:树的结构，empty定义</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	<span class="comment">// emptyRoot is the known root hash of an empty trie.</span></span><br><span class="line">	emptyRoot = common.HexToHash(<span class="string">&quot;56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// emptyState is the known hash of an empty state trie entry.</span></span><br><span class="line">	emptyState = crypto.Keccak256Hash(<span class="literal">nil</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Trie <span class="keyword">struct</span> &#123;</span><br><span class="line">	db   *Database</span><br><span class="line">	root node</span><br><span class="line">	<span class="comment">// Keep track of the number leafs which have been inserted since the last</span></span><br><span class="line">	<span class="comment">// hashing operation. This number will not directly map to the number of</span></span><br><span class="line">	<span class="comment">// actually unhashed nodes</span></span><br><span class="line">	unhashed <span class="keyword">int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>node.go:定义规范化mpt树的叶子节点</p>
+<p><img src="picture/4.png" alt="4"></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> node <span class="keyword">interface</span> &#123;</span><br><span class="line">	fstring(<span class="keyword">string</span>) <span class="keyword">string</span></span><br><span class="line">	cache() (hashNode, <span class="keyword">bool</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> (</span><br><span class="line">	fullNode <span class="keyword">struct</span> &#123; <span class="comment">//可以携带多个子节点的节点</span></span><br><span class="line">		Children [<span class="number">17</span>]node <span class="comment">// Actual trie node data to encode/decode (needs custom encoder)</span></span><br><span class="line">		flags    nodeFlag</span><br><span class="line">	&#125;</span><br><span class="line">	shortNode <span class="keyword">struct</span> &#123; <span class="comment">//只带一个子节点的节点</span></span><br><span class="line">		Key   []<span class="keyword">byte</span></span><br><span class="line">		Val   node</span><br><span class="line">		flags nodeFlag</span><br><span class="line">	&#125;</span><br><span class="line">	hashNode  []<span class="keyword">byte</span> <span class="comment">//hashNode 是 fullNode 或 shortNode 对象的 RLP 编码的32 byte 的哈希值，表明该节点还没有载入内存</span></span><br><span class="line">	valueNode []<span class="keyword">byte</span> <span class="comment">//表示真正带有值的节点</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>trie.go：与mpt树有关的基本操作</p>
+<h6 id="新建MPT树"><a href="#新建MPT树" class="headerlink" title="新建MPT树"></a>新建MPT树</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">New</span><span class="params">(root common.Hash, db *Database)</span> <span class="params">(*Trie, error)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> db == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(<span class="string">&quot;trie.New called without a database&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	trie := &amp;Trie&#123;</span><br><span class="line">		db: db,</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> root != (common.Hash&#123;&#125;) &amp;&amp; root != emptyRoot &#123;</span><br><span class="line">		rootnode, err := trie.resolveHash(root[:], <span class="literal">nil</span>)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">		&#125;</span><br><span class="line">		trie.root = rootnode</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> trie, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="增删查改"><a href="#增删查改" class="headerlink" title="增删查改"></a>增删查改</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *Trie)</span> <span class="title">tryGet</span><span class="params">(origNode node, key []<span class="keyword">byte</span>, pos <span class="keyword">int</span>)</span> <span class="params">(value []<span class="keyword">byte</span>, newnode node, didResolve <span class="keyword">bool</span>, err error)</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *Trie)</span> <span class="title">TryUpdate</span><span class="params">(key, value []<span class="keyword">byte</span>)</span></span> </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *Trie)</span> <span class="title">insert</span><span class="params">(n node, prefix, key []<span class="keyword">byte</span>, value node)</span> <span class="params">(<span class="keyword">bool</span>, node, error)</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *Trie)</span> <span class="title">delete</span><span class="params">(n node, prefix, key []<span class="keyword">byte</span>)</span> <span class="params">(<span class="keyword">bool</span>, node, error)</span></span> </span><br></pre></td></tr></table></figure>
+
+<h6 id="解析哈希"><a href="#解析哈希" class="headerlink" title="解析哈希"></a>解析哈希</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *Trie)</span> <span class="title">resolveHash</span><span class="params">(n hashNode, prefix []<span class="keyword">byte</span>)</span></span></span><br><span class="line">-&gt;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(db *Database)</span> <span class="title">node</span><span class="params">(hash common.Hash)</span> <span class="title">node</span></span></span><br><span class="line">-&gt;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">mustDecodeNode</span><span class="params">(hash, buf []<span class="keyword">byte</span>)</span> <span class="title">node</span></span> </span><br><span class="line">-&gt;</span><br><span class="line"><span class="comment">// decodeNode parses the RLP encoding of a trie node.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">decodeNode</span><span class="params">(hash, buf []<span class="keyword">byte</span>)</span> <span class="params">(node, error)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(buf) == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, io.ErrUnexpectedEOF</span><br><span class="line">	&#125;</span><br><span class="line">	elems, _, err := rlp.SplitList(buf)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, fmt.Errorf(<span class="string">&quot;decode error: %v&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">switch</span> c, _ := rlp.CountValues(elems); c &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">		n, err := decodeShort(hash, elems)</span><br><span class="line">		<span class="keyword">return</span> n, wrapError(err, <span class="string">&quot;short&quot;</span>)</span><br><span class="line">	<span class="keyword">case</span> <span class="number">17</span>:</span><br><span class="line">		n, err := decodeFull(hash, elems)</span><br><span class="line">		<span class="keyword">return</span> n, wrapError(err, <span class="string">&quot;full&quot;</span>)</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, fmt.Errorf(<span class="string">&quot;invalid number of list elements: %v&quot;</span>, c)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="将mpt树写入内存"><a href="#将mpt树写入内存" class="headerlink" title="将mpt树写入内存"></a>将mpt树写入内存</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *Trie)</span> <span class="title">Commit</span><span class="params">(onleaf LeafCallback)</span> <span class="params">(root common.Hash, err error)</span></span> </span><br></pre></td></tr></table></figure>
+
+<h6 id="获取根哈希"><a href="#获取根哈希" class="headerlink" title="获取根哈希"></a>获取根哈希</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *Trie)</span> <span class="title">hashRoot</span><span class="params">(db *Database)</span> <span class="params">(node, node, error)</span></span></span><br></pre></td></tr></table></figure>
+
+<h6 id="rlp编码"><a href="#rlp编码" class="headerlink" title="rlp编码"></a>rlp编码</h6><p>database.go</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n *cachedNode)</span> <span class="title">rlp</span><span class="params">()</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> node, ok := n.node.(rawNode); ok &#123;</span><br><span class="line">		<span class="keyword">return</span> node</span><br><span class="line">	&#125;</span><br><span class="line">	blob, err := rlp.EncodeToBytes(n.node)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> blob</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="默克尔证明"><a href="#默克尔证明" class="headerlink" title="默克尔证明"></a>默克尔证明</h6><p>proof.go: prove方法用来获取指定 key 的默克尔证明。这个方法会遍历整个 MPT，获取从根节点到叶子节点这条路径上的所有节点的 hash 值列表。对于 key 不匹配的情况，则会返回一个最长匹配的列表。 </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *SecureTrie)</span> <span class="title">Prove</span><span class="params">(key []<span class="keyword">byte</span>, fromLevel <span class="keyword">uint</span>, proofDb ethdb.KeyValueWriter)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> t.trie.Prove(key, fromLevel, proofDb)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *Trie)</span> <span class="title">Prove</span><span class="params">(key []<span class="keyword">byte</span>, fromLevel <span class="keyword">uint</span>, proofDb ethdb.KeyValueWriter)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="comment">// Collect all nodes on the path to key.</span></span><br><span class="line">	key = keybytesToHex(key)</span><br><span class="line">	<span class="keyword">var</span> nodes []node</span><br><span class="line">	tn := t.root</span><br><span class="line">	<span class="keyword">for</span> <span class="built_in">len</span>(key) &gt; <span class="number">0</span> &amp;&amp; tn != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">switch</span> n := tn.(<span class="keyword">type</span>) &#123;</span><br><span class="line">		<span class="keyword">case</span> *shortNode:</span><br><span class="line">			<span class="keyword">if</span> <span class="built_in">len</span>(key) &lt; <span class="built_in">len</span>(n.Key) || !bytes.Equal(n.Key, key[:<span class="built_in">len</span>(n.Key)]) &#123;</span><br><span class="line">				<span class="comment">// The trie doesn&#x27;t contain the key.</span></span><br><span class="line">				tn = <span class="literal">nil</span></span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				tn = n.Val</span><br><span class="line">				key = key[<span class="built_in">len</span>(n.Key):]</span><br><span class="line">			&#125;</span><br><span class="line">			nodes = <span class="built_in">append</span>(nodes, n)</span><br><span class="line">		<span class="keyword">case</span> *fullNode:</span><br><span class="line">			tn = n.Children[key[<span class="number">0</span>]]</span><br><span class="line">			key = key[<span class="number">1</span>:]</span><br><span class="line">			nodes = <span class="built_in">append</span>(nodes, n)</span><br><span class="line">		<span class="keyword">case</span> hashNode:</span><br><span class="line">			<span class="keyword">var</span> err error</span><br><span class="line">			tn, err = t.resolveHash(n, <span class="literal">nil</span>)</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">				log.Error(fmt.Sprintf(<span class="string">&quot;Unhandled trie error: %v&quot;</span>, err))</span><br><span class="line">				<span class="keyword">return</span> err</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			<span class="built_in">panic</span>(fmt.Sprintf(<span class="string">&quot;%T: invalid node: %v&quot;</span>, tn, tn))</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	hasher := newHasher(<span class="literal">false</span>)</span><br><span class="line">	<span class="keyword">defer</span> returnHasherToPool(hasher)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i, n := <span class="keyword">range</span> nodes &#123;</span><br><span class="line">		<span class="keyword">if</span> fromLevel &gt; <span class="number">0</span> &#123;</span><br><span class="line">			fromLevel--</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">var</span> hn node</span><br><span class="line">		n, hn = hasher.proofHash(n)</span><br><span class="line">		<span class="keyword">if</span> hash, ok := hn.(hashNode); ok || i == <span class="number">0</span> &#123;</span><br><span class="line">			<span class="comment">// If the node&#x27;s database encoding is a hash (or is the</span></span><br><span class="line">			<span class="comment">// root node), it becomes a proof element.</span></span><br><span class="line">			enc, _ := rlp.EncodeToBytes(n)</span><br><span class="line">			<span class="keyword">if</span> !ok &#123;</span><br><span class="line">				hash = hasher.hashData(enc)</span><br><span class="line">			&#125;</span><br><span class="line">			proofDb.Put(hash, enc)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> VerifyProof 方法以 roothash，key，proof 证明为参数，验证 key 是否存在于 MPT 的某条路径里，如果 key 确实存在，返回这个节点的索引 i，err 字段是 nil，否则返回 error。 </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">VerifyProof</span><span class="params">(rootHash common.Hash, key []<span class="keyword">byte</span>, proofDb ethdb.KeyValueReader)</span> <span class="params">(value []<span class="keyword">byte</span>, nodes <span class="keyword">int</span>, err error)</span></span> &#123;</span><br><span class="line">	key = keybytesToHex(key)</span><br><span class="line">	wantHash := rootHash</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; ; i++ &#123;</span><br><span class="line">		buf, _ := proofDb.Get(wantHash[:])</span><br><span class="line">		<span class="keyword">if</span> buf == <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span>, i, fmt.Errorf(<span class="string">&quot;proof node %d (hash %064x) missing&quot;</span>, i, wantHash)</span><br><span class="line">		&#125;</span><br><span class="line">		n, err := decodeNode(wantHash[:], buf)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span>, i, fmt.Errorf(<span class="string">&quot;bad proof node %d: %v&quot;</span>, i, err)</span><br><span class="line">		&#125;</span><br><span class="line">		keyrest, cld := get(n, key)</span><br><span class="line">		<span class="keyword">switch</span> cld := cld.(<span class="keyword">type</span>) &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="literal">nil</span>:</span><br><span class="line">			<span class="comment">// The trie doesn&#x27;t contain the key.</span></span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span>, i, <span class="literal">nil</span></span><br><span class="line">		<span class="keyword">case</span> hashNode:</span><br><span class="line">			key = keyrest</span><br><span class="line">			<span class="built_in">copy</span>(wantHash[:], cld)</span><br><span class="line">		<span class="keyword">case</span> valueNode:</span><br><span class="line">			<span class="keyword">return</span> cld, i + <span class="number">1</span>, <span class="literal">nil</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h6><p> MPT 的 key 值实际上有三种编码方法，Raw 编码，Hex 编码，HP 编码，Raw 编码即原始的字节数组，这种方式的问题是它的一个字节的范围很大，fullNode 的子树这么多会影响检索效率，当树节点需要存储到数据库时，会根据16进制来进行编码，Hex 编码和 HP 编码没本质区别，可以理解为 Hex 编码是存在于内存的中间形式，在以太坊的黄皮书了介绍的是 Hex Prefix Encoding，即 HP 编码。 </p>
+<p><strong>RAW编码</strong></p>
+<p> 原生的 key 字节数组，不做修改，这种方式是 MPT 对外提供 API 的默认方式，如果数据需要插入到树里，Raw 编码需要转换为 Hex 编码。 </p>
+<p><strong>Hex编码</strong></p>
+<p>Hex 编码用于对内存里的树节点 key 进行编码，当树节点需要持久化到数据库时，Hex 编码被转换为 HP 编码。</p>
+<p>具体来说，这个编码的每个字节包含 key 的半个字节，尾部加一个 byte 的『终结符』16，表示这是 hex 格式。节点被加载到内存时 key 使用的是这种编码，因为方便访问。</p>
+<p>encoding.go</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">keybytesToHex</span><span class="params">(str []<span class="keyword">byte</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	l := <span class="built_in">len</span>(str)*<span class="number">2</span> + <span class="number">1</span></span><br><span class="line">	<span class="keyword">var</span> nibbles = <span class="built_in">make</span>([]<span class="keyword">byte</span>, l)</span><br><span class="line">	<span class="keyword">for</span> i, b := <span class="keyword">range</span> str &#123;</span><br><span class="line">		nibbles[i*<span class="number">2</span>] = b / <span class="number">16</span></span><br><span class="line">		nibbles[i*<span class="number">2</span>+<span class="number">1</span>] = b % <span class="number">16</span></span><br><span class="line">	&#125;</span><br><span class="line">	nibbles[l<span class="number">-1</span>] = <span class="number">16</span></span><br><span class="line">	<span class="keyword">return</span> nibbles</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>HP编码</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hexToCompact</span><span class="params">(hex []<span class="keyword">byte</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	terminator := <span class="keyword">byte</span>(<span class="number">0</span>)</span><br><span class="line">	<span class="keyword">if</span> hasTerm(hex) &#123;</span><br><span class="line">		terminator = <span class="number">1</span></span><br><span class="line">		hex = hex[:<span class="built_in">len</span>(hex)<span class="number">-1</span>]</span><br><span class="line">	&#125;</span><br><span class="line">	buf := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="built_in">len</span>(hex)/<span class="number">2</span>+<span class="number">1</span>)</span><br><span class="line">	buf[<span class="number">0</span>] = terminator &lt;&lt; <span class="number">5</span> <span class="comment">// the flag byte</span></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(hex)&amp;<span class="number">1</span> == <span class="number">1</span> &#123;</span><br><span class="line">		buf[<span class="number">0</span>] |= <span class="number">1</span> &lt;&lt; <span class="number">4</span> <span class="comment">// odd flag</span></span><br><span class="line">		buf[<span class="number">0</span>] |= hex[<span class="number">0</span>] <span class="comment">// first nibble is contained in the first byte</span></span><br><span class="line">		hex = hex[<span class="number">1</span>:]</span><br><span class="line">	&#125;</span><br><span class="line">	decodeNibbles(hex, buf[<span class="number">1</span>:])</span><br><span class="line">	<span class="keyword">return</span> buf</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>全称是 Hex Prefix 编码，hex 编码解决了 key 是 keybytes 形式的数据插入 MPT 的问题，但这种方式有数据冗余的问题，对于 shortNode，目前 hex 格式下的 key，长度会是原来 keybytes 格式下的两倍，这一点对于节点的哈希计算影响很大，compact 编码用于对 hex 格式进行优化。compact encoding 的主要思路是将 Hex 格式字符串先恢复到 keybytes 格式，同时加入当前编码的标记位，表示奇偶不同长度的 hex 格式。</p>
+<p>具体来说，compact 编码首先会将 hex 尾部标记的 byte 去掉，然后将原来 hex 编码的包含的 key 的半个字节（称为 nibble）一一合并为1 byte，最后如果 hex 格式编码有效长度为奇数，在头部增加 0011xxxx，其中 xxxx 为第一个 nibble，否则在头部增加 00100000。节点在写入数据库时使用的是 compact 编码，因为可以节约磁盘。</p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://yezzi.tech/2021/07/02/trie%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" data-id="ckqm8q8tn0011r8u750ntd3is" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2021/07/02/reflect%E5%8F%8D%E5%B0%84/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">(no title)</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8AGhost%E5%8D%8F%E8%AE%AE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">(no title)</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p> Nice papers collected in the field of <em>AI</em>, <em>Apllied Cryptography</em> and <em>Blockchain</em>, records of some computer technologies, and personal thoughts.  If you are inteseted in my field, feel free to contact me. (Wechat: mzliu_xdu) </p>
+
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tags</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/go/" rel="tag">go</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hyperledger-fabric/" rel="tag">hyperledger fabric</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/java/" rel="tag">java</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/paper-notes/" rel="tag">paper notes</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tag Cloud</h4>
+    <p class="tagcloud">
+      <a href="/tags/go/" style="font-size: 20px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hyperledger-fabric/" style="font-size: 20px;">hyperledger fabric</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/paper-notes/" style="font-size: 10px;">paper notes</a> <a href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" style="font-size: 10px;">以太坊</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a>
+    </p>
+  </div>
+
+
+  
+  <div class="sidebar-module">
+    <h4>Archives</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">July 2021</a><span class="sidebar-module-list-count">28</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">July 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">February 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">October 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">August 2019</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Recents</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2021/07/02/%E9%97%AE%E9%A2%98/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E7%8A%B6%E6%80%81%EF%BC%9B%E7%8A%B6%E6%80%81%E6%A0%91%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%90%8E%E7%AB%AF%E6%96%87%E6%A1%A3/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%B5%8F%E8%A7%88%E5%99%A8%E5%90%8E%E7%AB%AF%E8%AF%B4%E6%98%8E/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E4%B8%AD%E7%9A%84%E4%BA%A4%E6%98%93%E5%92%8C%E5%9B%9E%E6%89%A7%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Mingzhe Liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</body>
+</html>

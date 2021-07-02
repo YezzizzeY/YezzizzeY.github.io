@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>fabric 环境搭建 | Yezzi Tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="详细信息   Fabric版本：1.4Linux系统: Ubuntu 18.04所需工具: docker, docker-compose, go, gcc, git, nodejs搭建步骤：1.在$GOPATH&#x2F;src&#x2F;github.com&#x2F;hyperledger下载源码:1git clone https:&#x2F;&#x2F;github.com&#x2F;hyperledger&#x2F;fabric.git  2.切换版本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fabric 环境搭建">
+<meta property="og:url" content="https://yezzi.tech/2019/08/21/Fabric-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:site_name" content="Yezzi Tech">
+<meta property="og:description" content="详细信息   Fabric版本：1.4Linux系统: Ubuntu 18.04所需工具: docker, docker-compose, go, gcc, git, nodejs搭建步骤：1.在$GOPATH&#x2F;src&#x2F;github.com&#x2F;hyperledger下载源码:1git clone https:&#x2F;&#x2F;github.com&#x2F;hyperledger&#x2F;fabric.git  2.切换版本">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-08-21T08:47:40.000Z">
+<meta property="article:modified_time" content="2021-07-02T11:06:38.672Z">
+<meta property="article:author" content="Mingzhe Liu">
+<meta property="article:tag" content="hyperledger fabric">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">Home</a></li>
+        
+          <li><a class=""
+                 href="/archives/">Archives</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">Yezzi Tech</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-Fabric-环境搭建" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      fabric 环境搭建
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2019/08/21/Fabric-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" class="article-date"><time datetime="2019-08-21T08:47:40.000Z" itemprop="datePublished">2019-08-21</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <details>
+  <summary>详细信息</summary>
+
+
+<h5 id="Fabric版本：1-4"><a href="#Fabric版本：1-4" class="headerlink" title="Fabric版本：1.4"></a>Fabric版本：1.4</h5><h5 id="Linux系统-Ubuntu-18-04"><a href="#Linux系统-Ubuntu-18-04" class="headerlink" title="Linux系统: Ubuntu 18.04"></a>Linux系统: Ubuntu 18.04</h5><h5 id="所需工具-docker-docker-compose-go-gcc-git-nodejs"><a href="#所需工具-docker-docker-compose-go-gcc-git-nodejs" class="headerlink" title="所需工具: docker, docker-compose, go, gcc, git, nodejs"></a>所需工具: docker, docker-compose, go, gcc, git, nodejs</h5><h5 id="搭建步骤："><a href="#搭建步骤：" class="headerlink" title="搭建步骤："></a>搭建步骤：</h5><h5 id="1-在-GOPATH-src-github-com-hyperledger下载源码"><a href="#1-在-GOPATH-src-github-com-hyperledger下载源码" class="headerlink" title="1.在$GOPATH/src/github.com/hyperledger下载源码:"></a>1.在$GOPATH/src/github.com/hyperledger下载源码:</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/hyperledger/fabric.git</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-切换版本至1-4-0"><a href="#2-切换版本至1-4-0" class="headerlink" title="2.切换版本至1.4.0"></a>2.切换版本至1.4.0</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~/go/src/github.com/hyperledger/fabric</span><br></pre></td></tr></table></figure>
+
+<pre><code>$ git checkout v1.4.0
+</code></pre>
+<h5 id="3-scripts目录下有个bootstrap-sh，运行得到cryptogen等工具"><a href="#3-scripts目录下有个bootstrap-sh，运行得到cryptogen等工具" class="headerlink" title="3.scripts目录下有个bootstrap.sh，运行得到cryptogen等工具"></a>3.scripts目录下有个bootstrap.sh，运行得到cryptogen等工具</h5><h5 id="4-下载fabric-samples"><a href="#4-下载fabric-samples" class="headerlink" title="4.下载fabric-samples"></a>4.下载fabric-samples</h5><h5 id="5-在fabric-samples中的first-network里打开终端，运行"><a href="#5-在fabric-samples中的first-network里打开终端，运行" class="headerlink" title="5.在fabric-samples中的first-network里打开终端，运行"></a>5.在fabric-samples中的first-network里打开终端，运行</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./byfn.sh up</span><br></pre></td></tr></table></figure>
+
+
+<p>​    之后成功会有以下一系列的显示</p>
+<ul>
+<li><pre><code>##### 测试生成证书：
+
+/home/yezzi/gopath/src/fabric-samples/first-network/../bin/cryptogen
+
+###### #
+
+##### Generate certificates using cryptogen tool
+
+###### #
+
+生成创世节点：
+
+/home/yezzi/gopath/src/fabric-samples/first-network/../bin/configtxgen
+
+###### #
+
+###### ###  Generating Orderer Genesis block
+
+###### #
+
+生成channel工具：
+
+###### #
+
+### Generating channel configuration transaction &#39;channel.tx&#39;
+
+###### #
+
+启动测试节点：
+
+###### #
+
+###### #    Generating anchor peer update for Org1MSP
+
+###### #
+
+###### #
+
+###### #    Generating anchor peer update for Org2MSP
+
+###### #
+
+启动docker:
+
+Recreating orderer.example.com ... 
+Recreating orderer.example.com
+Recreating peer0.org1.example.com ... 
+Creating peer1.org1.example.com ... 
+Recreating peer0.org1.example.com
+Creating peer0.org2.example.com ... 
+Creating peer1.org2.example.com ... 
+Creating peer0.org2.example.com
+Creating peer1.org1.example.com
+Recreating peer0.org1.example.com ... done
+Recreating cli ... 
+Recreating cli ... done
+
+创建channel:
+
+Channel name : mychannel
+
+- peer channel create -o orderer.example.com:7050 -c mychannel -f ./channel-artifacts/channel.tx --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+  Creating channel...
+- res=0
+- set +x
+  2019-08-21 09:09:35.810 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized
+  2019-08-21 09:09:36.006 UTC [cli.common] readBlock -&gt; INFO 002 Received block: 0
+  ===================== Channel &#39;mychannel&#39; created ===================== 
+
+节点加入channel：
+
+2019-08-21 09:09:36.228 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized
+2019-08-21 09:09:36.369 UTC [channelCmd] executeJoin -&gt; INFO 002 Successfully submitted proposal to join channel
+===================== peer0.org1 joined channel &#39;mychannel&#39; ===================== 
+
+2019-08-21 09:09:39.586 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized
+2019-08-21 09:09:39.707 UTC [channelCmd] executeJoin -&gt; INFO 002 Successfully submitted proposal to join channel
+===================== peer1.org1 joined channel &#39;mychannel&#39; ===================== 
+
+2019-08-21 09:09:42.895 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized
+2019-08-21 09:09:43.030 UTC [channelCmd] executeJoin -&gt; INFO 002 Successfully submitted proposal to join channel
+===================== peer0.org2 joined channel &#39;mychannel&#39; ===================== 
+
+2019-08-21 09:09:46.246 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized
+2019-08-21 09:09:46.388 UTC [channelCmd] executeJoin -&gt; INFO 002 Successfully submitted proposal to join channel
+===================== peer1.org2 joined channel &#39;mychannel&#39; ===================== 
+
+更新channel信息：
+
+2019-08-21 09:09:49.576 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized
+2019-08-21 09:09:49.633 UTC [channelCmd] update -&gt; INFO 002 Successfully submitted channel update
+===================== Anchor peers updated for org &#39;Org1MSP&#39; on channel &#39;mychannel&#39; ===================== 
+
+链码测试：
+Install chaincode on peer0.org2...
+
+- peer chaincode install -n mycc -v 1.0 -l golang -p github.com/chaincode/chaincode_example02/go/
+- res=0
+- set +x
+  2019-08-21 09:09:57.592 UTC [chaincodeCmd] checkChaincodeCmdParams -&gt; INFO 001 Using default escc
+  2019-08-21 09:09:57.592 UTC [chaincodeCmd] checkChaincodeCmdParams -&gt; INFO 002 Using default vscc
+  2019-08-21 09:09:58.080 UTC [chaincodeCmd] install -&gt; INFO 003 Installed remotely response:&lt;status:200 payload:&quot;OK&quot; &gt; 
+  ===================== Chaincode is installed on peer0.org2 ===================== 
+
+Instantiating chaincode on peer0.org2...
+
+- peer chaincode instantiate -o orderer.example.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n mycc -l golang -v 1.0 -c &#39;&#123;&quot;Args&quot;:[&quot;init&quot;,&quot;a&quot;,&quot;100&quot;,&quot;b&quot;,&quot;200&quot;]&#125;&#39; -P &#39;AND (&#39;\&#39;&#39;Org1MSP.peer&#39;\&#39;&#39;,&#39;\&#39;&#39;Org2MSP.peer&#39;\&#39;&#39;)&#39;
+</code></pre>
+</li>
+</ul>
+<p>至此，您的fabric环境就搭好啦, 期间运行到哪个步骤报错就可以按照自己理解去找原因</p>
+</details>
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://yezzi.tech/2019/08/21/Fabric-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" data-id="ckqm8q8sb0004r8u7hvcsgen2" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hyperledger-fabric/" rel="tag">hyperledger fabric</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  
+  <li role="presentation">
+    <a href="/2019/08/21/fabric-node-sdk%E5%BC%80%E5%8F%91%E5%88%9D%E6%AD%A5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">fabric-node-sdk开发初步</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p> Nice papers collected in the field of <em>AI</em>, <em>Apllied Cryptography</em> and <em>Blockchain</em>, records of some computer technologies, and personal thoughts.  If you are inteseted in my field, feel free to contact me. (Wechat: mzliu_xdu) </p>
+
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tags</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/go/" rel="tag">go</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hyperledger-fabric/" rel="tag">hyperledger fabric</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/java/" rel="tag">java</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/paper-notes/" rel="tag">paper notes</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tag Cloud</h4>
+    <p class="tagcloud">
+      <a href="/tags/go/" style="font-size: 20px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hyperledger-fabric/" style="font-size: 20px;">hyperledger fabric</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/paper-notes/" style="font-size: 10px;">paper notes</a> <a href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" style="font-size: 10px;">以太坊</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a>
+    </p>
+  </div>
+
+
+  
+  <div class="sidebar-module">
+    <h4>Archives</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">July 2021</a><span class="sidebar-module-list-count">28</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">July 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">February 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">October 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">August 2019</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Recents</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2021/07/02/%E9%97%AE%E9%A2%98/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E7%8A%B6%E6%80%81%EF%BC%9B%E7%8A%B6%E6%80%81%E6%A0%91%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%90%8E%E7%AB%AF%E6%96%87%E6%A1%A3/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%B5%8F%E8%A7%88%E5%99%A8%E5%90%8E%E7%AB%AF%E8%AF%B4%E6%98%8E/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E4%B8%AD%E7%9A%84%E4%BA%A4%E6%98%93%E5%92%8C%E5%9B%9E%E6%89%A7%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">(no title)</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Mingzhe Liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</body>
+</html>
