@@ -5,19 +5,19 @@
   
   <title>以太坊中的数据结构 | Yezzi Tech</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="详细信息   1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    &#96;json:&quot;parentHash&quot;       gencodec:&amp;">
+  <meta name="description" content="1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    &#96;json:&quot;parentHash&quot;       gencodec:&quot;r">
 <meta property="og:type" content="article">
 <meta property="og:title" content="以太坊中的数据结构">
 <meta property="og:url" content="https://yezzi.tech/2020/02/25/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/index.html">
 <meta property="og:site_name" content="Yezzi Tech">
-<meta property="og:description" content="详细信息   1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    &#96;json:&quot;parentHash&quot;       gencodec:&amp;">
+<meta property="og:description" content="1.区块区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body） 区块头区块头的结构体定义： 12345678910111213141516type Header struct &amp;#123;     ParentHash  common.Hash    &#96;json:&quot;parentHash&quot;       gencodec:&quot;r">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://yezzi.tech/2020/02/25/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/1.jpg">
 <meta property="og:image" content="https://yezzi.tech/2020/02/25/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/2.png">
 <meta property="og:image" content="https://yezzi.tech/2020/02/25/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/3.png">
 <meta property="og:image" content="https://yezzi.tech/2020/02/25/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/4.png">
 <meta property="article:published_time" content="2020-02-25T15:54:34.000Z">
-<meta property="article:modified_time" content="2021-07-02T11:06:38.792Z">
+<meta property="article:modified_time" content="2021-07-02T11:58:33.515Z">
 <meta property="article:author" content="Mingzhe Liu">
 <meta property="article:tag" content="区块链">
 <meta name="twitter:card" content="summary">
@@ -112,9 +112,7 @@
 
     <div class="article-entry" itemprop="articleBody">
       
-        <details>
-<summary>详细信息</summary>
-
+        <span id="more"></span>
 
 <h3 id="1-区块"><a href="#1-区块" class="headerlink" title="1.区块"></a>1.区块</h3><p>区块主要由三部分组成：区块头（Block Header），叔块（Uncle），区块体（body）</p>
 <h4 id="区块头"><a href="#区块头" class="headerlink" title="区块头"></a>区块头</h4><p>区块头的结构体定义：</p>
@@ -206,7 +204,7 @@
 <p>valueNode 是一个字节数组，但是它实现了 <code>fstring(string) string</code>, <code>cache() (hashNode, bool)</code>, <code>canUnload(cachegen, cachelimit uint16) bool</code> 这三个接口（实际上 fullNode，shortNode，hashNode 也实现了这三个接口），因此可以作为 fullNode，shortNode 中的 <code>node</code> 使用。valueNode 可以承接数据，携带的的是数据的 RLP 哈希值，长度为 32 byte，RLP 编码的值存在 LevelDB 里。</p>
 <h6 id="hashNode"><a href="#hashNode" class="headerlink" title="hashNode"></a>hashNode</h6><p>hashNode 是 fullNode 或 shortNode 对象的 RLP 编码的32 byte 的哈希值，表明该节点还没有载入内存。遍历 MPT 时有时会遇到一个 hashNode，表明原来的 node 需要动态加载，hashNode 以 nodeFlag 结构体的成员 hash 的形式存在，如果 fullNode 或 shortNode 的成员变量发生变化，那么就需要更新它的 hashNode，在增删改的过程结束了都会调用 <code>trie.Hash()</code>，整个 MPT 自底向上变量，对所有清空的 hashNode 重新赋值，最终得到根节点的 hashNode，也就是整个 MPT 结构的哈希值。</p>
 <p>fullNode 体现了 Trie 的特点，shortNode 实现了 PatriciaTrie 的特性（当然也实现了 Trie 的特性），hashNode 既实现了 MPT 节点的动态加载，也实现了默克尔树的功能。</p>
-</details>
+
       
     </div>
 

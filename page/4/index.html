@@ -106,51 +106,14 @@
 
     <div class="article-entry" itemprop="articleBody">
       
-        <details>
-<summary>详细信息</summary>
-
-<p>以太坊源码目录</p>
-<p>accounts 以太坊账户管理</p>
-<p>build 编译和构建脚本配置</p>
-<p>cmd 命令行工具</p>
-<p>common 公共工具</p>
-<p>consensus 共识算法</p>
-<p>console 控制台程序</p>
-<p>contracts 内部合约</p>
-<p>core 核心数据结构和算法</p>
-<p>crypto hash算法，加密算法</p>
-<p>docs 两个pdf文件，用处应该不大</p>
-<p>eth ETH协议</p>
-<p>ethclient RPC客户端</p>
-<p>ethdb eth数据库</p>
-<p>ethstats 提供网络状态的报告</p>
-<p>event 处理实时事件</p>
-<p>graphql 用于探索graphiqlapi的浏览器内IDE。</p>
-<p>internal </p>
-<p>les 以太坊的轻量级协议子集</p>
-<p>light 以太坊轻量级客户端提供按需检索的功能</p>
-<p>log 日志信息</p>
-<p>metrics 磁盘计数器</p>
-<p>miner 以太坊区块创建和挖矿</p>
-<p>mobile 移动端</p>
-<p>node 以太坊多种类型的节点</p>
-<p>p2p 以太坊p2p网络协议</p>
-<p>params </p>
-<p>rlp 以太坊的序列化处理</p>
-<p>rpc RPC调用</p>
-<p>signer </p>
-<p>swarm 网络处理</p>
-<p>tests 测试</p>
-<p>trie 以太坊树数据结构</p>
-<p>whisper whisper节点的协议</p>
-</details>
-
-
+        <p>以太坊源码目录</p>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/2020/02/14/go-ethreum%E6%BA%90%E7%A0%81%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/#more">Read More</a>
+          </p>
+        
       
     </div>
-
-    
-      
 
     
 
@@ -197,57 +160,14 @@
 
     <div class="article-entry" itemprop="articleBody">
       
-        <details>
-<summary>详细</summary>
-java的基本数据类型都有包装类，所谓包装类，就是为了能将这些基本数据类型当做对象操作，从而有更多对它们的常用操作方法，并有自动装箱/拆箱机制使得二者可以相互转换。包装类继承自Number类。
-
-<p>其中Number类继承自java.io.Serializable序列化接口，有实现各类值的函数，源码定义如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Number</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">intValue</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">long</span> <span class="title">longValue</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">float</span> <span class="title">floatValue</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">double</span> <span class="title">doubleValue</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">byte</span> <span class="title">byteValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">byte</span>)intValue();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">short</span> <span class="title">shortValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">short</span>)intValue();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">8742448824652078965L</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>所有基本类型的包装类型都继承了该抽象类，并且是final声明不可继承改变；</p>
-<p>原始类型：boolean，char，byte，short，int，long，float，double</p>
-<p>包装类型：Boolean，Character，Byte，Short，Integer，Long，Float，Double</p>
-<p>除了实现Number类的方法，每个包装类又实现了许多详细的方法，以Int包装类型Integer为例：</p>
-<p> Integer.ParseInt()</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String hash = <span class="string">&quot;02138975&quot;</span>;</span><br><span class="line">System.out.println(Integer.parseInt(hash));  <span class="comment">//2138975</span></span><br></pre></td></tr></table></figure>
-
-<p> 任何类型+””变成字符串</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Integer i = <span class="number">128</span>;</span><br><span class="line">String hash = <span class="string">&quot;02138975&quot;</span>;</span><br><span class="line">System.out.println(i+hash);  <span class="comment">//12802138975</span></span><br></pre></td></tr></table></figure>
-
-<p>toString()方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Integer i = <span class="number">128</span>;</span><br><span class="line">System.out.println(i.toString());  <span class="comment">//128</span></span><br></pre></td></tr></table></figure>
-
-<p>其他方法，</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">toStringUTF16(<span class="keyword">int</span> i, <span class="keyword">int</span> radix)</span><br><span class="line">toUnsignedString(<span class="keyword">int</span> i, <span class="keyword">int</span> radix)</span><br><span class="line">toHexString(<span class="keyword">int</span> i)</span><br><span class="line">compare(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span><br></pre></td></tr></table></figure>
-
-<p>等等，就不一一列举了。源码在java.long中。</p>
-<h6 id="自动拆箱与装箱"><a href="#自动拆箱与装箱" class="headerlink" title="自动拆箱与装箱"></a>自动拆箱与装箱</h6><p>在使用Integer类型当作int类型使用时，会感觉和正常的int没有多大区别，自动装箱和拆箱的好处就在这。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Integer src = <span class="number">100</span>; <span class="comment">//自动装箱的过程，相当于Integer src = new Integer(100);</span></span><br><span class="line"><span class="keyword">int</span> dest = src + <span class="number">5</span>; <span class="comment">//src本身是引用数据类型，不能直接跟基本数据类型运算，首先它会自动进行拆箱操作，相当于：int dest = src.intValue() + 5 ;</span></span><br></pre></td></tr></table></figure>
-
-<p>不过需要注意的是，当Integer类型的值在-128-127之间时，会读取缓存而不创建新的对象：比如：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Integer a = <span class="number">500</span>;</span><br><span class="line"></span><br><span class="line">Integer b = <span class="number">500</span>;</span><br><span class="line"></span><br><span class="line">Integer c = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line">Integer d = <span class="number">100</span>;</span><br></pre></td></tr></table></figure>
-
-<p>这时a和b的值相等，但是是两个对象；c和d的值相等，而且是一个对象。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a==b : <span class="keyword">false</span></span><br><span class="line"></span><br><span class="line">a.equals(b) : <span class="keyword">true</span></span><br><span class="line"></span><br><span class="line">c==d : <span class="keyword">true</span></span><br><span class="line"></span><br><span class="line">c.equals(d) : <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
-
-<p>原因是源码的valueOf()函数，</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title">valueOf</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;    </span><br><span class="line">  <span class="keyword">if</span> (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)   <span class="keyword">return</span> IntegerCache.cache[i + (-  IntegerCache.low)];  </span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> Integer(i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">IntegerCache</span> </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> low = -<span class="number">128</span>;</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> high;</span><br></pre></td></tr></table></figure>
-
-<p>这个函数对于-128到127之外的数，会新建一个Integer对象并返回 ， 写a==b时，两个对象不一样，而对再这个范围之间的数用的一个对象，所以相等。 </p>
-<p>另外需要注意的是：</p>
-<ul>
-<li><p>int和Integer(无论new否)比，都为true，因为会把Integer自动拆箱为int再去比 。 </p>
-</li>
-<li><p>Integer与new Integer不会相等。不会经历拆箱过程，new出来的对象存放在堆，而非new的Integer常量则在常量池（在方法区），他们的内存地址不一样 </p>
-</li>
-<li><p>Integer初值为null，int初值为0</p>
-</details></li>
-</ul>
-
+        <p>java的基本数据类型都有包装类，所谓包装类，就是为了能将这些基本数据类型当做对象操作，从而有更多对它们的常用操作方法，并有自动装箱/拆箱机制使得二者可以相互转换。包装类继承自Number类。</p>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/2019/10/22/java%E5%8C%85%E8%A3%85%E7%B1%BB/#more">Read More</a>
+          </p>
+        
       
     </div>
-
-    
-      
 
     
 
@@ -294,11 +214,7 @@ java的基本数据类型都有包装类，所谓包装类，就是为了能将�
 
     <div class="article-entry" itemprop="articleBody">
       
-        <details>
-  <summary>详细信息</summary>
-从微众的fisco-browser开源区块链浏览器中学习java和后端项目架构。
-
-<p>目录结构：</p>
+        <p>目录结构：</p>
 <ul>
 <li>base</li>
 <li>config </li>
@@ -309,20 +225,13 @@ java的基本数据类型都有包装类，所谓包装类，就是为了能将�
 <li>service</li>
 <li>util</li>
 </ul>
-<p>base: 基础，包括错误处理exception文件夹，所有controller的父类BaseController,自定义状态码ConstantCode，String类型常量Constants，状态码对象RetCode(包含一个String 和一个Integer类型)</p>
-<p>config: 基础配置，具体还没太弄明白，以后填坑</p>
-<p>controller：路由</p>
-<p>entity: 数据实体定义，由service层调用，返回给前端</p>
-<p>mapper： 数据到数据库的映射</p>
-<p>schedule:  用springboot自带的定时任务功能将区块链上数据导入数据库</p>
-<p>service： 由路由层调用，建立实体对象，从数据库中拿数据给实体对象，处理逻辑，返回</p>
-<p>util: 组件，包括Web3Rpc区块链交互组件,读取压缩文件,时间组件等等，暂时没弄太明白，等有时间填坑</p>
-</details>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/2019/10/22/fisco-browser%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84/#more">Read More</a>
+          </p>
+        
       
     </div>
-
-    
-      
 
     
 
@@ -369,9 +278,8 @@ java的基本数据类型都有包装类，所谓包装类，就是为了能将�
 
     <div class="article-entry" itemprop="articleBody">
       
-        <details>
-<summary>详细信息</summary>
-## 1.先说结构体
+        <span id="more"></span>
+
 
 <p>首先定义一个结构体很容易，比如说：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;   </span><br><span class="line">  Id <span class="keyword">string</span> <span class="string">`json:&quot;id&quot;`</span>   </span><br><span class="line">  Name <span class="keyword">string</span> <span class="string">`json:&quot;name&quot;`</span>   </span><br><span class="line">  Sex    <span class="keyword">string</span> <span class="string">`json:&quot;sex&quot;`</span>   </span><br><span class="line">  Born   <span class="keyword">string</span> <span class="string">`json:&quot;born&quot;`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -407,7 +315,7 @@ java的基本数据类型都有包装类，所谓包装类，就是为了能将�
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;github.com/tidwall/gjson&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> json = <span class="string">`&#123;&quot;name&quot;:&#123;&quot;first&quot;:&quot;Janet&quot;,&quot;last&quot;:&quot;Prichard&quot;&#125;,&quot;age&quot;:47&#125;`</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	value := gjson.Get(json, <span class="string">&quot;name.last&quot;</span>)</span><br><span class="line">	<span class="built_in">println</span>(value.String())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>比官方那个包好用多了。</p>
-</details>
+
       
     </div>
 
@@ -459,86 +367,14 @@ java的基本数据类型都有包装类，所谓包装类，就是为了能将�
 
     <div class="article-entry" itemprop="articleBody">
       
-        <details>
-<summary>详细信息</summary>
-
-<h3 id="1-和时间记录有关"><a href="#1-和时间记录有关" class="headerlink" title="1.和时间记录有关"></a>1.和时间记录有关</h3><h6 id="time-Now"><a href="#time-Now" class="headerlink" title="time.Now()"></a>time.Now()</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">t := time.Now()</span><br><span class="line">fmt.Println(<span class="string">&quot;当前时间：&quot;</span>,t)</span><br><span class="line">fmt.Println(<span class="string">&quot;type:&quot;</span>, reflect.TypeOf(t))</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">当前时间： <span class="number">2019</span><span class="number">-10</span><span class="number">-09</span> <span class="number">00</span>:<span class="number">36</span>:<span class="number">37.7604236</span> +<span class="number">0800</span> CST m=+<span class="number">0.002002501</span></span><br><span class="line"><span class="keyword">type</span>: time.Time</span><br></pre></td></tr></table></figure>
-
-<p>返回一个Time结构体，使用time.Now()的时候调用了一堆location有关的东西，自动生成了时区</p>
-<h6 id="time-Now-Unix"><a href="#time-Now-Unix" class="headerlink" title="time.Now().Unix()"></a>time.Now().Unix()</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fmt.Println(<span class="string">&quot;时间戳：&quot;</span>,time.Now().Unix())</span><br><span class="line">fmt.Println(<span class="string">&quot;type:&quot;</span>, reflect.TypeOf(time.Now().Unix()))</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">时间戳： <span class="number">1570549117</span></span><br><span class="line"><span class="keyword">type</span>: <span class="keyword">int64</span></span><br></pre></td></tr></table></figure>
-
-<p>是对结构体Time的方法</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t Time)</span> <span class="title">Unix</span><span class="params">()</span> <span class="title">int64</span></span> &#123; <span class="keyword">return</span> t.unixSec()&#125;</span><br></pre></td></tr></table></figure>
-
-<p>返回当前的时间戳,int64类型，存储总用到，需要和time.Unix()区分开</p>
-<h6 id="time-Now-Format"><a href="#time-Now-Format" class="headerlink" title="time.Now().Format()"></a>time.Now().Format()</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Println(<span class="string">&quot;格式化的时间：&quot;</span>,time.Now().Format(<span class="string">&quot;2006.01.02 15:04:05&quot;</span>))fmt.Println(<span class="string">&quot;type:&quot;</span>, reflect.TypeOf(t.Format(<span class="string">&quot;2006.01.02 15:04:05&quot;</span>)))</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">格式化的时间： <span class="number">2019.10</span><span class="number">.09</span> <span class="number">00</span>:<span class="number">36</span>:<span class="number">37</span></span><br><span class="line"><span class="keyword">type</span>: <span class="keyword">string</span></span><br></pre></td></tr></table></figure>
-
-<p>其中Format有很多写法，源码写了一堆case，这个直接存储为string挺不错的，需要注意的是，那个2006.01.02必须是2006.01.02。</p>
-<p>注意Format()函数是对Time结构体的方法，例如time.Unix()，time.Now()返回的都是Time结构体，可以直接跟Formate()</p>
-<h6 id="time-Unix（）"><a href="#time-Unix（）" class="headerlink" title="time.Unix（）"></a>time.Unix（）</h6><p>这函数用于把一个int64的时间戳还原成Time结构体，具体实现如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">func Unix(sec int64, nsec int64) Time &#123;</span><br><span class="line">	if nsec &lt; 0 || nsec &gt;= 1e9 &#123;</span><br><span class="line">		n := nsec / 1e9</span><br><span class="line">		sec += n</span><br><span class="line">		nsec -= n * 1e9</span><br><span class="line">		if nsec &lt; 0 &#123;</span><br><span class="line">			nsec += 1e9</span><br><span class="line">			sec--</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return unixTime(sec, int32(nsec))</span><br><span class="line">&#125;</span><br><span class="line">func unixTime(sec int64, nsec int32) Time &#123;</span><br><span class="line">	return Time&#123;uint64(nsec), sec + unixToInternal, Local&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<!--注：纳秒:nanosecond(ns|nsec);物理学上,其数值为10的负9次方秒，好像不怎么用，一般填0就可以了，据说有时候32位系统会用到-->
-
-<p>把存储的时间戳转化为Time结构体以实现字符串传输经常用到,例如</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t := time.Unix(<span class="number">1570549117</span>, <span class="number">0</span>).Format(<span class="string">&quot;2006-01-02 03:04:05 PM&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h6 id="time-Now-Second"><a href="#time-Now-Second" class="headerlink" title="time.Now.Second()"></a>time.Now.Second()</h6><p>源码如下：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t Time)</span> <span class="title">Second</span><span class="params">()</span> <span class="title">int</span></span> &#123;   <span class="keyword">return</span> <span class="keyword">int</span>(t.abs() % secondsPerMinute)&#125;</span><br><span class="line"><span class="comment">// Second returns the second offset within the minute specified by t, in the range [0, 59].</span></span><br></pre></td></tr></table></figure>
-
-<p>用于把一个Time结构体转化为秒数，类似的，还有</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t Time)</span> <span class="title">Hour</span><span class="params">()</span></span> </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t Time)</span> <span class="title">Minute</span><span class="params">()</span></span> </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t Time)</span> <span class="title">Nanosecond</span><span class="params">()</span></span> </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t Time)</span> <span class="title">YearDay</span><span class="params">()</span></span> </span><br></pre></td></tr></table></figure>
-
-<p>Time的结构体是这样的：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Time <span class="keyword">struct</span> &#123;  </span><br><span class="line"></span><br><span class="line"><span class="comment">// wall and ext encode the wall time seconds, wall time nanoseconds,  </span></span><br><span class="line"><span class="comment">// and optional monotonic clock reading in nanoseconds.   </span></span><br><span class="line"><span class="comment">// From high to low bit position, wall encodes a 1-bit flag (hasMonotonic),   </span></span><br><span class="line"><span class="comment">// a 33-bit seconds field, and a 30-bit wall time nanoseconds field.   </span></span><br><span class="line"><span class="comment">// The nanoseconds field is in the range [0, 999999999].   </span></span><br><span class="line"><span class="comment">// If the hasMonotonic bit is 0, then the 33-bit field must be zero   </span></span><br><span class="line"><span class="comment">// and the full signed 64-bit wall seconds since Jan 1 year 1 is stored in ext.   </span></span><br><span class="line"><span class="comment">// If the hasMonotonic bit is 1, then the 33-bit field holds a 33-bit  </span></span><br><span class="line"><span class="comment">// unsigned wall seconds since Jan 1 year 1885, and ext holds a   </span></span><br><span class="line"><span class="comment">// signed 64-bit monotonic clock reading, nanoseconds since process start.   </span></span><br><span class="line"></span><br><span class="line">wall <span class="keyword">uint64</span>  </span><br><span class="line">ext  <span class="keyword">int64</span>   </span><br><span class="line"></span><br><span class="line"><span class="comment">// loc specifies the Location that should be used to   </span></span><br><span class="line"><span class="comment">// determine the minute, hour, month, day, and year   </span></span><br><span class="line"><span class="comment">// that correspond to this Time.   </span></span><br><span class="line"><span class="comment">// The nil location means UTC.   </span></span><br><span class="line"><span class="comment">// All UTC times are represented with loc==nil, never loc==&amp;utcLoc.  </span></span><br><span class="line"></span><br><span class="line"> loc *Location</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注释里有具体含义，其中的成员都是私有，不容易直接显示出来</p>
-<h3 id="2-进程阻塞"><a href="#2-进程阻塞" class="headerlink" title="2.进程阻塞"></a>2.进程阻塞</h3><p>阻塞多少时间的函数：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func Sleep(d Duration)</span><br></pre></td></tr></table></figure>
-
-<p>比如 <code>Sleep(time.Second*2)</code></p>
-<p>time.Second或者其他单位数据类型都是Duration，也可以直接Sleep(1000)这样子</p>
-<p>其中Duration也是int64数据类型，表示阻塞多少时间，等同Nanosecond（十亿分之一秒），还有个范围，用的位运算表示</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> (   </span><br><span class="line">minDuration Duration = <span class="number">-1</span> &lt;&lt; <span class="number">63</span>   </span><br><span class="line">maxDuration Duration = <span class="number">1</span>&lt;&lt;<span class="number">63</span> - <span class="number">1</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<p>最小是-1乘以2的63次方纳秒，   计算的结果是-2562047h47m16.854775808s,   -2.5620477880152157e+06h</p>
-<p>最大是1乘以2的63次方纳秒减1, 计算结果就不写了，官方给出的最大时间为 2540400h10m10.000000000s</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const (   </span><br><span class="line">Nanosecond  Duration = 1   </span><br><span class="line">Microsecond          = 1000 * Nanosecond   </span><br><span class="line">Millisecond          = 1000 * Microsecond   </span><br><span class="line">Second               = 1000 * Millisecond   </span><br><span class="line">Minute               = 60 * Second   </span><br><span class="line">Hour                 = 60 * Minute</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<p>它本身是int64，对它封装了一系列方法操作，感觉就有点像面向对象编程</p>
-<p>举几个例子：</p>
-<p>将Duration变量转化为其他单位</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d Duration)</span> <span class="title">Seconds</span><span class="params">()</span> <span class="title">float64</span></span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d Duration)</span> <span class="title">Minutes</span><span class="params">()</span> <span class="title">float64</span></span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d Duration)</span> <span class="title">Hours</span><span class="params">()</span> <span class="title">float64</span></span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d Duration)</span> <span class="title">Nanoseconds</span><span class="params">()</span> <span class="title">int64</span></span> &#123; <span class="keyword">return</span> <span class="keyword">int64</span>(d) &#125;  （这个操作有点意思）</span><br></pre></td></tr></table></figure>
-
-<p> 将Duration变量输出为合适的String</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d Duration)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span></span><br></pre></td></tr></table></figure>
-
-<!--注：fmt.Println()输出时默认输出Duration的String函数转化后的字符串-->
-
-<p>求时间的近似值</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d Duration)</span> <span class="title">Round</span><span class="params">(m Duration)</span> <span class="title">Duration</span></span></span><br></pre></td></tr></table></figure>
-
-<p>比较好用的还有时间相加减的函数，是对Time对象的操作</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t Time)</span> <span class="title">Add</span><span class="params">(d Duration)</span></span></span><br></pre></td></tr></table></figure>
-
-<p>比如<code>time.Now().Add(time.Second)</code></p>
-<p>如果想两个时间相加，两个Duration对象直接相加就行</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Println(time.Second+time.Second)     <span class="comment">//2s</span></span><br></pre></td></tr></table></figure>
-
-
-
-</details>
+        <h3 id="1-和时间记录有关"><a href="#1-和时间记录有关" class="headerlink" title="1.和时间记录有关"></a>1.和时间记录有关</h3>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/2019/10/08/go%E7%9A%84time%E5%8C%85%E4%BD%BF%E7%94%A8/#more">Read More</a>
+          </p>
+        
       
     </div>
-
-    
-      
 
     
 
@@ -585,132 +421,14 @@ java的基本数据类型都有包装类，所谓包装类，就是为了能将�
 
     <div class="article-entry" itemprop="articleBody">
       
-        <details>
-<summary>详细信息</summary>
-
-
-
-<h6 id="fabric-node-sdk适用于轻量级web应用实践，步骤如下"><a href="#fabric-node-sdk适用于轻量级web应用实践，步骤如下" class="headerlink" title="fabric-node-sdk适用于轻量级web应用实践，步骤如下"></a>fabric-node-sdk适用于轻量级web应用实践，步骤如下</h6><h6 id="1-样例项目-fabcar"><a href="#1-样例项目-fabcar" class="headerlink" title="1.样例项目:fabcar"></a>1.样例项目:fabcar</h6><p>目录fabric-samples/fabcar有个startFabric.sh，启动一下直接环境，组网，链码都搭好了<br>其中重要的部分拿出来解释一下,经过一系列更改就可以自己用作启动脚本了：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">if [ &quot;$CC_SRC_LANGUAGE&quot; = &quot;go&quot; -o &quot;$CC_SRC_LANGUAGE&quot; = &quot;golang&quot;  ]; then</span><br><span class="line">CC_RUNTIME_LANGUAGE=golang</span><br><span class="line">CC_SRC_PATH=github.com/fabcar</span><br><span class="line">elif [ &quot;$CC_SRC_LANGUAGE&quot; = &quot;javascript&quot; ]; then</span><br><span class="line">CC_RUNTIME_LANGUAGE=node # chaincode runtime language is node.js</span><br><span class="line">CC_SRC_PATH=/opt/gopath/src/github.com/fabcar/javascript</span><br><span class="line">elif [ &quot;$CC_SRC_LANGUAGE&quot; = &quot;typescript&quot; ]; then</span><br><span class="line">CC_RUNTIME_LANGUAGE=node # chaincode runtime language is node.js</span><br><span class="line">CC_SRC_PATH=/opt/gopath/src/github.com/fabcar/typescript</span><br><span class="line">echo Compiling TypeScript code into JavaScript ...CC_SRC_PATH=github.com/fabcar     </span><br></pre></td></tr></table></figure>
-
-
-
-<p>//设置链码位置和sdk语言，后面两个elif用go开发就写死就行，可以直接去掉</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ../basic-network</span><br><span class="line">./start.sh  </span><br></pre></td></tr></table></figure>
-
-
-<p>​<br>//启动5个docker容器：ca，orderer，peer，couchdb,cli并利用basic-network里的配置文件启动一个简单的网络,一个channel命名为mychannel，加入peer到网络</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose -f ./docker-compose.yml up -d cli</span><br></pre></td></tr></table></figure>
-
-
-
-<p>//启动cli</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>//显示已经启动的docker信息</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -e &quot;CORE_PEER_LOCALMSPID=Org1MSP&quot; -e &quot;CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp&quot; cli peer chaincode install -n fabcar -v 1.0 -p &quot;$CC_SRC_PATH&quot; -l &quot;$CC_RUNTIME_LANGUAGE&quot;</span><br></pre></td></tr></table></figure>
-
-
-<p>//链码安装</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -e &quot;CORE_PEER_LOCALMSPID=Org1MSP&quot; -e &quot;CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp&quot; cli peer chaincode instantiate -o orderer.example.com:7050 -C mychannel -n fabcar -l &quot;$CC_RUNTIME_LANGUAGE&quot; -v 1.0 -c &#x27;&#123;&quot;Args&quot;:[]&#125;&#x27; -P &quot;OR (&#x27;Org1MSP.member&#x27;,&#x27;Org2MSP.member&#x27;)&quot;</span><br></pre></td></tr></table></figure>
-
-
-<p>//链码实例化</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -e &quot;CORE_PEER_LOCALMSPID=Org1MSP&quot; -e &quot;CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp&quot; cli peer chaincode invoke -o orderer.example.com:7050 -C mychannel -n credit -c &#x27;&#123;&quot;function&quot;:&quot;initLedger&quot;,&quot;Args&quot;:[]&#125;&#x27;</span><br></pre></td></tr></table></figure>
-
-
-
-
-<p>链码调用：初始化账本之后在javascript文件夹下运行npm install之后就可以直接node *.js来调用链码了</p>
-<p>2.devmode开发模式下测试 (前提已经写好链码):</p>
-<p>进入/fabric-samples/chaincode-docker-devmode</p>
-<p>(1)在终端1启动网络</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose -f docker-compose-simple.yaml up</span><br></pre></td></tr></table></figure>
-
-
-<p>(2)在终端2编译和启动链码</p>
-<p>这步是实际是在节点注册启动了。<br>进入chaincode容器：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it chaincode bash</span><br><span class="line">cd &#123;pkgname&#125;</span><br><span class="line">go build</span><br></pre></td></tr></table></figure>
-
-
-<p>启动链码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CORE_PEER_ADDRESS=peer:7052 CORE_CHAINCODE_ID_NAME=&#123;channelname&#125;:0 ./&#123;chaincode&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>(3)终端3中使用链码</p>
-<p>安装和初始化链码在devmode是有点多余的,后面版本可能会删除。<br>进入cli容器：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it cli bash</span><br></pre></td></tr></table></figure>
-
-
-<p>安装</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode install -p chaincodedev/chaincode/&#123;pkgname&#125; -n &#123;chaincodename&#125; -v &#123;version&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>初始化</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode instantiate -n &#123;chaincodename&#125; -v &#123;version&#125; -c ‘&#123;“Args”:[]&#125;’ -C &#123;channelname&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>修改a的值</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode invoke -n &#123;chaincodename&#125; -c ‘&#123;“Args”:[]&#125;’ -C &#123;channelname&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>验证查询a的值</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode query -n &#123;chaincodename&#125; -c ‘&#123;“Args”:[]&#125;’ -C &#123;channelname&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>(4)使用nodejs调用链码(nodejs实际和容器通信)：</p>
-<p>示例：queryall.js，一般就只需要在这个基础上稍加修改就能实现大部分简单功能调用，用nodejs或者别的语言调用这个nodejs，可以搭建一个简单的web服务器</p>
-<ul>
-<li><pre><code>/*
-
-- SPDX-License-Identifier: Apache-2.0
-  */
-  &#39;use strict&#39;;
-  const &#123; FileSystemWallet, Gateway &#125; = require(&#39;fabric-network&#39;);
-  const fs = require(&#39;fs&#39;);
-  const path = require(&#39;path&#39;);
-  const ccpPath = path.resolve(__dirname, &#39;..&#39;, &#39;..&#39;, &#39;basic-network&#39;, &#39;connection.json&#39;);
-  const ccpJSON = fs.readFileSync(ccpPath, &#39;utf8&#39;);
-const ccp = JSON.parse(ccpJSON);
-  async function main() &#123;
-  try &#123;
-
-  const walletPath = path.join(process.cwd(), &#39;wallet&#39;);
-  const wallet = new FileSystemWallet(walletPath);
-console.log(`Wallet path: $&#123;walletPath&#125;`);
-  const userExists = await wallet.exists(&#39;user1&#39;);
-  if (!userExists) &#123;
-
-console.log(&#39;An identity for the user &quot;user1&quot; does not exist in the wallet&#39;);
-  console.log(&#39;Run the registerUser.js application before retrying&#39;);
-  return;
-
-  &#125;
-  const gateway = new Gateway();
-  await gateway.connect(ccp, &#123; wallet, identity: &#39;user1&#39;, discovery: &#123; enabled: false &#125; &#125;);
-const network = await gateway.getNetwork(&#39;mychannel&#39;);  ----&gt;channel名称
-  const contract = network.getContract(&#39;student&#39;);  ----&gt;链码名称
-console.log(`Transaction has been evaluated, result is: $&#123;result.toString()&#125;`);
-
-await gateway.disconnect();
-
-  &#125; catch (error) &#123;
-
-  console.error(`Failed to submit transaction: $&#123;error&#125;`);
-  process.exit(1);
-
-  &#125;
-  &#125;
-  main();
-</code></pre>
-</details></li>
-</ul>
-
+        <h6 id="fabric-node-sdk适用于轻量级web应用实践，步骤如下"><a href="#fabric-node-sdk适用于轻量级web应用实践，步骤如下" class="headerlink" title="fabric-node-sdk适用于轻量级web应用实践，步骤如下"></a>fabric-node-sdk适用于轻量级web应用实践，步骤如下</h6><h6 id="1-样例项目-fabcar"><a href="#1-样例项目-fabcar" class="headerlink" title="1.样例项目:fabcar"></a>1.样例项目:fabcar</h6>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/2019/08/21/fabric-node-sdk%E5%BC%80%E5%8F%91%E5%88%9D%E6%AD%A5/#more">Read More</a>
+          </p>
+        
       
     </div>
-
-    
-      
 
     
 
@@ -757,138 +475,14 @@ await gateway.disconnect();
 
     <div class="article-entry" itemprop="articleBody">
       
-        <details>
-  <summary>详细信息</summary>
-
-
-<h5 id="Fabric版本：1-4"><a href="#Fabric版本：1-4" class="headerlink" title="Fabric版本：1.4"></a>Fabric版本：1.4</h5><h5 id="Linux系统-Ubuntu-18-04"><a href="#Linux系统-Ubuntu-18-04" class="headerlink" title="Linux系统: Ubuntu 18.04"></a>Linux系统: Ubuntu 18.04</h5><h5 id="所需工具-docker-docker-compose-go-gcc-git-nodejs"><a href="#所需工具-docker-docker-compose-go-gcc-git-nodejs" class="headerlink" title="所需工具: docker, docker-compose, go, gcc, git, nodejs"></a>所需工具: docker, docker-compose, go, gcc, git, nodejs</h5><h5 id="搭建步骤："><a href="#搭建步骤：" class="headerlink" title="搭建步骤："></a>搭建步骤：</h5><h5 id="1-在-GOPATH-src-github-com-hyperledger下载源码"><a href="#1-在-GOPATH-src-github-com-hyperledger下载源码" class="headerlink" title="1.在$GOPATH/src/github.com/hyperledger下载源码:"></a>1.在$GOPATH/src/github.com/hyperledger下载源码:</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/hyperledger/fabric.git</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-切换版本至1-4-0"><a href="#2-切换版本至1-4-0" class="headerlink" title="2.切换版本至1.4.0"></a>2.切换版本至1.4.0</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~/go/src/github.com/hyperledger/fabric</span><br></pre></td></tr></table></figure>
-
-<pre><code>$ git checkout v1.4.0
-</code></pre>
-<h5 id="3-scripts目录下有个bootstrap-sh，运行得到cryptogen等工具"><a href="#3-scripts目录下有个bootstrap-sh，运行得到cryptogen等工具" class="headerlink" title="3.scripts目录下有个bootstrap.sh，运行得到cryptogen等工具"></a>3.scripts目录下有个bootstrap.sh，运行得到cryptogen等工具</h5><h5 id="4-下载fabric-samples"><a href="#4-下载fabric-samples" class="headerlink" title="4.下载fabric-samples"></a>4.下载fabric-samples</h5><h5 id="5-在fabric-samples中的first-network里打开终端，运行"><a href="#5-在fabric-samples中的first-network里打开终端，运行" class="headerlink" title="5.在fabric-samples中的first-network里打开终端，运行"></a>5.在fabric-samples中的first-network里打开终端，运行</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./byfn.sh up</span><br></pre></td></tr></table></figure>
-
-
-<p>​    之后成功会有以下一系列的显示</p>
-<ul>
-<li><pre><code>##### 测试生成证书：
-
-/home/yezzi/gopath/src/fabric-samples/first-network/../bin/cryptogen
-
-###### #
-
-##### Generate certificates using cryptogen tool
-
-###### #
-
-生成创世节点：
-
-/home/yezzi/gopath/src/fabric-samples/first-network/../bin/configtxgen
-
-###### #
-
-###### ###  Generating Orderer Genesis block
-
-###### #
-
-生成channel工具：
-
-###### #
-
-### Generating channel configuration transaction &#39;channel.tx&#39;
-
-###### #
-
-启动测试节点：
-
-###### #
-
-###### #    Generating anchor peer update for Org1MSP
-
-###### #
-
-###### #
-
-###### #    Generating anchor peer update for Org2MSP
-
-###### #
-
-启动docker:
-
-Recreating orderer.example.com ... 
-Recreating orderer.example.com
-Recreating peer0.org1.example.com ... 
-Creating peer1.org1.example.com ... 
-Recreating peer0.org1.example.com
-Creating peer0.org2.example.com ... 
-Creating peer1.org2.example.com ... 
-Creating peer0.org2.example.com
-Creating peer1.org1.example.com
-Recreating peer0.org1.example.com ... done
-Recreating cli ... 
-Recreating cli ... done
-
-创建channel:
-
-Channel name : mychannel
-
-- peer channel create -o orderer.example.com:7050 -c mychannel -f ./channel-artifacts/channel.tx --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
-  Creating channel...
-- res=0
-- set +x
-  2019-08-21 09:09:35.810 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized
-  2019-08-21 09:09:36.006 UTC [cli.common] readBlock -&gt; INFO 002 Received block: 0
-  ===================== Channel &#39;mychannel&#39; created ===================== 
-
-节点加入channel：
-
-2019-08-21 09:09:36.228 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized
-2019-08-21 09:09:36.369 UTC [channelCmd] executeJoin -&gt; INFO 002 Successfully submitted proposal to join channel
-===================== peer0.org1 joined channel &#39;mychannel&#39; ===================== 
-
-2019-08-21 09:09:39.586 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized
-2019-08-21 09:09:39.707 UTC [channelCmd] executeJoin -&gt; INFO 002 Successfully submitted proposal to join channel
-===================== peer1.org1 joined channel &#39;mychannel&#39; ===================== 
-
-2019-08-21 09:09:42.895 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized
-2019-08-21 09:09:43.030 UTC [channelCmd] executeJoin -&gt; INFO 002 Successfully submitted proposal to join channel
-===================== peer0.org2 joined channel &#39;mychannel&#39; ===================== 
-
-2019-08-21 09:09:46.246 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized
-2019-08-21 09:09:46.388 UTC [channelCmd] executeJoin -&gt; INFO 002 Successfully submitted proposal to join channel
-===================== peer1.org2 joined channel &#39;mychannel&#39; ===================== 
-
-更新channel信息：
-
-2019-08-21 09:09:49.576 UTC [channelCmd] InitCmdFactory -&gt; INFO 001 Endorser and orderer connections initialized
-2019-08-21 09:09:49.633 UTC [channelCmd] update -&gt; INFO 002 Successfully submitted channel update
-===================== Anchor peers updated for org &#39;Org1MSP&#39; on channel &#39;mychannel&#39; ===================== 
-
-链码测试：
-Install chaincode on peer0.org2...
-
-- peer chaincode install -n mycc -v 1.0 -l golang -p github.com/chaincode/chaincode_example02/go/
-- res=0
-- set +x
-  2019-08-21 09:09:57.592 UTC [chaincodeCmd] checkChaincodeCmdParams -&gt; INFO 001 Using default escc
-  2019-08-21 09:09:57.592 UTC [chaincodeCmd] checkChaincodeCmdParams -&gt; INFO 002 Using default vscc
-  2019-08-21 09:09:58.080 UTC [chaincodeCmd] install -&gt; INFO 003 Installed remotely response:&lt;status:200 payload:&quot;OK&quot; &gt; 
-  ===================== Chaincode is installed on peer0.org2 ===================== 
-
-Instantiating chaincode on peer0.org2...
-
-- peer chaincode instantiate -o orderer.example.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n mycc -l golang -v 1.0 -c &#39;&#123;&quot;Args&quot;:[&quot;init&quot;,&quot;a&quot;,&quot;100&quot;,&quot;b&quot;,&quot;200&quot;]&#125;&#39; -P &#39;AND (&#39;\&#39;&#39;Org1MSP.peer&#39;\&#39;&#39;,&#39;\&#39;&#39;Org2MSP.peer&#39;\&#39;&#39;)&#39;
-</code></pre>
-</li>
-</ul>
-<p>至此，您的fabric环境就搭好啦, 期间运行到哪个步骤报错就可以按照自己理解去找原因</p>
-</details>
+        <h5 id="Fabric版本：1-4"><a href="#Fabric版本：1-4" class="headerlink" title="Fabric版本：1.4"></a>Fabric版本：1.4</h5><h5 id="Linux系统-Ubuntu-18-04"><a href="#Linux系统-Ubuntu-18-04" class="headerlink" title="Linux系统: Ubuntu 18.04"></a>Linux系统: Ubuntu 18.04</h5><h5 id="所需工具-docker-docker-compose-go-gcc-git-nodejs"><a href="#所需工具-docker-docker-compose-go-gcc-git-nodejs" class="headerlink" title="所需工具: docker, docker-compose, go, gcc, git, nodejs"></a>所需工具: docker, docker-compose, go, gcc, git, nodejs</h5>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/2019/08/21/Fabric-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/#more">Read More</a>
+          </p>
+        
       
     </div>
-
-    
-      
 
     
 

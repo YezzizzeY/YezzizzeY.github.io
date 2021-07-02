@@ -5,19 +5,19 @@
   
   <title>Yezzi Tech</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="布隆过滤器简介Bloom filter(布鲁姆过滤器)是用于测试元素成员资格的空间高效概率数据结构。数据结构以牺牲规定的假阳性率为代价实现了巨大的数据压缩。 原理一个Bloom过滤器作为一个m位的数组全部设置为0。选择一组k个随机散列函数，在Bloom过滤器中添加元素时，元素将分别进行哈希散列，而对于每个k个输出，该索引处的相应的Bloom过滤器位将被设置为1。通过使用与之前相同的散列函数来完成B">
+  <meta name="description" content="布隆过滤器简介Bloom filter(布鲁姆过滤器)是用于测试元素成员资格的空间高效概率数据结构。数据结构以牺牲规定的假阳性率为代价实现了巨大的数据压缩。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Yezzi Tech">
 <meta property="og:url" content="https://yezzi.tech/2021/07/02/bloom%E8%BF%87%E6%BB%A4%E5%99%A8%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="Yezzi Tech">
-<meta property="og:description" content="布隆过滤器简介Bloom filter(布鲁姆过滤器)是用于测试元素成员资格的空间高效概率数据结构。数据结构以牺牲规定的假阳性率为代价实现了巨大的数据压缩。 原理一个Bloom过滤器作为一个m位的数组全部设置为0。选择一组k个随机散列函数，在Bloom过滤器中添加元素时，元素将分别进行哈希散列，而对于每个k个输出，该索引处的相应的Bloom过滤器位将被设置为1。通过使用与之前相同的散列函数来完成B">
+<meta property="og:description" content="布隆过滤器简介Bloom filter(布鲁姆过滤器)是用于测试元素成员资格的空间高效概率数据结构。数据结构以牺牲规定的假阳性率为代价实现了巨大的数据压缩。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91c2VyLWdvbGQtY2RuLnhpdHUuaW8vMjAxOS83LzkvMTZiZDVjMjAzMzU1ZTMzZg">
 <meta property="og:image" content="https://yezzi.tech/2021/07/02/bloom%E8%BF%87%E6%BB%A4%E5%99%A8%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/picture/6.png">
 <meta property="og:image" content="https://yezzi.tech/2021/07/02/bloom%E8%BF%87%E6%BB%A4%E5%99%A8%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/picture/7.png">
 <meta property="og:image" content="https://yezzi.tech/2021/07/02/bloom%E8%BF%87%E6%BB%A4%E5%99%A8%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/picture/8.png">
 <meta property="article:published_time" content="2021-07-02T11:06:38.673Z">
-<meta property="article:modified_time" content="2021-07-02T11:06:38.673Z">
+<meta property="article:modified_time" content="2021-07-02T11:59:11.743Z">
 <meta property="article:author" content="Mingzhe Liu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91c2VyLWdvbGQtY2RuLnhpdHUuaW8vMjAxOS83LzkvMTZiZDVjMjAzMzU1ZTMzZg">
@@ -112,6 +112,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h6 id="布隆过滤器简介"><a href="#布隆过滤器简介" class="headerlink" title="布隆过滤器简介"></a>布隆过滤器简介</h6><p>Bloom filter(布鲁姆过滤器)是用于测试元素成员资格的空间高效概率数据结构。数据结构以牺牲规定的假阳性率为代价实现了巨大的数据压缩。</p>
+<span id="more"></span>
+
 <h6 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h6><p>一个Bloom过滤器作为一个m位的数组全部设置为0。选择一组k个随机散列函数，在Bloom过滤器中添加元素时，元素将分别进行哈希散列，而对于每个k个输出，该索引处的相应的Bloom过滤器位将被设置为1。通过使用与之前相同的散列函数来完成Bloom过滤器的查询。如果在bloom过滤器中访问的所有k个比特被设置为1，则这很可能表明该元素位于该集合中。删除元素只能通过废除Bloom过滤器并从头重新创建来完成。</p>
 <p>Bloom过滤器是由底层数组和哈希函数组合在一起工作的，根据对误报率要求的不同，可以选择一个哈希函数，也可以选2个、3个，一般情况下选3个。与哈希表不同，为节省空间，Bloom过滤器的底层数组的每一位是一个比特，1表示有映射，0表示无映射。数组的长度与问题规模、哈希函数、误报率等因素有关，根据数据集规模的不同，可选用适当的哈希函数与适合的数组大小。因为具体问题的不同，很难说那种实现是最好的。</p>
 <h6 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h6><p>下面举例说明Bloom过滤器的工作过程。</p>

@@ -13,7 +13,7 @@
 <meta property="og:description" content="package blockchainPackage blockchain implements bitcoin block handling and chain selection rules. The bitcoin block handling and chain selection rules are an integral, and quite likely the most import">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-07-02T11:06:38.674Z">
-<meta property="article:modified_time" content="2021-07-02T11:06:38.675Z">
+<meta property="article:modified_time" content="2021-07-02T11:59:18.586Z">
 <meta property="article:author" content="Mingzhe Liu">
 <meta name="twitter:card" content="summary">
   
@@ -108,6 +108,8 @@
       
         <h5 id="package-blockchain"><a href="#package-blockchain" class="headerlink" title="package blockchain"></a>package blockchain</h5><p>Package blockchain implements bitcoin block handling and chain selection rules.</p>
 <p>The bitcoin block handling and chain selection rules are an integral, and quite likely the most important, part of bitcoin. Unfortunately, at the time of this writing, these rules are also largely undocumented and had to be ascertained from the bitcoind source code. At its core, bitcoin is a distributed consensus of which blocks are valid and which ones will comprise the main block chain (public ledger) that ultimately determines accepted transactions, so it is extremely important that fully validating nodes agree on all rules.</p>
+<span id="more"></span>
+
 <h5 id="files"><a href="#files" class="headerlink" title="files"></a>files</h5><p>utxoset的操作中涉及到chainio.go upgrade.go validate.go</p>
 <h5 id="const"><a href="#const" class="headerlink" title="const"></a>const</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">latestUtxoSetBucketVersion = <span class="number">2</span></span><br></pre></td></tr></table></figure>
 

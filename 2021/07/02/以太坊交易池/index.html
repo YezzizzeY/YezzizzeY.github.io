@@ -5,16 +5,16 @@
   
   <title>Yezzi Tech</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="交易池txpool主要用来存放当前提交的等待写入区块的交易，有远端的和本地的。 交易池包含所有已知的交易。交易被本地提交或从网络接收时进入交易池，交易在被区块链收纳后退出交易池。 交易池把交易分成两种：可处理交易:pending，已加入交易池但不可以执行:queue。交易在被接收和处理的过程中在两种状态之间转换。  设置信息交易池交易池的主要内容有：区块链（主要实现了当前和从前的区块索引，和根据之">
+  <meta name="description" content="交易池">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Yezzi Tech">
 <meta property="og:url" content="https://yezzi.tech/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%BA%A4%E6%98%93%E6%B1%A0/index.html">
 <meta property="og:site_name" content="Yezzi Tech">
-<meta property="og:description" content="交易池txpool主要用来存放当前提交的等待写入区块的交易，有远端的和本地的。 交易池包含所有已知的交易。交易被本地提交或从网络接收时进入交易池，交易在被区块链收纳后退出交易池。 交易池把交易分成两种：可处理交易:pending，已加入交易池但不可以执行:queue。交易在被接收和处理的过程中在两种状态之间转换。  设置信息交易池交易池的主要内容有：区块链（主要实现了当前和从前的区块索引，和根据之">
+<meta property="og:description" content="交易池">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://yezzi.tech/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%BA%A4%E6%98%93%E6%B1%A0/picture/9.png">
 <meta property="article:published_time" content="2021-07-02T11:06:38.794Z">
-<meta property="article:modified_time" content="2021-07-02T11:06:38.794Z">
+<meta property="article:modified_time" content="2021-07-02T11:57:42.891Z">
 <meta property="article:author" content="Mingzhe Liu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://yezzi.tech/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%BA%A4%E6%98%93%E6%B1%A0/picture/9.png">
@@ -108,7 +108,9 @@
 
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="交易池"><a href="#交易池" class="headerlink" title="交易池"></a>交易池</h4><p>txpool主要用来存放当前提交的等待写入区块的交易，有远端的和本地的。</p>
+        <h4 id="交易池"><a href="#交易池" class="headerlink" title="交易池"></a>交易池</h4><span id="more"></span>
+
+<p>txpool主要用来存放当前提交的等待写入区块的交易，有远端的和本地的。</p>
 <p>交易池包含所有已知的交易。交易被本地提交或从网络接收时进入交易池，交易在被区块链收纳后退出交易池。</p>
 <p>交易池把交易分成两种：可处理交易:pending，已加入交易池但不可以执行:queue。交易在被接收和处理的过程中在两种状态之间转换。</p>
 <p><img src="./picture/9.png"></p>

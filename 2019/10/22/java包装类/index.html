@@ -5,15 +5,15 @@
   
   <title>java包装类 | Yezzi Tech</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="详细 java的基本数据类型都有包装类，所谓包装类，就是为了能将这些基本数据类型当做对象操作，从而有更多对它们的常用操作方法，并有自动装箱&#x2F;拆箱机制使得二者可以相互转换。包装类继承自Number类。  其中Number类继承自java.io.Serializable序列化接口，有实现各类值的函数，源码定义如下： 123456789101112131415161718192021public ab">
+  <meta name="description" content="java的基本数据类型都有包装类，所谓包装类，就是为了能将这些基本数据类型当做对象操作，从而有更多对它们的常用操作方法，并有自动装箱&#x2F;拆箱机制使得二者可以相互转换。包装类继承自Number类。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java包装类">
 <meta property="og:url" content="https://yezzi.tech/2019/10/22/java%E5%8C%85%E8%A3%85%E7%B1%BB/index.html">
 <meta property="og:site_name" content="Yezzi Tech">
-<meta property="og:description" content="详细 java的基本数据类型都有包装类，所谓包装类，就是为了能将这些基本数据类型当做对象操作，从而有更多对它们的常用操作方法，并有自动装箱&#x2F;拆箱机制使得二者可以相互转换。包装类继承自Number类。  其中Number类继承自java.io.Serializable序列化接口，有实现各类值的函数，源码定义如下： 123456789101112131415161718192021public ab">
+<meta property="og:description" content="java的基本数据类型都有包装类，所谓包装类，就是为了能将这些基本数据类型当做对象操作，从而有更多对它们的常用操作方法，并有自动装箱&#x2F;拆箱机制使得二者可以相互转换。包装类继承自Number类。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2019-10-22T10:34:26.000Z">
-<meta property="article:modified_time" content="2021-07-02T11:06:38.715Z">
+<meta property="article:modified_time" content="2021-07-02T12:02:02.424Z">
 <meta property="article:author" content="Mingzhe Liu">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
@@ -107,9 +107,9 @@
 
     <div class="article-entry" itemprop="articleBody">
       
-        <details>
-<summary>详细</summary>
-java的基本数据类型都有包装类，所谓包装类，就是为了能将这些基本数据类型当做对象操作，从而有更多对它们的常用操作方法，并有自动装箱/拆箱机制使得二者可以相互转换。包装类继承自Number类。
+        <p>java的基本数据类型都有包装类，所谓包装类，就是为了能将这些基本数据类型当做对象操作，从而有更多对它们的常用操作方法，并有自动装箱/拆箱机制使得二者可以相互转换。包装类继承自Number类。</p>
+<span id="more"></span>
+
 
 <p>其中Number类继承自java.io.Serializable序列化接口，有实现各类值的函数，源码定义如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Number</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">intValue</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">long</span> <span class="title">longValue</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">float</span> <span class="title">floatValue</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">double</span> <span class="title">doubleValue</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">byte</span> <span class="title">byteValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">byte</span>)intValue();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">short</span> <span class="title">shortValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">short</span>)intValue();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">8742448824652078965L</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -150,7 +150,7 @@ java的基本数据类型都有包装类，所谓包装类，就是为了能将�
 <li><p>Integer与new Integer不会相等。不会经历拆箱过程，new出来的对象存放在堆，而非new的Integer常量则在常量池（在方法区），他们的内存地址不一样 </p>
 </li>
 <li><p>Integer初值为null，int初值为0</p>
-</details></li>
+</li>
 </ul>
 
       
