@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>以太坊中的状态树代码 | Yezzi Tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="&#x2F;core&#x2F;state：状态树相关文件。对其中几个重要类型和函数解析。 &#x2F;database.go：封装数据库访问的方法 定义： 12345678910111213141516171819202122232425262728293031323334353637383940414243type Database interface &amp;#123;	&#x2F;&#x2F; OpenTrie opens the main">
+<meta property="og:type" content="article">
+<meta property="og:title" content="以太坊中的状态树代码">
+<meta property="og:url" content="https://yezzi.tech/2020/02/25/%E7%8A%B6%E6%80%81%EF%BC%9B%E7%8A%B6%E6%80%81%E6%A0%91%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Yezzi Tech">
+<meta property="og:description" content="&#x2F;core&#x2F;state：状态树相关文件。对其中几个重要类型和函数解析。 &#x2F;database.go：封装数据库访问的方法 定义： 12345678910111213141516171819202122232425262728293031323334353637383940414243type Database interface &amp;#123;	&#x2F;&#x2F; OpenTrie opens the main">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-25T15:54:34.000Z">
+<meta property="article:modified_time" content="2021-07-04T02:11:00.158Z">
+<meta property="article:author" content="Mingzhe Liu">
+<meta property="article:tag" content="以太坊">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">Home</a></li>
+        
+          <li><a class=""
+                 href="/archives/">Archives</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">Yezzi Tech</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-状态；状态树代码分析" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      以太坊中的状态树代码
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2020/02/25/%E7%8A%B6%E6%80%81%EF%BC%9B%E7%8A%B6%E6%80%81%E6%A0%91%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" class="article-date"><time datetime="2020-02-25T15:54:34.000Z" itemprop="datePublished">2020-02-25</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <span id="more"></span>
+
+<p>/core/state：状态树相关文件。对其中几个重要类型和函数解析。</p>
+<p>/database.go：封装数据库访问的方法</p>
+<p>定义：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Database <span class="keyword">interface</span> &#123;</span><br><span class="line">	<span class="comment">// OpenTrie opens the main account trie.</span></span><br><span class="line">	OpenTrie(root common.Hash) (Trie, error)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// OpenStorageTrie opens the storage trie of an account.</span></span><br><span class="line">	OpenStorageTrie(addrHash, root common.Hash) (Trie, error)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// CopyTrie returns an independent copy of the given trie.</span></span><br><span class="line">	CopyTrie(Trie) Trie</span><br><span class="line"></span><br><span class="line">	<span class="comment">// ContractCode retrieves a particular contract&#x27;s code.</span></span><br><span class="line">	ContractCode(addrHash, codeHash common.Hash) ([]<span class="keyword">byte</span>, error)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// ContractCodeSize retrieves a particular contracts code&#x27;s size.</span></span><br><span class="line">	ContractCodeSize(addrHash, codeHash common.Hash) (<span class="keyword">int</span>, error)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// TrieDB retrieves the low level trie database used for data storage.</span></span><br><span class="line">	TrieDB() *trie.Database</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewDatabase</span><span class="params">(db ethdb.Database)</span> <span class="title">Database</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> NewDatabaseWithCache(db, <span class="number">0</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NewDatabaseWithCache creates a backing store for state. The returned database</span></span><br><span class="line"><span class="comment">// is safe for concurrent use and retains a lot of collapsed RLP trie nodes in a</span></span><br><span class="line"><span class="comment">// large memory cache.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewDatabaseWithCache</span><span class="params">(db ethdb.Database, cache <span class="keyword">int</span>)</span> <span class="title">Database</span></span> &#123;</span><br><span class="line">	csc, _ := lru.New(codeSizeCacheSize)</span><br><span class="line">	<span class="keyword">return</span> &amp;cachingDB&#123;</span><br><span class="line">		db:            trie.NewDatabaseWithCache(db, cache),</span><br><span class="line">		codeSizeCache: csc,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//新建数据库对象返回的其实是trie.database类型+codeSizeCache</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// OpenTrie opens the main account trie at a specific root hash.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(db *cachingDB)</span> <span class="title">OpenTrie</span><span class="params">(root common.Hash)</span> <span class="params">(Trie, error)</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> trie.NewSecure(root, db.db)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//调用底层的trie包中的方法，对secure的说明如下：SecureTrie使用密钥散列来包装trie。在安全trie中，所有访问操作都使用keccak256散列密钥。这可以防止调用代码创建增加访问时间的长节点链。</span></span><br><span class="line"><span class="comment">//与常规trie相反，SecureTrie只能用New创建，并且必须有附加的数据库。数据库还存储每个密钥的预映像。</span></span><br><span class="line"><span class="comment">//SecureTrie对于并发使用是不安全的。</span></span><br></pre></td></tr></table></figure>
+
+<p>state_object.go：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//stateObject表示正在修改的以太坊帐户。</span></span><br><span class="line"><span class="comment">//使用模式如下：首先需要获得一个state对象。通过对象访问和修改帐户值。最后，调用CommitTrie将修改后的存储trie写入数据库。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//stateObject的定义如下：</span></span><br><span class="line"><span class="keyword">type</span> stateObject <span class="keyword">struct</span> &#123;</span><br><span class="line">	address  common.Address</span><br><span class="line">	addrHash common.Hash <span class="comment">// hash of ethereum address of the account</span></span><br><span class="line">	data     Account</span><br><span class="line">	db       *StateDB</span><br><span class="line"></span><br><span class="line">	<span class="comment">// DB error.</span></span><br><span class="line">	<span class="comment">// State objects are used by the consensus core and VM which are</span></span><br><span class="line">	<span class="comment">// unable to deal with database-level errors. Any error that occurs</span></span><br><span class="line">	<span class="comment">// during a database read is memoized here and will eventually be returned</span></span><br><span class="line">	<span class="comment">// by StateDB.Commit.</span></span><br><span class="line">	dbErr error</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Write caches.</span></span><br><span class="line">	trie Trie <span class="comment">// storage trie, which becomes non-nil on first access这个trie是智能合约的那个storagetree</span></span><br><span class="line">	code Code <span class="comment">// contract bytecode, which gets set when code is loaded</span></span><br><span class="line"></span><br><span class="line">	originStorage  Storage <span class="comment">// Storage cache of original entries to dedup rewrites, reset for every transaction对原始项的存储缓存进行重复数据消除重写，为每个事务重置</span></span><br><span class="line">	pendingStorage Storage <span class="comment">// Storage entries that need to be flushed to disk, at the end of an entire block</span></span><br><span class="line">	dirtyStorage   Storage <span class="comment">// Storage entries that have been modified in the current transaction execution</span></span><br><span class="line">	fakeStorage    Storage <span class="comment">// Fake storage which constructed by caller for debugging purpose.</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Cache flags.</span></span><br><span class="line">	<span class="comment">// When an object is marked suicided it will be delete from the trie</span></span><br><span class="line">	<span class="comment">// during the &quot;update&quot; phase of the state transition.</span></span><br><span class="line">	dirtyCode <span class="keyword">bool</span> <span class="comment">// true if the code was updated</span></span><br><span class="line">	suicided  <span class="keyword">bool</span></span><br><span class="line">	deleted   <span class="keyword">bool</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">newObject</span><span class="params">(db *StateDB, address common.Address, data Account)</span> *<span class="title">stateObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *stateObject)</span> <span class="title">getTrie</span><span class="params">(db Database)</span> <span class="title">Trie</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Storage <span class="keyword">map</span>[common.Hash]common.Hash</span><br><span class="line"></span><br><span class="line"><span class="comment">// SetState updates a value in account storage.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *stateObject)</span> <span class="title">SetState</span><span class="params">(db Database, key, value common.Hash)</span></span> &#123;</span><br><span class="line">	<span class="comment">// If the fake storage is set, put the temporary state update here.</span></span><br><span class="line">	<span class="keyword">if</span> s.fakeStorage != <span class="literal">nil</span> &#123;</span><br><span class="line">		s.fakeStorage[key] = value<span class="comment">//用于调试，如果fakeStorage不是空，则优先把用于调试的storage设为value</span></span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// If the new value is the same as old, don&#x27;t set</span></span><br><span class="line">	prev := s.GetState(db, key)</span><br><span class="line">	<span class="keyword">if</span> prev == value &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// New value is different, update and journal the change</span></span><br><span class="line">	s.db.journal.<span class="built_in">append</span>(storageChange&#123;</span><br><span class="line">		account:  &amp;s.address,</span><br><span class="line">		key:      key,</span><br><span class="line">		prevalue: prev,</span><br><span class="line">	&#125;)</span><br><span class="line">	s.setState(key, value)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *stateObject)</span> <span class="title">setState</span><span class="params">(key, value common.Hash)</span></span> &#123;</span><br><span class="line">	s.dirtyStorage[key] = value<span class="comment">//已修改的存储项</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// finalise moves all dirty storage slots into the pending area to be hashed or</span></span><br><span class="line"><span class="comment">// committed later. It is *invoked at the end of every transaction*.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *stateObject)</span> <span class="title">finalise</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> key, value := <span class="keyword">range</span> s.dirtyStorage &#123;</span><br><span class="line">		s.pendingStorage[key] = value<span class="comment">//在整个块的末尾，需要刷新到磁盘的存储项</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(s.dirtyStorage) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		s.dirtyStorage = <span class="built_in">make</span>(Storage)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//updateTrie writes cached storage modifications into the object&#x27;s storage trie.</span></span><br><span class="line"><span class="comment">//It will return nil if the trie has not been loaded and no changes have been made</span></span><br><span class="line"><span class="comment">//updaterie将缓存的存储修改写入对象的存储trie。</span></span><br><span class="line"><span class="comment">//如果未加载trie且未做任何更改，则返回nil</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *stateObject)</span> <span class="title">updateTrie</span><span class="params">(db Database)</span> <span class="title">Trie</span></span> &#123;</span><br><span class="line">	<span class="comment">// Make sure all dirty slots are finalized into the pending storage area</span></span><br><span class="line">	s.finalise()</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(s.pendingStorage) == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> s.trie</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// Track the amount of time wasted on updating the storge trie</span></span><br><span class="line">	<span class="keyword">if</span> metrics.EnabledExpensive &#123;</span><br><span class="line">		<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">(start time.Time)</span></span> &#123; s.db.StorageUpdates += time.Since(start) &#125;(time.Now())</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// Insert all the pending updates into the trie</span></span><br><span class="line">	tr := s.getTrie(db)</span><br><span class="line">	<span class="keyword">for</span> key, value := <span class="keyword">range</span> s.pendingStorage &#123;</span><br><span class="line">		<span class="comment">// Skip noop changes, persist actual changes</span></span><br><span class="line">		<span class="keyword">if</span> value == s.originStorage[key] &#123;</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		s.originStorage[key] = value</span><br><span class="line"><span class="comment">//对原始项的存储缓存进行重复数据消除重写</span></span><br><span class="line">		<span class="keyword">if</span> (value == common.Hash&#123;&#125;) &#123;</span><br><span class="line">			s.setError(tr.TryDelete(key[:]))</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// Encoding []byte cannot fail, ok to ignore the error.</span></span><br><span class="line">		v, _ := rlp.EncodeToBytes(common.TrimLeftZeroes(value[:]))</span><br><span class="line">		s.setError(tr.TryUpdate(key[:], v))</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(s.pendingStorage) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		s.pendingStorage = <span class="built_in">make</span>(Storage)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> tr</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// CommitTrie the storage trie of the object to db.</span></span><br><span class="line"><span class="comment">// This updates the trie root.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *stateObject)</span> <span class="title">CommitTrie</span><span class="params">(db Database)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="comment">// If nothing changed, don&#x27;t bother with hashing anything</span></span><br><span class="line">	<span class="keyword">if</span> s.updateTrie(db) == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> s.dbErr != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> s.dbErr</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// Track the amount of time wasted on committing the storge trie</span></span><br><span class="line">	<span class="keyword">if</span> metrics.EnabledExpensive &#123;</span><br><span class="line">		<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">(start time.Time)</span></span> &#123; s.db.StorageCommits += time.Since(start) &#125;(time.Now())</span><br><span class="line">	&#125;</span><br><span class="line">	root, err := s.trie.Commit(<span class="literal">nil</span>)</span><br><span class="line">    <span class="comment">// Commit writes all nodes to the trie&#x27;s memory database, tracking the internal</span></span><br><span class="line">	<span class="comment">// and external (for account tries) references.</span></span><br><span class="line">	<span class="keyword">if</span> err == <span class="literal">nil</span> &#123;</span><br><span class="line">		s.data.Root = root</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> err</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>statedb.go</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//StateDBs within the ethereum protocol are used to store anything</span></span><br><span class="line"><span class="comment">//within the merkle trie. StateDBs take care of caching and storing</span></span><br><span class="line"><span class="comment">//nested states. It&#x27;s the general query interface to retrieve:</span></span><br><span class="line"><span class="comment">//* Contracts</span></span><br><span class="line"><span class="comment">//* Accounts</span></span><br><span class="line"><span class="keyword">type</span> StateDB <span class="keyword">struct</span> &#123;</span><br><span class="line">	db   Database</span><br><span class="line">	trie Trie</span><br><span class="line"></span><br><span class="line">	<span class="comment">// This map holds &#x27;live&#x27; objects, which will get modified while processing a state transition.</span></span><br><span class="line">	stateObjects        <span class="keyword">map</span>[common.Address]*stateObject</span><br><span class="line">	stateObjectsPending <span class="keyword">map</span>[common.Address]<span class="keyword">struct</span>&#123;&#125; <span class="comment">// State objects finalized but not yet written to the trie</span></span><br><span class="line">	stateObjectsDirty   <span class="keyword">map</span>[common.Address]<span class="keyword">struct</span>&#123;&#125; <span class="comment">// State objects modified in the current execution</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// DB error.</span></span><br><span class="line">	<span class="comment">// State objects are used by the consensus core and VM which are</span></span><br><span class="line">	<span class="comment">// unable to deal with database-level errors. Any error that occurs</span></span><br><span class="line">	<span class="comment">// during a database read is memoized here and will eventually be returned</span></span><br><span class="line">	<span class="comment">// by StateDB.Commit.</span></span><br><span class="line">	dbErr error</span><br><span class="line"></span><br><span class="line">	<span class="comment">// The refund counter, also used by state transitioning.</span></span><br><span class="line">	refund <span class="keyword">uint64</span></span><br><span class="line"></span><br><span class="line">	thash, bhash common.Hash</span><br><span class="line">	txIndex      <span class="keyword">int</span></span><br><span class="line">	logs         <span class="keyword">map</span>[common.Hash][]*types.Log</span><br><span class="line">	logSize      <span class="keyword">uint</span></span><br><span class="line"></span><br><span class="line">	preimages <span class="keyword">map</span>[common.Hash][]<span class="keyword">byte</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Journal of state modifications. This is the backbone of</span></span><br><span class="line">	<span class="comment">// Snapshot and RevertToSnapshot.</span></span><br><span class="line">	journal        *journal</span><br><span class="line">	validRevisions []revision</span><br><span class="line">	nextRevisionId <span class="keyword">int</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Measurements gathered during execution for debugging purposes</span></span><br><span class="line">	AccountReads   time.Duration</span><br><span class="line">	AccountHashes  time.Duration</span><br><span class="line">	AccountUpdates time.Duration</span><br><span class="line">	AccountCommits time.Duration</span><br><span class="line">	StorageReads   time.Duration</span><br><span class="line">	StorageHashes  time.Duration</span><br><span class="line">	StorageUpdates time.Duration</span><br><span class="line">	StorageCommits time.Duration</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *StateDB)</span> <span class="title">updateStateObject</span><span class="params">(obj *stateObject)</span></span> &#123;</span><br><span class="line">	<span class="comment">// Track the amount of time wasted on updating the account from the trie</span></span><br><span class="line">	<span class="keyword">if</span> metrics.EnabledExpensive &#123;</span><br><span class="line">		<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">(start time.Time)</span></span> &#123; s.AccountUpdates += time.Since(start) &#125;(time.Now())</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// Encode the account and update the account trie</span></span><br><span class="line">	addr := obj.Address()</span><br><span class="line"></span><br><span class="line">	data, err := rlp.EncodeToBytes(obj)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(fmt.Errorf(<span class="string">&quot;can&#x27;t encode object at %x: %v&quot;</span>, addr[:], err))</span><br><span class="line">	&#125;</span><br><span class="line">	s.setError(s.trie.TryUpdate(addr[:], data))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *StateDB)</span> <span class="title">getStateObject</span><span class="params">(addr common.Address)</span> *<span class="title">stateObject</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> obj := s.getDeletedStateObject(addr); obj != <span class="literal">nil</span> &amp;&amp; !obj.deleted &#123;</span><br><span class="line">		<span class="keyword">return</span> obj</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// CreateAccount explicitly creates a state object. If a state object with the address</span></span><br><span class="line"><span class="comment">// already exists the balance is carried over to the new account.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *StateDB)</span> <span class="title">createObject</span><span class="params">(addr common.Address)</span> <span class="params">(newobj, prev *stateObject)</span></span> &#123;</span><br><span class="line">	prev = s.getDeletedStateObject(addr) <span class="comment">// Note, prev might have been deleted, we need that!</span></span><br><span class="line"></span><br><span class="line">	newobj = newObject(s, addr, Account&#123;&#125;)</span><br><span class="line">	newobj.setNonce(<span class="number">0</span>) <span class="comment">// sets the object to dirty</span></span><br><span class="line">	<span class="keyword">if</span> prev == <span class="literal">nil</span> &#123;</span><br><span class="line">		s.journal.<span class="built_in">append</span>(createObjectChange&#123;account: &amp;addr&#125;)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		s.journal.<span class="built_in">append</span>(resetObjectChange&#123;prev: prev&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">	s.setStateObject(newobj)</span><br><span class="line">	<span class="keyword">return</span> newobj, prev</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Commit writes the state to the underlying in-memory trie database.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *StateDB)</span> <span class="title">Commit</span><span class="params">(deleteEmptyObjects <span class="keyword">bool</span>)</span> <span class="params">(common.Hash, error)</span></span> &#123;</span><br><span class="line">	<span class="comment">// Finalize any pending changes and merge everything into the tries</span></span><br><span class="line">	s.IntermediateRoot(deleteEmptyObjects)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Commit objects to the trie, measuring the elapsed time</span></span><br><span class="line">	<span class="keyword">for</span> addr := <span class="keyword">range</span> s.stateObjectsDirty &#123;</span><br><span class="line">		<span class="keyword">if</span> obj := s.stateObjects[addr]; !obj.deleted &#123;</span><br><span class="line">			<span class="comment">// Write any contract code associated with the state object</span></span><br><span class="line">			<span class="keyword">if</span> obj.code != <span class="literal">nil</span> &amp;&amp; obj.dirtyCode &#123;</span><br><span class="line">				s.db.TrieDB().InsertBlob(common.BytesToHash(obj.CodeHash()), obj.code)</span><br><span class="line">				obj.dirtyCode = <span class="literal">false</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// Write any storage changes in the state object to its storage trie</span></span><br><span class="line">			<span class="keyword">if</span> err := obj.CommitTrie(s.db); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> common.Hash&#123;&#125;, err</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(s.stateObjectsDirty) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		s.stateObjectsDirty = <span class="built_in">make</span>(<span class="keyword">map</span>[common.Address]<span class="keyword">struct</span>&#123;&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// Write the account trie changes, measuing the amount of wasted time</span></span><br><span class="line">	<span class="keyword">if</span> metrics.EnabledExpensive &#123;</span><br><span class="line">		<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">(start time.Time)</span></span> &#123; s.AccountCommits += time.Since(start) &#125;(time.Now())</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// The onleaf func is called _serially_, so we can reuse the same account</span></span><br><span class="line">	<span class="comment">// for unmarshalling every time.</span></span><br><span class="line">	<span class="keyword">var</span> account Account</span><br><span class="line">	<span class="keyword">return</span> s.trie.Commit(<span class="function"><span class="keyword">func</span><span class="params">(leaf []<span class="keyword">byte</span>, parent common.Hash)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">		<span class="keyword">if</span> err := rlp.DecodeBytes(leaf, &amp;account); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> account.Root != emptyRoot &#123;</span><br><span class="line">			s.db.TrieDB().Reference(account.Root, parent)</span><br><span class="line">		&#125;</span><br><span class="line">		code := common.BytesToHash(account.CodeHash)</span><br><span class="line">		<span class="keyword">if</span> code != emptyCode &#123;</span><br><span class="line">			s.db.TrieDB().Reference(code, parent)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://yezzi.tech/2020/02/25/%E7%8A%B6%E6%80%81%EF%BC%9B%E7%8A%B6%E6%80%81%E6%A0%91%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" data-id="ckqma5nsc001b0wu7hh8u4i8w" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2020/02/25/%E4%BB%A5%E5%A4%AA%E5%9D%8ARPC%E9%80%9A%E4%BF%A1/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">以太坊中的RPC通信代码</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/2020/02/25/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">以太坊中的主要数据结构</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p> Nice papers collected in the field of <em>AI</em>, <em>Apllied Cryptography</em> and <em>Blockchain</em>, records of some computer technologies, and personal thoughts.  If you are inteseted in my field, feel free to contact me. (Wechat: mzliu_xdu) </p>
+
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tags</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Bitcoin/" rel="tag">Bitcoin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/go/" rel="tag">go</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hyperledger-fabric/" rel="tag">hyperledger fabric</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/java/" rel="tag">java</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/paper-notes/" rel="tag">paper notes</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tag Cloud</h4>
+    <p class="tagcloud">
+      <a href="/tags/Bitcoin/" style="font-size: 10px;">Bitcoin</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 17.5px;">golang</a> <a href="/tags/hyperledger-fabric/" style="font-size: 12.5px;">hyperledger fabric</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/paper-notes/" style="font-size: 15px;">paper notes</a> <a href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" style="font-size: 20px;">以太坊</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10px;">前端</a>
+    </p>
+  </div>
+
+
+  
+  <div class="sidebar-module">
+    <h4>Archives</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">July 2021</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">February 2020</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">October 2019</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">August 2019</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Recents</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2021/07/02/DoERS_note/">BlockChain Papers in Top Security Conferences</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E4%BA%A4%E6%98%93%E7%AD%BE%E5%90%8D%E5%92%8C%E9%AA%8C%E7%AD%BE/">以太坊签名相关代码</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A0%81/">以太坊中的各种编码</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E4%BA%A4%E6%98%93%E6%B1%A0%EF%BC%882%EF%BC%89/">以太坊交易池代码分析 part2(共2部分)</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/02/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E8%B4%A6%E6%88%B7/">以太坊账户简单分析</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Mingzhe Liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</body>
+</html>
