@@ -12,16 +12,16 @@
 <meta property="og:site_name" content="Yezzi Tech">
 <meta property="og:description" content="很简单粗俗的go并发原理解释">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://yezzi.tech/picture/goroutine.png">
-<meta property="og:image" content="https://yezzi.tech/picture/GO2.png">
-<meta property="og:image" content="https://yezzi.tech/picture/go3.png">
-<meta property="og:image" content="https://yezzi.tech/picture/go5.png">
+<meta property="og:image" content="https://yezzi.tech/images/picture/goroutine.png">
+<meta property="og:image" content="https://yezzi.tech/images/picture/GO2.png">
+<meta property="og:image" content="https://yezzi.tech/images/picture/go3.png">
+<meta property="og:image" content="https://yezzi.tech/images/picture/go5.png">
 <meta property="article:published_time" content="2020-02-14T13:27:57.000Z">
-<meta property="article:modified_time" content="2021-07-04T02:49:06.805Z">
+<meta property="article:modified_time" content="2021-07-04T13:03:03.580Z">
 <meta property="article:author" content="Mingzhe Liu">
 <meta property="article:tag" content="golang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://yezzi.tech/picture/goroutine.png">
+<meta name="twitter:image" content="https://yezzi.tech/images/picture/goroutine.png">
   
     <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
   
@@ -125,18 +125,18 @@
 <p>2.</p>
 <p>一个<strong>M</strong>会对应一个内核线程，一个<strong>M</strong>也会连接一个上下文<strong>P</strong>，一个上下文<strong>P</strong>相当于一个“处理器”，一个上下文连接一个或者多个Goroutine。</p>
 <p>每有一个go语句被执行，runqueue队列就在其末尾加入一个goroutine，一旦上下文运行goroutine直到调度点，它会从其runqueue中弹出goroutine，设置堆栈和指令指针并开始运行goroutine。</p>
-<p><img src="/./picture/goroutine.png"></p>
-<p><img src="/./picture/GO2.png"></p>
+<p><img src="/images/picture/goroutine.png"></p>
+<p><img src="/images/picture/GO2.png"></p>
 <p>3.</p>
 <p>在Goroutine中则不需这些额外的开销，所以一个Golang的程序中可以支持10w级别的Goroutine。</p>
 <p>每个 goroutine (协程) 默认占用内存远比 Java 、C 的线程少（<em>goroutine：</em>2KB ，线程：8MB）</p>
 <p>4.</p>
 <p>每个P中的<code>Goroutine</code>不同导致他们运行的效率和时间也不同，在一个有很多P和M的环境中，不能让一个P跑完自身的<code>Goroutine</code>就没事可做了，因为或许其他的P有很长的<code>goroutine</code>队列要跑，得需要均衡。<br>该如何解决呢？</p>
 <p>Go的做法倒也直接，从其他P中偷一半！</p>
-<p><img src="/./picture/go3.png"></p>
+<p><img src="/images/picture/go3.png"></p>
 <p>5.P的必要性</p>
 <p>我的理解是，如果没有P，当内核线程M0执行类似于同时执行代码和系统调用被阻塞的操作如syscall时，就会产生上下文丢失，有了P就可以新建一个内核线程并把上下文环境P分配给新的M1，而如果没有P的话，此时执行到一半的各类上下文环境和资源就会丢失。</p>
-<p><img src="/./picture/go5.png"></p>
+<p><img src="/images/picture/go5.png"></p>
 <p>6.缺点：调度分配不公平</p>
 
       
