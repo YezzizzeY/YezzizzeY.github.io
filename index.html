@@ -107,34 +107,13 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Quisquis: A New Design for Anonymous Cryptocurrencies (Eurocrypt 2019) 在金额不变的shuffle基础上，创造了账户模型的金额转账混+混淆，被发布在2019年的欧密会。是区块链上隐私保护的较新成果。quisquis集成一些sigma协议，利用shuffle的思想，并用博弈论的手段做安全证明。事实上它可以用在zerocoin等主流加密货币上。</p>
-<h3 id="quiquis的防盗窃"><a href="#quiquis的防盗窃" class="headerlink" title="quiquis的防盗窃"></a>quiquis的防盗窃</h3><h4 id="主要原理"><a href="#主要原理" class="headerlink" title="主要原理"></a>主要原理</h4><p><strong>敌人盗窃的可能性：</strong></p>
-<p>1.对手设法将价值从诚实的账户转移，防范原理：这样会打破UPK的不可伪造性</p>
-<p>2.对手设法转移的值高于帐户的余额，防范原理：这样会打破承诺的绑定性</p>
-<h4 id="转账的大致过程"><a href="#转账的大致过程" class="headerlink" title="转账的大致过程"></a>转账的大致过程</h4><p>1.先根据随机序列ψ，生成ψ1, ψ2, 使得ψ = ψ1* ψ2</p>
-<p>2.根据<strong>inputs</strong> 账户序列，和ψ1,生成不变金额，只打乱的混淆，将账户们变成<strong>inputs’</strong>, 其中发送者索引是1，接收者索引是 2-t, 其他账户为 t+1-n</p>
-<p>3.根据每个账户和其对应要更改的金额，分别生成每个账户的临时账户{acctδ,i}，并用全局变量再生成全局公钥（g,h）的临时账户{accte,i}</p>
-<p>4.将每个账户的临时账户和原有账户合并，变成<strong>outputs’</strong></p>
-<p>5.将<strong>outputs’</strong>, 和 ψ2进行只打乱的混淆，变成<strong>outputs</strong></p>
-<p>最后，</p>
-<p>tx = (inputs,outputs, π)</p>
-<p>ZK proof π = (inputs’, outputs’, acctδ, accte,  π1,  π2,  π3) </p>
-<h4 id="证明机制"><a href="#证明机制" class="headerlink" title="证明机制"></a>证明机制</h4><p><img src="/%5Cimages%5Cq1.png" alt="q1"></p>
-<h4 id="进一步总结"><a href="#进一步总结" class="headerlink" title="进一步总结"></a>进一步总结</h4><p>其中，第一步和第三步要prover证明他知道混淆用的随机数，和无金额变动的混淆是正确的。无需用到prover的私钥。</p>
-<p>第二步要证明四个事：</p>
-<ul>
-<li>证明自己知道加的金额序列，和随机数序列，使得全局变量生成的临时账户，和用所有参与交易的账户公钥生成的临时账户，金额一样</li>
-<li>证明inputs’ -&gt; outputs’的过程中，两个承诺合并的时候，承诺结果和前两个承诺相比，公钥一样，承诺是前两个承诺相乘</li>
-<li>证明接收者的金额增加都是大于0的</li>
-<li>证明<strong>自己有发送者的私钥</strong>，知道自己的钱是多少（主要就是这一步用私钥了）</li>
-</ul>
-<h4 id="安全论证"><a href="#安全论证" class="headerlink" title="安全论证"></a>安全论证</h4><p>作者在文章结尾的附录中，用博弈论的方法，分了许多不同的情况，对防盗窃进行论证。具体挺复杂，要看懂感觉需要一些时间。</p>
-<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>至于为什么要这么设计，为什么引入全局的变化量，为什么分成三步打乱后再打乱，可能有些安全问题，但我一时没太想明白。</p>
-
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/2021/07/04/quisquis-notes/#more">Read More</a>
+          </p>
+        
       
     </div>
-
-    
-      
 
     
 
