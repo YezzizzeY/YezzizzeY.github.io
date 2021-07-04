@@ -12,13 +12,13 @@
 <meta property="og:site_name" content="Yezzi Tech">
 <meta property="og:description" content="以太坊签名和验签相关代码。原理并没有介绍。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://yezzi.tech/2021/07/02/%E4%BA%A4%E6%98%93%E7%AD%BE%E5%90%8D%E5%92%8C%E9%AA%8C%E7%AD%BE/picture/11.png!de">
+<meta property="og:image" content="https://yezzi.tech/picture/11.png!de">
 <meta property="article:published_time" content="2021-07-02T10:37:40.000Z">
 <meta property="article:modified_time" content="2021-07-04T02:41:49.081Z">
 <meta property="article:author" content="Mingzhe Liu">
 <meta property="article:tag" content="以太坊">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://yezzi.tech/2021/07/02/%E4%BA%A4%E6%98%93%E7%AD%BE%E5%90%8D%E5%92%8C%E9%AA%8C%E7%AD%BE/picture/11.png!de">
+<meta name="twitter:image" content="https://yezzi.tech/picture/11.png!de">
   
     <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
   
@@ -121,7 +121,7 @@
 
 
 
-<p><img src="./picture/11.png!de"></p>
+<p><img src="/./picture/11.png!de"></p>
 <p>简单地说，就是传入要签名的数据和私钥对结果进行签名，得到r s v 格式的签名结果，签名结果是65字节的字节数组。一个字节是8位，一个字符是4位，所以转化为字符串时长度为130.</p>
 <p><strong>在交易签名时，V 值不再是recid, 而是 recid+ chainID*2+ 35(老版签名是recud+27)</strong></p>
 <h6 id="验签的函数"><a href="#验签的函数" class="headerlink" title="验签的函数"></a>验签的函数</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>  &#123;</span><br><span class="line">	decodeHex:= <span class="function"><span class="keyword">func</span><span class="params">(s <span class="keyword">string</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">		b,err:=hex.DecodeString(s)</span><br><span class="line">		<span class="keyword">if</span> err!=<span class="literal">nil</span>&#123;</span><br><span class="line">			log.Fatal(err)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> b</span><br><span class="line">	&#125;</span><br><span class="line">	dataHash := sha256.Sum256([]<span class="keyword">byte</span>(<span class="string">&quot;ethereum&quot;</span>))</span><br><span class="line">	sig:=decodeHex(</span><br><span class="line"><span class="string">&quot;7912f50819764de81ab7791ab3d62f8dabe84c2fdb2f17d76465d28f8a968f7355fbb6cd8dfc7545b6258d4b032753b2074232b07f3911822b37f024cd10116600&quot;</span>)</span><br><span class="line">	pubkey:=decodeHex(</span><br><span class="line">	<span class="string">&quot;037db227d7094ce215c3a0f57e1bcc732551fe351f94249471934567e0f5dc1bf7&quot;</span>)</span><br><span class="line"></span><br><span class="line">	ok:=crypto.VerifySignature(pubkey,dataHash[:],sig[:<span class="built_in">len</span>(sig)<span class="number">-1</span>])</span><br><span class="line">	fmt.Println(<span class="string">&quot;verify pass?&quot;</span>,ok)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -145,7 +145,7 @@
     
 
     <footer class="article-footer">
-      <a data-url="https://yezzi.tech/2021/07/02/%E4%BA%A4%E6%98%93%E7%AD%BE%E5%90%8D%E5%92%8C%E9%AA%8C%E7%AD%BE/" data-id="ckqol3obh0011nwu700d92ngv" class="article-share-link">
+      <a data-url="https://yezzi.tech/2021/07/02/%E4%BA%A4%E6%98%93%E7%AD%BE%E5%90%8D%E5%92%8C%E9%AA%8C%E7%AD%BE/" data-id="ckqoyya430014xcu7gfmo0yr3" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
