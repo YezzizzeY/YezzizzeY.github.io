@@ -106,12 +106,14 @@
 
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Evil-Under-the-Sun-Understanding-and-Discovering-Attacks-on-Ethereum-Decentralized-Applications"><a href="#Evil-Under-the-Sun-Understanding-and-Discovering-Attacks-on-Ethereum-Decentralized-Applications" class="headerlink" title="Evil Under the Sun: Understanding and Discovering Attacks on Ethereum  Decentralized Applications"></a>Evil Under the Sun: Understanding and Discovering Attacks on Ethereum  Decentralized Applications</h2>
+        <p>note of evil under the sun</p>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/2021/07/15/Evil-under-the-Sun-note/#more">Read More</a>
+          </p>
+        
       
     </div>
-
-    
-      
 
     
 
@@ -158,112 +160,14 @@
 
     <div class="article-entry" itemprop="articleBody">
       
-        <span id="more"></span>
-
-<h2 id="Blockchain-dapp-attack-note"><a href="#Blockchain-dapp-attack-note" class="headerlink" title="Blockchain dapp attack note"></a>Blockchain dapp attack note</h2><h3 id="Blockchain-dapp-categories"><a href="#Blockchain-dapp-categories" class="headerlink" title="Blockchain dapp categories"></a>Blockchain dapp categories</h3><h4 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h4><p>Ethereum Dapps are public de-centralized applications that interact with the  Ethereum blockchain, providing services such as gambling, online voting, token  system, cryptocurrency exchange, etc.</p>
-<p>As is illustrated in “As strong as its weakest link: How to break blockchain dapps at RPC service”,  a typical dapp is architectured in three layers: Dapp clients running inside web browsers send requests to Remote Procedure Call service that translates the clients’ requests to cryptocurrency transactions or queries to a blockchain P2P network. Such a service operates on a blockchain full node maintained directly by the DApp owner or a set of nodes hosted by a third party.</p>
-<p>figure 1:  SquirRL: Automating Attack Analysis on Blockchain Incentive Mechanisms with Deep  Reinforcement Learning</p>
-<p><img src="/images/blockchain-dapp-attack-note/3.png" alt="1"></p>
-<p>A typical type of Dapp:</p>
-<p><strong><a target="_blank" rel="noopener" href="https://docs.metamask.io/">MetaMask</a></strong>:   </p>
-<p>MetaMask was created to meet the needs of secure and usable Ethereum-based web sites. In particular, it handles account management and connecting the user to the blockchain. </p>
-<p>figure 2: <a target="_blank" rel="noopener" href="https://metamask.io/">https://metamask.io/</a></p>
-<p><img src="/images/blockchain-dapp-attack-note/4.png" alt="1"></p>
-<p>A typical type of node service:</p>
-<p><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/managed-blockchain-ethereum-overview.html"><strong>Amazon Managed Blockchain</strong></a></p>
-<p>Amazon Managed Blockchain helps customers provision Ethereum nodes. </p>
-<p>Amazon Managed Blockchain is a fully managed service for creating and managing blockchain networks and network resources using open-source frameworks. </p>
-<p>figure 3: <a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/managed-blockchain-ethereum-overview.html">https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/managed-blockchain-ethereum-overview.html</a></p>
-<p><img src="/images/blockchain-dapp-attack-note/5.png" alt="1"></p>
-<p>Examples of decentralized applications:</p>
-<p>The most hotest dapps are <strong>Defi (decentralized finances), Gambling, Exchanges (also known as defi), utilities</strong></p>
-<p>figure 4: <a target="_blank" rel="noopener" href="https://www.dapp.com/dapps/">https://www.dapp.com/dapps/</a></p>
-<p><img src="/images/blockchain-dapp-attack-note/1.png" alt="1"></p>
-<p><img src="/images/blockchain-dapp-attack-note/2.png" alt="1"></p>
-<h4 id="ERC20"><a href="#ERC20" class="headerlink" title="ERC20"></a>ERC20</h4><p>Reference: <a target="_blank" rel="noopener" href="https://ethereum.org/en/developers/docs/standards/tokens/erc-20/">https://ethereum.org/en/developers/docs/standards/tokens/erc-20/</a></p>
-<p>The ERC-20 (Ethereum Request for Comments 20), proposed by Fabian Vogelsteller in November 2015, is a Token Standard that implements an API for tokens within Smart Contracts.</p>
-<p>It provides functionalities like to transfer tokens from one account to another, to get the current token balance of an account and also the total supply of the token available on the network. Besides these it also has some other functionalities like to approve that an amount of token from an account can be spent by a third party account.</p>
-<p>If a Smart Contract implements the following methods and events it can be called an ERC-20 Token Contract and, once deployed, it will be responsible to keep track of the created tokens on Ethereum.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">name</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">string</span>)</span></span><br><span class="line"><span class="function"><span class="function"><span class="keyword">function</span> <span class="title">symbol</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">string</span>)</span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"><span class="keyword">function</span> <span class="title">decimals</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint8</span>)</span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"><span class="function"><span class="keyword">function</span> <span class="title">totalSupply</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint256</span>)</span></span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"><span class="function"><span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span>(<span class="params">address _owner</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint256 balance</span>)</span></span></span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"><span class="function"><span class="function"><span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address _to, uint256 _value</span>) <span class="title">public</span> <span class="title">returns</span> (<span class="params">bool success</span>)</span></span></span></span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"><span class="function"><span class="function"><span class="function"><span class="function"><span class="keyword">function</span> <span class="title">transferFrom</span>(<span class="params">address _from, address _to, uint256 _value</span>) <span class="title">public</span> <span class="title">returns</span> (<span class="params">bool success</span>)</span></span></span></span></span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"><span class="function"><span class="function"><span class="function"><span class="function"><span class="function"><span class="keyword">function</span> <span class="title">approve</span>(<span class="params">address _spender, uint256 _value</span>) <span class="title">public</span> <span class="title">returns</span> (<span class="params">bool success</span>)</span></span></span></span></span></span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"><span class="function"><span class="function"><span class="function"><span class="function"><span class="function"><span class="function"><span class="keyword">function</span> <span class="title">allowance</span>(<span class="params">address _owner, address _spender</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint256 remaining</span>)</span></span></span></span></span></span></span></span></span></span><br></pre></td></tr></table></figure>
-
-<h4 id="Stablecoin"><a href="#Stablecoin" class="headerlink" title="Stablecoin"></a>Stablecoin</h4><p><strong>what is stablecoin</strong></p>
-<p>USDT中文名叫“泰达币”，是Tether公司发行的一种<strong>将加密货币与法定货币美元挂钩的数字</strong>货币，是一种保存在外汇储备账户、获得法定货币支持的虚拟货币。</p>
-<p>Tether公司宣称：<strong>每发行一枚USDT，都将会存储1美元的保证金;USDT持有者可以随时用USDT向Tether公司兑换等额的美元现金</strong>，锚定美元的做法使其具备了信用派生货币的权利，成为币圈山寨美联储。</p>
-<p><strong>USDT的链上存储</strong></p>
-<p>参考这篇文章，写的很详细：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1366689">以太坊ERC20协议以及发行自己代币</a></p>
-<p>代码层次上，参考这个文章： <a target="_blank" rel="noopener" href="https://gitee.com/ethergo/ether-erc20-token/tree/master/">全网最全ERC20智能合约大全</a></p>
-<p>USDT提币的时候三个渠道分别是：Omni基于比特币网络协议、ERC20基于以太坊网络协议、TRC20基于波场网络协议。</p>
-<p><strong>Three types of USDT：</strong></p>
-<p>基于比特币网络的Omni-USDT，充币地址是BTC地址，充提币走BTC网络；</p>
-<p>基于以太坊ERC20协议的ERC20-USDT，充币地址是ETH地址，充提币走ETH网络；</p>
-<p>基于波场TRC20协议的TRC20-USDT，充币地址是TRON地址，充提币走TRON网络。</p>
-<p><strong>Differences between USDT stored in three chains：</strong></p>
-<p>Omni-USDT的地址是以1开头</p>
-<p>ERC20-USDT的地址是以0x开头</p>
-<p>TRC20-USDT的地址是以T开头</p>
-<h4 id="Defi"><a href="#Defi" class="headerlink" title="Defi"></a>Defi</h4><p>Reference: <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Decentralized_finance">https://en.wikipedia.org/wiki/Decentralized_finance</a></p>
-<p>Decentralized finance is a blockchain based form of finance that finacial intermediaries such as brokerages, exchanges, or banks to offer traditional instruments, and instead utilizes smart contracts on blockchians, the most common being ethereum.  DeFi platforms allow people to lend or borrow funds from others, speculate on price movements on a range of assets using derivatives, trade <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cryptocurrencies">cryptocurrencies</a>, insure against risks, and earn <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Interest">interest</a> in savings-like accounts. DeFi uses a layered architecture and highly composable building blocks. Some DeFi applications promote high <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Interest_rate">interest rates</a> but are subject to high risk. By October 2020, over 11 billion (worth in cryptocurrency) was deposited in various decentralized finance protocols, which represented more than a tenfold growth during the course of 2020. As of January 2021, approximately ​20.5 billion was invested in DeFi.</p>
-<h4 id="Dex"><a href="#Dex" class="headerlink" title="Dex"></a>Dex</h4><p><strong>Decentralized exchanges (DEXs)</strong>: Online exchanges help users exchange currencies for other currencies, whether U.S. dollars for <a target="_blank" rel="noopener" href="https://www.coindesk.com/price/bitcoin">bitcoin</a> or <a target="_blank" rel="noopener" href="https://www.coindesk.com/price/ethereum">ether</a> for <a target="_blank" rel="noopener" href="https://www.coindesk.com/price/dai">DAI</a>. DEXs are a <a target="_blank" rel="noopener" href="https://www.coindesk.com/defi-flippening-uniswap-topples-coinbase-trading-volume">hot</a> type of exchange, which connects users directly so they can trade cryptocurrencies with one another without trusting an intermediary with their money. It usually exists as a <a target="_blank" rel="noopener" href="https://cryptocurrencyfacts.com/what-is-a-dapp/">decentralized application (DApp)</a>. It is a place where people can trade  cryptocurrencies directly without a middleman. </p>
-<p>On a DEX, trading is done using smart contracts, and every transaction is written to the blockchain. A DEX replaces the need for a centralized exchange to act as a middleman, although DEX projects do need developers supporting the automation.</p>
-<p>One example of a DEX is <a target="_blank" rel="noopener" href="https://cryptocurrencyfacts.com/exchanges/uniswap/">Uniswap</a>. Uniswap devs wrote the code, provide the website, and even have a token. However, the software and the Etehreum network take care of the rest.</p>
-<p>Uniswap aside, there are several <a target="_blank" rel="noopener" href="https://www.coingecko.com/en/dex">notable DEXs</a> doing millions of dollars in volume a day as of 2021.</p>
-<p><img src="/images/blockchain-dapp-attack-note/6.jpg" alt="1"></p>
-<p>Reference: <a target="_blank" rel="noopener" href="https://uniswap.org/blog/uniswap-v2/">https://uniswap.org/blog/uniswap-v2/</a></p>
-<p>Uniswap is a liquidity protocol running on the Ethereum, which supports free trust-free interchange, that is, all transactions on the exchange are automated by intelligent contracts, users don’t need to rely on trusty  third party. This interchange program has proven to get popularity among the population of  ERC20 user group, and they are willing to use uniswap to provide liquidity for different trading.  </p>
-<p>Note that uniswap does not support ERC20 tokens only, some ERC-20-like tokens like stable coin USDT is also supported, which makes uniswap popular.</p>
-<h4 id="NFT"><a href="#NFT" class="headerlink" title="NFT"></a>NFT</h4><p>Reference: <a target="_blank" rel="noopener" href="https://www.theverge.com/22310188/nft-explainer-what-is-blockchain-crypto-art-faq">https://www.theverge.com/22310188/nft-explainer-what-is-blockchain-crypto-art-faq</a></p>
-<p>NFT means Non-fungible token.</p>
-<p>Reference: <a target="_blank" rel="noopener" href="https://ethereum.org/en/nft/">https://ethereum.org/en/nft/</a></p>
-<p>NFT stands for non-fungible token. Non-fungible is an economic term that you could use to describe things like your furniture, a song file, or your computer. These things are not interchangeable for other items because they have unique properties. </p>
-<p>NFTs are tokens that we can use to represent ownership of unique items. They let us tokenise things like art, collectibles, even real estate. They can only have one official owner at a time and they’re secured by the Ethereum blockchain – no one can modify the record of ownership or copy/paste a new NFT into existence. </p>
-<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>路印协议博客，一个新的提高交易效率的思路：<a target="_blank" rel="noopener" href="https://blogs.loopring.org/loopring-dex/">中心化交易所技术和趋势</a>, zkrollup <a target="_blank" rel="noopener" href="https://docs.ethhub.io/ethereum-roadmap/layer-2-scaling/zk-rollups/">https://docs.ethhub.io/ethereum-roadmap/layer-2-scaling/zk-rollups/</a></p>
-<h3 id="Blockchain-dapp-attack-and-common-types"><a href="#Blockchain-dapp-attack-and-common-types" class="headerlink" title="Blockchain dapp attack and common types"></a>Blockchain dapp attack and common types</h3><p><img src="/images/blockchain-dapp-attack-note/8.png" alt="1"></p>
-<h3 id="Recent-Dapp-attacks-discovered-in-papers"><a href="#Recent-Dapp-attacks-discovered-in-papers" class="headerlink" title="Recent Dapp attacks discovered in papers"></a>Recent Dapp attacks discovered in papers</h3><h4 id="Evil-under-the-sun"><a href="#Evil-under-the-sun" class="headerlink" title="Evil under the sun"></a><strong>Evil under the sun</strong></h4><p>A typical Dapp attack discovered  consists of four stages: attack preparation, exploitation, attack propagation  and mission completion</p>
-<ul>
-<li><strong>Attack preparation stage:</strong> send several transactions for calling the victim Dapp from exploit developers to test  their exploit codes</li>
-<li><strong>exploitation stage:</strong>  multiple attack operators from different EOAs invoke the exploit contracts  to attack the victim Dapp and gain profit</li>
-<li><strong>attack propagation stage:</strong> the operators either reuse or further adjust the exploit contract  through  update to exploit other similar Dapps to gain more profit</li>
-<li><strong>mission completion stage</strong>:  the attack operators destruct the exploit contracts and withdraw attack  profit. The profit is then transferred from the attack operators or the  exploit contract to the exchange service through several money mules</li>
-</ul>
-<h4 id="DoERS"><a href="#DoERS" class="headerlink" title="DoERS"></a><strong>DoERS</strong></h4><p><img src="/images/blockchain-dapp-attack-note/7.png" alt="1">The DoERS attack is constructed based on an exploitable smart contract that  contains resource-consuming procedures, and it focus on the eth_call function, which could exhaust CPU/IO/Mem of the full nodes that offer RPC service.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> contract DoERS-C &#123;</span><br><span class="line"><span class="number">2</span> <span class="function"><span class="keyword">function</span> <span class="title">exhaustCPU</span>(<span class="params">uint256 payload_size1</span>) <span class="title">public</span> <span class="title">returns</span></span></span><br><span class="line"><span class="function">(<span class="params">bool</span>)</span>&#123;</span><br><span class="line"><span class="number">3</span> bytes32 target=<span class="number">0xf</span>...f;</span><br><span class="line"><span class="number">4</span> <span class="keyword">for</span> (uint256 i=<span class="number">0</span>; i&lt;payload_size1; ++i)&#123;</span><br><span class="line"><span class="number">5</span> target = keccak256(abi.encodePacked(target));&#125;</span><br><span class="line"><span class="number">6</span> <span class="keyword">return</span> <span class="literal">true</span>;&#125;</span><br><span class="line"><span class="number">7</span> bytes32[] storage;</span><br><span class="line"><span class="number">8</span> <span class="function"><span class="keyword">function</span> <span class="title">exhaustIO</span>(<span class="params">uint256 payload_size1</span>) <span class="title">public</span> <span class="title">returns</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">bool</span>)</span>&#123;</span><br><span class="line"><span class="number">9</span> <span class="keyword">for</span> (uint256 j=<span class="number">0</span>; j&lt;payload_size2; ++j) &#123;</span><br><span class="line"><span class="number">10</span> storage.push(<span class="number">0xf</span>...f);&#125;</span><br><span class="line"><span class="number">11</span> <span class="keyword">return</span> <span class="literal">true</span>;&#125;</span><br><span class="line"><span class="number">12</span> <span class="function"><span class="keyword">function</span> <span class="title">exhaustMem</span>(<span class="params">uint256 payload_size3</span>) <span class="title">pure</span> <span class="title">public</span></span></span><br><span class="line"><span class="function"><span class="title">returns</span>(<span class="params">bool</span>) </span>&#123;</span><br><span class="line"><span class="number">13</span> bytes32[] memory mem = <span class="keyword">new</span> bytes32[](payload_size3);</span><br><span class="line"><span class="number">14</span> mem[payload_size3-<span class="number">1</span>] = <span class="number">0xf</span>...f;<span class="comment">//&quot;CODECOPY&quot; allocate</span></span><br><span class="line">memory</span><br><span class="line"><span class="number">15</span> <span class="keyword">return</span> <span class="literal">true</span>;&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>It focuses on the node services.</strong></p>
-<h4 id="Sandwich"><a href="#Sandwich" class="headerlink" title="Sandwich"></a><strong>Sandwich</strong></h4><p><img src="/blockchain-dapp-attack-note/9.png" alt="1"></p>
-<h3 id="How-could-AI-affect-on-blockchain"><a href="#How-could-AI-affect-on-blockchain" class="headerlink" title="How could AI affect on blockchain"></a>How could AI affect on blockchain</h3><h3 id="Possible-topics-to-explore"><a href="#Possible-topics-to-explore" class="headerlink" title="Possible topics to explore"></a>Possible topics to explore</h3><p>针对DoERS攻击和可能的潜在攻击的异常检测</p>
-<p>利用evil under the sun进行基于深度学习的攻击</p>
-<h3 id="近期趋势"><a href="#近期趋势" class="headerlink" title="近期趋势"></a>近期趋势</h3><p><a target="_blank" rel="noopener" href="https://cointelegraph.com/news/eth-transactions-near-record-high-as-miners-spam-the-network">ETH Transactions Near Record High as Miners Spam the Network</a></p>
-<p>The number of daily transactions on the Ethereum network is approaching all-time high levels amid the rise of <strong>stablecoins</strong> and <strong>DeFi tokens</strong> — and with <strong>some miners reportedly spamming the network</strong>. </p>
-<h4 id="什么是DEX"><a href="#什么是DEX" class="headerlink" title="什么是DEX"></a>什么是DEX</h4><p>A deX is a decentralized peer-to-peer Exchange. It is an exchange run by code. It usually exists as a <a target="_blank" rel="noopener" href="https://cryptocurrencyfacts.com/what-is-a-dapp/">decentralized application (DApp)</a>. It is a place where people can trade  cryptocurrencies directly without a middleman. </p>
-<p>On a DEX, trading is done using smart contracts, and every transaction is written to the blockchain. A DEX replaces the need for a centralized exchange to act as a middleman, although DEX projects do need developers supporting the automation.</p>
-<p>One example of a DEX is <a target="_blank" rel="noopener" href="https://cryptocurrencyfacts.com/exchanges/uniswap/">Uniswap</a>. Uniswap devs wrote the code, provide the website, and even have a token. However, the software and the Etehreum network take care of the rest.</p>
-<p>Uniswap aside, there are several <a target="_blank" rel="noopener" href="https://www.coingecko.com/en/dex">notable DEXs</a> doing millions of dollars in volume a day as of 2021.</p>
-<p><a target="_blank" rel="noopener" href="https://blogs.loopring.org/loopring-dex/">中心化交易所技术和趋势</a></p>
-<h4 id="什么是DeFi"><a href="#什么是DeFi" class="headerlink" title="什么是DeFi"></a>什么是DeFi</h4><p>以太坊官方的解释：<a target="_blank" rel="noopener" href="https://ethereum.org/en/defi/"><strong>Decentralized finance (DeFi)</strong></a></p>
-<ul>
-<li>A global, open alternative to the current financial system.</li>
-<li>Products that let you borrow, save, invest, trade, and more.</li>
-<li>Based on open-source technology that anyone can program with.</li>
-</ul>
-<h4 id="Gas-Fee"><a href="#Gas-Fee" class="headerlink" title="Gas Fee"></a>Gas Fee</h4><p><a target="_blank" rel="noopener" href="https://www.investopedia.com/terms/g/gas-ethereum.asp">https://www.investopedia.com/terms/g/gas-ethereum.asp</a></p>
-<h3 id="DoERS-1"><a href="#DoERS-1" class="headerlink" title="DoERS"></a>DoERS</h3><p>ndss talk里出现的网站</p>
-<p>1 <a target="_blank" rel="noopener" href="https://www.techradar.com/news/massive-ethereum-outage-forces-crypto-exchanges-to-block-withdrawals">Massive Ethereum outage forces crypto exchanges to block withdrawals</a></p>
-<p>2  <a target="_blank" rel="noopener" href="https://status.coinbase.com/incidents/ycr2xm9r8x6p">EOS network has degraded performance. Sends and receives might be delayed.</a> </p>
-<p>3 <a target="_blank" rel="noopener" href="https://www.coindesk.com/the-race-is-on-to-replace-ethereums-most-centralized-layer">The Race Is On to Replace Ethereum’s Most Centralized Layer</a></p>
-<p>4 <a target="_blank" rel="noopener" href="https://blog.infura.io/infura-mainnet-outage-post-mortem-2020-11-11/#what-was-the-root-cause">Infura Mainnet Outage Post-Mortem 2020-11-11</a></p>
-<p>Denied RPC service is of interest to: Competing services, frontrunning clients.</p>
-<h3 id="SquirRL"><a href="#SquirRL" class="headerlink" title="SquirRL"></a>SquirRL</h3><p>SquirRL： Automating Attack Analysis on Blockchain Incentive Mechanisms with Deep Reinforcement Learning</p>
-<p>里面出现的新闻：</p>
-<p>1 <a target="_blank" rel="noopener" href="https://www.tradestation.com/insights/2020/05/15/bitcoin-plunges-and-recovers-amid-halving/">Bitcoin Plunges and Recovers Amid Halving</a></p>
-<p>2 <a target="_blank" rel="noopener" href="https://cointelegraph.com/news/vitalik-buterin-warns-high-fees-threaten-ethereums-security">Vitalik Buterin Warns High Fees Threaten Ethereum’s Security</a></p>
-<p>3 <a target="_blank" rel="noopener" href="https://decrypt.co/36783/bitcoin-fees-pulled-higher-by-defi-mania">Bitcoin fees pulled higher by DeFi-mania</a></p>
-<h3 id="Sandwich-Attack"><a href="#Sandwich-Attack" class="headerlink" title="Sandwich Attack"></a>Sandwich Attack</h3><p><a target="_blank" rel="noopener" href="https://www.jinse.com/blockchain/1079616.html">解析以太坊抢先交易原理及其解决方案</a></p>
-
+        <p>illustrate common dapp and attack types</p>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/2021/07/12/blockchain-dapp-attack-note/#more">Read More</a>
+          </p>
+        
       
     </div>
-
-    
-      
 
     
 
