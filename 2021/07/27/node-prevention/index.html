@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>node prevention | Yezzi Tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="DoERS has proved that attackers could damage a node through calling a contract function that consume a large amount of computer resource, I’m looking for a way to do defense.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="node prevention">
+<meta property="og:url" content="https://yezzi.tech/2021/07/27/node-prevention/index.html">
+<meta property="og:site_name" content="Yezzi Tech">
+<meta property="og:description" content="DoERS has proved that attackers could damage a node through calling a contract function that consume a large amount of computer resource, I’m looking for a way to do defense.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://yezzi.tech/images/node-prevention/1.png">
+<meta property="og:image" content="https://yezzi.tech/images/node-prevention/2.png">
+<meta property="og:image" content="https://yezzi.tech/images/node-prevention/3.png">
+<meta property="og:image" content="https://yezzi.tech/images/node-prevention/4.png">
+<meta property="og:image" content="https://yezzi.tech/images/node-prevention/5.png">
+<meta property="og:image" content="https://www.arcblock.io/blog/static/9e8c0f1e579943403cedd5077e7c0ab2/4552c/payable-check.png">
+<meta property="article:published_time" content="2021-07-27T14:12:36.000Z">
+<meta property="article:modified_time" content="2021-07-30T14:04:50.366Z">
+<meta property="article:author" content="Mingzhe Liu">
+<meta property="article:tag" content="blockchain attack">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yezzi.tech/images/node-prevention/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">Home</a></li>
+        
+          <li><a class=""
+                 href="/archives/">Archives</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">Yezzi Tech</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-node-prevention" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      node prevention
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2021/07/27/node-prevention/" class="article-date"><time datetime="2021-07-27T14:12:36.000Z" itemprop="datePublished">2021-07-27</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>DoERS has proved that attackers could damage a node through calling a contract function that consume a large amount of computer resource, I’m looking for a way to do defense.</p>
+<span id="more"></span>
+
+<h1 id="Node-prevention-note"><a href="#Node-prevention-note" class="headerlink" title="Node prevention note"></a>Node prevention note</h1><h3 id="Gas-cost"><a href="#Gas-cost" class="headerlink" title="Gas cost"></a>Gas cost</h3><p>Reference: ethereum yellow book</p>
+<p>任意的程序片段（包括合约创建、消息调用、分配资源以及访问账户storage、在虚拟机上执行操作等）都会有一个普遍认同的gas消耗。</p>
+<p>First, the fee schedule G is a tuple of 31 scalar values corresponding to the relative  costs, in gas, of a number of abstract operations that a transaction may effect.</p>
+<p><img src="/images/node-prevention/1.png" alt="Schedule G"></p>
+<p>In Virtual Machine Specification Gas Cost. The general gas cost function, C, is defined as:</p>
+<p><img src="/images/node-prevention/2.png" alt="function C"></p>
+<p><img src="/images/node-prevention/3.png" alt="function C"></p>
+<p><img src="/images/node-prevention/4.png" alt="w"></p>
+<p>Note also that Cmem is the memory cost function (the expansion function being the  difference between the cost before and after). It is a polynomial, with the  higher-order coefficient divided and floored, and thus linear up to 724B of  memory used, after which it costs substantially more.</p>
+<p>W(xxx) has different cost if gas, and it is defined by a instruction, and there is a specific instruction table.</p>
+<p>Reference: <a target="_blank" rel="noopener" href="https://ethervm.io/">https://ethervm.io/</a> or ethereum yellow book</p>
+<p><img src="/images/node-prevention/5.png" alt="w"></p>
+<p>there are so many opcodes, and I won’t list everyone here. </p>
+<h3 id="Contract-execution"><a href="#Contract-execution" class="headerlink" title="Contract execution"></a>Contract execution</h3><p>Reference: <a target="_blank" rel="noopener" href="https://www.arcblock.io/blog/zh/post/2018/12/08/evm-part-1">https://www.arcblock.io/blog/zh/post/2018/12/08/evm-part-1</a></p>
+<p>take an contract for example:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.11</span>;</span><br><span class="line"></span><br><span class="line">contract C &#123;</span><br><span class="line">    uint256 a;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">C</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      a = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>after compiling it is transfered to bytecode</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUSH1 <span class="number">0x60</span> PUSH1 <span class="number">0x40</span> MSTORE CALLVALUE ISZERO PUSH1 <span class="number">0xE</span> JUMPI PUSH1 <span class="number">0x0</span> DUP1 REVERT JUMPDEST PUSH1 <span class="number">0x1</span> PUSH1 <span class="number">0x0</span> DUP2 SWAP1 SSTORE POP PUSH1 <span class="number">0x35</span> DUP1 PUSH1 <span class="number">0x23</span> PUSH1 <span class="number">0x0</span> CODECOPY PUSH1 <span class="number">0x0</span> RETURN STOP PUSH1 <span class="number">0x60</span> PUSH1 <span class="number">0x40</span> MSTORE PUSH1 <span class="number">0x0</span> DUP1 REVERT STOP LOG1 PUSH6 <span class="number">0x627A7A723058</span> KECCAK256 <span class="number">0xd3</span> ISZERO DUP8 <span class="number">0x5f</span> JUMP <span class="number">0xb5</span> ORIGIN <span class="number">0xab</span> CALLDATACOPY SHR <span class="number">0xf9</span> <span class="number">0xaa</span> DUP7 <span class="number">0xa6</span> <span class="number">0x28</span> POP <span class="number">0xe1</span> RETURNDATACOPY <span class="number">0xb6</span> <span class="number">0xab</span> NOT <span class="number">0x48</span> <span class="number">0x47</span> ADD SAR <span class="number">0xcd</span> PUSH5 <span class="number">0x1B9A9D2F8D</span> STOP <span class="number">0x29</span></span><br></pre></td></tr></table></figure>
+
+<p>and also, it could be divided into three parts</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">60606040523415600e57600080</span>fd <span class="number">5</span>b6001600081905550 <span class="number">60358060236000396000</span>f300 <span class="comment">// 部署代码</span></span><br><span class="line"><span class="number">6060604052600080</span>fd00 <span class="comment">// 合约本身代码</span></span><br><span class="line">a165627a7a72305820d315875f56b532ab371cf9aa86a62850e13eb6ab194847011dcd641b9a9d2f8d0029 <span class="comment">//Auxdata</span></span><br></pre></td></tr></table></figure>
+
+<p>Every number stands for a hex code, and every two numbers stands for a byte and than it could be translated to OpCodes referred to yellow book roles:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUSH1 <span class="number">0x60</span> PUSH1 <span class="number">0x40</span> MSTORE CALLVALUE ISZERO PUSH1 <span class="number">0xE</span> JUMPI PUSH1 <span class="number">0x0</span> DUP1 REVERT JUMPDEST PUSH1 <span class="number">0x1</span> PUSH1 <span class="number">0x0</span> DUP2 SWAP1 SSTORE POP PUSH1 <span class="number">0x35</span> DUP1 PUSH1 <span class="number">0x23</span> PUSH1 <span class="number">0x0</span> CODECOPY PUSH1 <span class="number">0x0</span> RETURN STOP PUSH1 <span class="number">0x60</span> PUSH1 <span class="number">0x40</span> MSTORE PUSH1 <span class="number">0x0</span> DUP1 REVERT STOP LOG1 PUSH6 <span class="number">0x627A7A723058</span> KECCAK256 <span class="number">0xd3</span> ISZERO DUP8 <span class="number">0x5f</span> JUMP <span class="number">0xb5</span> ORIGIN <span class="number">0xab</span> CALLDATACOPY SHR <span class="number">0xf9</span> <span class="number">0xaa</span> DUP7 <span class="number">0xa6</span> <span class="number">0x28</span> POP <span class="number">0xe1</span> RETURNDATACOPY <span class="number">0xb6</span> <span class="number">0xab</span> NOT <span class="number">0x48</span> <span class="number">0x47</span> ADD SAR <span class="number">0xcd</span> PUSH5 <span class="number">0x1B9A9D2F8D</span> STOP <span class="number">0x29</span></span><br></pre></td></tr></table></figure>
+
+<p>running the first section of first part for example:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUSH1 <span class="number">0x60</span> PUSH1 <span class="number">0x40</span> MSTORE CALLVALUE ISZERO PUSH1 <span class="number">0xE</span> JUMPI PUSH1 <span class="number">0x0</span> DUP1 REVERT </span><br></pre></td></tr></table></figure>
+
+<p> <img src="https://www.arcblock.io/blog/static/9e8c0f1e579943403cedd5077e7c0ab2/4552c/payable-check.png" alt="img"> </p>
+<p>And for every step of running evm bytecode, the gas consuming is calculated.</p>
+<h3 id="Instruction-division-when-contract-runs"><a href="#Instruction-division-when-contract-runs" class="headerlink" title="Instruction division when contract runs"></a>Instruction division when contract runs</h3><p><strong>Reference: <a target="_blank" rel="noopener" href="https://ethervm.io/">https://ethervm.io/</a></strong></p>
+<p>Typically contracts expose a public ABI, which is a list of supported ways a user can interact with a contract.<br>To interact with a contract, a user will submit a transaction carrying any amount of wei (including 0) and a data payload formatted according to the ABI, specifying the type of interaction and any additional parameters.<br>When the contract runs there are 4 main ways it handles data. </p>
+<h4 id="Call-Data"><a href="#Call-Data" class="headerlink" title="Call Data"></a>Call Data</h4><p>This is the data associated with a transaction to a smart contract. It usually contains a <a target="_blank" rel="noopener" href="https://www.4byte.directory/">4-byte method identifier</a><br>See: : <a target="_blank" rel="noopener" href="https://ethervm.io/#CALLDATASIZE"><code>CALLDATASIZE, CALLDATASIZE, CALLDATACOPY</code></a> </p>
+<h4 id="Stack"><a href="#Stack" class="headerlink" title="Stack"></a>Stack</h4><p>The EVM maintains a stack of s used to hold local variables, function call arguments and return addresses. Distinguishing between return addresses and other variables is tricky.<br> See: <a target="_blank" rel="noopener" href="https://ethervm.io/#PUSH1"><code>PUSH1</code></a>, <a target="_blank" rel="noopener" href="https://ethervm.io/#DUP1"><code>DUP1</code></a>, <a target="_blank" rel="noopener" href="https://ethervm.io/#SWAP1"><code>SWAP1</code></a>, <a target="_blank" rel="noopener" href="https://ethervm.io/#POP"><code>POP</code></a> </p>
+<h4 id="Memory"><a href="#Memory" class="headerlink" title="Memory"></a>Memory</h4><p>Memory is an array of <code>uint8</code><br>It is not persisted across transactions.</p>
+<p>See <a target="_blank" rel="noopener" href="https://ethervm.io/#MLOAD">MLOAD, MSTORE, MSTORE8</a></p>
+<h4 id="Storage"><a href="#Storage" class="headerlink" title="Storage"></a>Storage</h4><p>Storage is a persistent associative map, with <code>uint256``uint256</code><br>All contract fields and mappings are saved in storage.<br><a target="_blank" rel="noopener" href="https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethgetstorageat"><code>web3.eth.getStorageAt(address, key)</code></a><br>See: <a target="_blank" rel="noopener" href="https://ethervm.io/#SLOAD"><code>SLOAD</code></a>,<a target="_blank" rel="noopener" href="https://ethervm.io/#SSTORE"><code>SSTORE</code></a></p>
+<h3 id="Related-Ethereum-RPC-function"><a href="#Related-Ethereum-RPC-function" class="headerlink" title="Related Ethereum RPC function"></a>Related Ethereum RPC function</h3><p><strong>Resource:</strong> </p>
+<p><em><a target="_blank" rel="noopener" href="https://infura.io/docs/ethereum/json-rpc/eth-estimateGas">https://infura.io/docs/ethereum/json-rpc/eth-estimateGas</a></em></p>
+<p><a target="_blank" rel="noopener" href="https://web3js.readthedocs.io/en/v1.2.11/web3-eth.html#call">https://web3js.readthedocs.io/en/v1.2.11/web3-eth.html#call</a></p>
+<p><a target="_blank" rel="noopener" href="https://eth.wiki/json-rpc/API">https://eth.wiki/json-rpc/API</a></p>
+<p>github.com/ethereum/go-ethereum/internal/ethapi/api.go</p>
+<h4 id="eth-call"><a href="#eth-call" class="headerlink" title="eth_call"></a>eth_call</h4><p>Executes a new message call immediately without creating a transaction on the block chain. </p>
+<p><strong>Parameters:</strong></p>
+<p>1 <code>Object</code> - The transaction call object</p>
+<ul>
+<li><p><code>from</code>: <code>DATA</code>, 20 Bytes - (optional) The address the transaction is sent from. </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Set sender address or use a default if none specified</span></span><br><span class="line"><span class="keyword">var</span> addr common.Address</span><br><span class="line"><span class="keyword">if</span> args.From == <span class="literal">nil</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> wallets := b.AccountManager().Wallets(); <span class="built_in">len</span>(wallets) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> accounts := wallets[<span class="number">0</span>].Accounts(); <span class="built_in">len</span>(accounts) &gt; <span class="number">0</span> &#123;</span><br><span class="line">            <span class="comment">// 如果没设置地址账户，则用节点的第一个地址</span></span><br><span class="line">			addr = accounts[<span class="number">0</span>].Address</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	addr = *args.From <span class="comment">//如果设置了账户则使用为设置的地址</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p><code>to</code>: <code>DATA</code>, 20 Bytes - The address the transaction is directed to.</p>
+</li>
+<li><p><code>gas</code>: <code>QUANTITY</code> - (optional) Integer of the gas provided for the transaction execution. eth_call consumes zero gas, but this parameter may be needed by some executions.</p>
+</li>
+<li><p><code>gasPrice</code>: <code>QUANTITY</code> - (optional) Integer of the gasPrice used for each paid gas</p>
+</li>
+<li><p><code>value</code>: <code>QUANTITY</code> - (optional) Integer of the value sent with this transaction</p>
+</li>
+<li><p><code>data</code>: <code>DATA</code> - (optional) Hash of the method signature and encoded parameters. For details see <a target="_blank" rel="noopener" href="https://solidity.readthedocs.io/en/latest/abi-spec.html">Ethereum Contract ABI in the Solidity documentation</a></p>
+</li>
+</ul>
+<p>2 <code>QUANTITY|TAG</code> - integer block number, or the string <code>&quot;latest&quot;</code>, <code>&quot;earliest&quot;</code> or <code>&quot;pending&quot;</code>, see the <a target="_blank" rel="noopener" href="https://eth.wiki/json-rpc/API#the-default-block-parameter">default block parameter</a></p>
+<p>When requests are made that act on the state of ethereum, the last default block parameter determines the height of the block.</p>
+<p>The following options are possible for the defaultBlock parameter:</p>
+<ul>
+<li><code>HEX String</code> - an integer block number</li>
+<li><code>String &quot;earliest&quot;</code> for the earliest/genesis block</li>
+<li><code>String &quot;latest&quot;</code> - for the latest mined block</li>
+<li><code>String &quot;pending&quot;</code> - for the pending state/transactions</li>
+</ul>
+<p>For example: </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">web3.eth.call(&#123;</span><br><span class="line">    <span class="attr">to</span>: <span class="string">&quot;0x11f4d0A3c12e86B4b5F39B213F7E19D048276DAe&quot;</span>, <span class="comment">// contract address</span></span><br><span class="line">    <span class="attr">data</span>: <span class="string">&quot;0xc6888fa10000000000000000000000000000000000000000000000000000000000000003&quot;</span></span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="built_in">console</span>.log);</span><br><span class="line">&gt; <span class="string">&quot;0x000000000000000000000000000000000000000000000000000000000000000a&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Global limitations:</strong> </p>
+<p>1 gas默认是最大的无符号uint64/2</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MaxUint64 = <span class="number">1</span>&lt;&lt;<span class="number">64</span> - <span class="number">1</span></span><br><span class="line">gas := <span class="keyword">uint64</span>(math.MaxUint64 / <span class="number">2</span>) </span><br></pre></td></tr></table></figure>
+
+<p>2 如果调用者设置了gas值则gas为设置的值</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> args.Gas != <span class="literal">nil</span> &#123;   </span><br><span class="line">    gas = <span class="keyword">uint64</span>(*args.Gas) </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3 如果调用者设置了gas值，但节点设置的gas值limit更小，则用节点的gas值</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> globalGasCap != <span class="literal">nil</span> &amp;&amp; globalGasCap.Uint64() &lt; gas &#123;</span><br><span class="line">    log.Warn(<span class="string">&quot;Caller gas above allowance, capping&quot;</span>, <span class="string">&quot;requested&quot;</span>, gas, <span class="string">&quot;cap&quot;</span>, globalGasCap)   </span><br><span class="line">    gas = globalGasCap.Uint64() </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Limitations in Infura:</strong>  To prevent abusive of the API, the <code>gas</code> parameter to <code>eth_estimateGas</code> and </p>
+<p><code>eth_call</code> are capped at 10x (1000%) the current block gas limit. You can recreate this behavior in your local test environment (ganache, besu, geth, or other client) via the <code>rpc.gascap</code> command-line option. </p>
+<h4 id="eth-estimateGas"><a href="#eth-estimateGas" class="headerlink" title="eth_estimateGas"></a>eth_estimateGas</h4><p>Generates and returns an estimate of how much gas is necessary to allow the transaction to complete. The transaction will not be added to the blockchain. Note <strong>that the estimate may be significantly more than the amount of gas actually used by the transaction</strong>, for a variety of reasons including EVM mechanics and node performance. </p>
+<p><strong>Parameters:</strong></p>
+<p>See <a target="_blank" rel="noopener" href="https://eth.wiki/json-rpc/API#eth_call">eth_call</a> parameters, expect that all properties are optional. </p>
+<p><strong>Account Management: Same as eth_call</strong></p>
+<p><strong>Global Limitation: different from eth_call</strong></p>
+<p>If no gas limit is specified geth uses the block gas limit from the pending block as an upper bound. As a result the returned estimate might not be enough to executed the call/transaction when the amount of gas is higher than the pending block gas limit </p>
+<p>首先设置hi值：</p>
+<p>1 如果接口的调用者设置了gas值，则为其数值</p>
+<p>2 如果接口调用者没设置gas值，则为block的gas limit</p>
+<p>3 如果当前hi值大于节点所设置的gas最大值，则使用节点所设置的gas最大值</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> args.Gas != <span class="literal">nil</span> &amp;&amp; <span class="keyword">uint64</span>(*args.Gas) &gt;= params.TxGas &#123;</span><br><span class="line">	hi = <span class="keyword">uint64</span>(*args.Gas)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="comment">// Retrieve the block to act as the gas ceiling</span></span><br><span class="line">	block, err := b.BlockByNumberOrHash(ctx, blockNrOrHash)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>, err</span><br><span class="line">	&#125;		hi = block.GasLimit()	&#125;</span><br><span class="line"><span class="keyword">if</span> gasCap != <span class="literal">nil</span> &amp;&amp; hi &gt; gasCap.Uint64() &#123;</span><br><span class="line">	log.Warn(<span class="string">&quot;Caller gas above allowance, capping&quot;</span>, <span class="string">&quot;requested&quot;</span>, hi, <span class="string">&quot;cap&quot;</span>, gasCap)</span><br><span class="line">	hi = gasCap.Uint64()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后根据hi值，根据21000和hi值之间进行二分算法，中间值作为实际传入的gas，进行尝试交易</p>
+<p>EstimateGas tries to find a minimal gas to run this transaction on the given block number. It do a binary search between 21000 and ‘gas limit’. For example, if ‘gas limit’ is 79000, it tries to run this transaction with the gas limit, 50000 = (21000 + 79000) / 2. If it failed, it tries with 64500 = (50000 + 79000) / 2, and so on </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Execute the binary search and hone in on an executable gas limit</span></span><br><span class="line"><span class="keyword">for</span> lo+<span class="number">1</span> &lt; hi &#123;</span><br><span class="line">	mid := (hi + lo) / <span class="number">2</span></span><br><span class="line">	<span class="keyword">if</span> !executable(mid) &#123;</span><br><span class="line">		lo = mid</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		hi = mid</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Limitations in Infura :</strong> same to eth_call</p>
+<h3 id="Prevention-method-being-used"><a href="#Prevention-method-being-used" class="headerlink" title="Prevention method being used"></a>Prevention method being used</h3><p>Reference: DoERS</p>
+<h4 id="Gas-Limits"><a href="#Gas-Limits" class="headerlink" title="Gas Limits"></a>Gas Limits</h4><p>Finding a “meaningful” value for the Gas limit is non-trivial if not impossible at all. There are two restrictions/challenges:</p>
+<ul>
+<li><p>Setting a low Gas limit could negatively affect the service usability</p>
+<p><strong>Reference:  Gas limit on eth call? <a target="_blank" rel="noopener" href="https://community.infura.io/t/gas-limit-on-eth-call/1115/">https://community.infura.io/t/gas-limit-on-eth-call/1115/</a></strong></p>
+<p>For instance, a benign DApp wants to send a Google BigQuery-style RPC [3] to  the blockchain service which would be blocked by a low Gas limit</p>
+<p>In the end, the service provider often puts customer experience over the  service security, by increasing the Gas limit, such as from 2 to 10 block gas</p>
+</li>
+<li><p>More fundamentally, blockchain RPCs supporting Turing-complete programs cause  asymmetry of computing cost between the client side and service side.</p>
+<p>That is, in a usable setup, the client-side cost in sending a RPC request is supposed to much lower than the server-side cost of executing the  smart contract.</p>
+</li>
+</ul>
+<p>Empirically, ServiceX2 and ServiceX4, can be effectively attacked even if the Gas limits are  set as low as 0.2 and 0.3 block gas. Experiment shows here are effective attack parameters even with low Gas limits as 0.65 block gas</p>
+<p>On the other hand, there are services which could mitigate DoERS vulnerability  by deploying a reasonably low Gas limit.(Service X5)</p>
+<p>“We believe setting a Gas limit is necessary but not sufficient; in other words, complementary defensive measures to Gas limiting are needed to provide effective DoERS protection”</p>
+<h4 id="Contract-Banning"><a href="#Contract-Banning" class="headerlink" title="Contract Banning"></a>Contract Banning</h4><p>ServiceX7 take measures to ban all subsequent RPCs accessing the malicious contract.  This will force the attacker to deploy the DoERS-C smart contract to a new  address which could increase her cost in Ether.</p>
+<p><strong>Another Poposal:</strong> </p>
+<p><strong>Reference:</strong> </p>
+<p>Eth namespace: Geth provides “state override” extensions to the standard “eth call”. <a target="_blank" rel="noopener" href="https://geth.ethereum.org/docs/rpc/ns-eth">https://geth.ethereum.org/docs/rpc/ns-eth</a>.</p>
+<p>Internal/ethapi: allow eth call with custom code. <a target="_blank" rel="noopener" href="https://github.com/ethereum/go-ethereum/issues/19836">https://github.com/ethereum/go-ethereum/issues/19836</a>.</p>
+<p><strong>“state override” extension</strong> of eth_call in the recent Geth release. This feature allows a client to upload a smart contract at the invocation time  of eth_call, instead of using a separate transaction. The attack works by the attacker sending a crafted eth_call request that  includes the code of exhaustXX in its “state override” object and specify the  invoked function to be exhaustXX.</p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://yezzi.tech/2021/07/27/node-prevention/" data-id="ckrqmhgyc0000hgu72bsggmey" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/blockchain-attack/" rel="tag">blockchain attack</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2021/07/15/Evil-under-the-Sun-note/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">Evil under the Sun note</span>
+    </a>
+  </li>
+  
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p> Nice papers collected in the field of <em>AI</em>, <em>Apllied Cryptography</em> and <em>Blockchain</em>, records of some computer technologies, and personal thoughts.  If you are inteseted in my field, feel free to contact me at 1721062927@qq.com </p>
+
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tags</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Bitcoin/" rel="tag">Bitcoin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/blockchain-attack/" rel="tag">blockchain attack</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hyperledger-fabric/" rel="tag">hyperledger fabric</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/java/" rel="tag">java</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/paper-notes/" rel="tag">paper notes</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/projects/" rel="tag">projects</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tag Cloud</h4>
+    <p class="tagcloud">
+      <a href="/tags/Bitcoin/" style="font-size: 10px;">Bitcoin</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/blockchain-attack/" style="font-size: 12.5px;">blockchain attack</a> <a href="/tags/golang/" style="font-size: 17.5px;">golang</a> <a href="/tags/hyperledger-fabric/" style="font-size: 12.5px;">hyperledger fabric</a> <a href="/tags/java/" style="font-size: 12.5px;">java</a> <a href="/tags/paper-notes/" style="font-size: 17.5px;">paper notes</a> <a href="/tags/projects/" style="font-size: 15px;">projects</a> <a href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" style="font-size: 20px;">以太坊</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10px;">前端</a>
+    </p>
+  </div>
+
+
+  
+  <div class="sidebar-module">
+    <h4>Archives</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">July 2021</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">February 2020</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">October 2019</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">August 2019</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Recents</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2021/07/27/node-prevention/">node prevention</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/15/Evil-under-the-Sun-note/">Evil under the Sun note</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/12/blockchain-dapp-attack-note/">blockchain dapp attack note</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/05/What-is-machine-learning/">What is machine learning</a>
+        </li>
+      
+        <li>
+          <a href="/2021/07/04/quisquis-notes/">quisquis theft prevention notes</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Mingzhe Liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</body>
+</html>
