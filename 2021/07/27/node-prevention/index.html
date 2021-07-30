@@ -17,9 +17,11 @@
 <meta property="og:image" content="https://yezzi.tech/images/node-prevention/3.png">
 <meta property="og:image" content="https://yezzi.tech/images/node-prevention/4.png">
 <meta property="og:image" content="https://yezzi.tech/images/node-prevention/5.png">
-<meta property="og:image" content="https://www.arcblock.io/blog/static/9e8c0f1e579943403cedd5077e7c0ab2/4552c/payable-check.png">
+<meta property="og:image" content="https://yezzi.tech/images/node-prevention/6.png">
+<meta property="og:image" content="https://yezzi.tech/images/node-prevention/7.png">
+<meta property="og:image" content="https://yezzi.tech/images/node-prevention/8.png">
 <meta property="article:published_time" content="2021-07-27T14:12:36.000Z">
-<meta property="article:modified_time" content="2021-07-30T14:04:50.366Z">
+<meta property="article:modified_time" content="2021-07-30T23:02:31.545Z">
 <meta property="article:author" content="Mingzhe Liu">
 <meta property="article:tag" content="blockchain attack">
 <meta name="twitter:card" content="summary">
@@ -129,37 +131,13 @@
 <p>W(xxx) has different cost if gas, and it is defined by a instruction, and there is a specific instruction table.</p>
 <p>Reference: <a target="_blank" rel="noopener" href="https://ethervm.io/">https://ethervm.io/</a> or ethereum yellow book</p>
 <p><img src="/images/node-prevention/5.png" alt="w"></p>
-<p>there are so many opcodes, and I won’t list everyone here. </p>
-<h3 id="Contract-execution"><a href="#Contract-execution" class="headerlink" title="Contract execution"></a>Contract execution</h3><p>Reference: <a target="_blank" rel="noopener" href="https://www.arcblock.io/blog/zh/post/2018/12/08/evm-part-1">https://www.arcblock.io/blog/zh/post/2018/12/08/evm-part-1</a></p>
-<p>take an contract for example:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.11</span>;</span><br><span class="line"></span><br><span class="line">contract C &#123;</span><br><span class="line">    uint256 a;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">C</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      a = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>after compiling it is transfered to bytecode</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUSH1 <span class="number">0x60</span> PUSH1 <span class="number">0x40</span> MSTORE CALLVALUE ISZERO PUSH1 <span class="number">0xE</span> JUMPI PUSH1 <span class="number">0x0</span> DUP1 REVERT JUMPDEST PUSH1 <span class="number">0x1</span> PUSH1 <span class="number">0x0</span> DUP2 SWAP1 SSTORE POP PUSH1 <span class="number">0x35</span> DUP1 PUSH1 <span class="number">0x23</span> PUSH1 <span class="number">0x0</span> CODECOPY PUSH1 <span class="number">0x0</span> RETURN STOP PUSH1 <span class="number">0x60</span> PUSH1 <span class="number">0x40</span> MSTORE PUSH1 <span class="number">0x0</span> DUP1 REVERT STOP LOG1 PUSH6 <span class="number">0x627A7A723058</span> KECCAK256 <span class="number">0xd3</span> ISZERO DUP8 <span class="number">0x5f</span> JUMP <span class="number">0xb5</span> ORIGIN <span class="number">0xab</span> CALLDATACOPY SHR <span class="number">0xf9</span> <span class="number">0xaa</span> DUP7 <span class="number">0xa6</span> <span class="number">0x28</span> POP <span class="number">0xe1</span> RETURNDATACOPY <span class="number">0xb6</span> <span class="number">0xab</span> NOT <span class="number">0x48</span> <span class="number">0x47</span> ADD SAR <span class="number">0xcd</span> PUSH5 <span class="number">0x1B9A9D2F8D</span> STOP <span class="number">0x29</span></span><br></pre></td></tr></table></figure>
-
-<p>and also, it could be divided into three parts</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">60606040523415600e57600080</span>fd <span class="number">5</span>b6001600081905550 <span class="number">60358060236000396000</span>f300 <span class="comment">// 部署代码</span></span><br><span class="line"><span class="number">6060604052600080</span>fd00 <span class="comment">// 合约本身代码</span></span><br><span class="line">a165627a7a72305820d315875f56b532ab371cf9aa86a62850e13eb6ab194847011dcd641b9a9d2f8d0029 <span class="comment">//Auxdata</span></span><br></pre></td></tr></table></figure>
-
-<p>Every number stands for a hex code, and every two numbers stands for a byte and than it could be translated to OpCodes referred to yellow book roles:</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUSH1 <span class="number">0x60</span> PUSH1 <span class="number">0x40</span> MSTORE CALLVALUE ISZERO PUSH1 <span class="number">0xE</span> JUMPI PUSH1 <span class="number">0x0</span> DUP1 REVERT JUMPDEST PUSH1 <span class="number">0x1</span> PUSH1 <span class="number">0x0</span> DUP2 SWAP1 SSTORE POP PUSH1 <span class="number">0x35</span> DUP1 PUSH1 <span class="number">0x23</span> PUSH1 <span class="number">0x0</span> CODECOPY PUSH1 <span class="number">0x0</span> RETURN STOP PUSH1 <span class="number">0x60</span> PUSH1 <span class="number">0x40</span> MSTORE PUSH1 <span class="number">0x0</span> DUP1 REVERT STOP LOG1 PUSH6 <span class="number">0x627A7A723058</span> KECCAK256 <span class="number">0xd3</span> ISZERO DUP8 <span class="number">0x5f</span> JUMP <span class="number">0xb5</span> ORIGIN <span class="number">0xab</span> CALLDATACOPY SHR <span class="number">0xf9</span> <span class="number">0xaa</span> DUP7 <span class="number">0xa6</span> <span class="number">0x28</span> POP <span class="number">0xe1</span> RETURNDATACOPY <span class="number">0xb6</span> <span class="number">0xab</span> NOT <span class="number">0x48</span> <span class="number">0x47</span> ADD SAR <span class="number">0xcd</span> PUSH5 <span class="number">0x1B9A9D2F8D</span> STOP <span class="number">0x29</span></span><br></pre></td></tr></table></figure>
-
-<p>running the first section of first part for example:</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUSH1 <span class="number">0x60</span> PUSH1 <span class="number">0x40</span> MSTORE CALLVALUE ISZERO PUSH1 <span class="number">0xE</span> JUMPI PUSH1 <span class="number">0x0</span> DUP1 REVERT </span><br></pre></td></tr></table></figure>
-
-<p> <img src="https://www.arcblock.io/blog/static/9e8c0f1e579943403cedd5077e7c0ab2/4552c/payable-check.png" alt="img"> </p>
-<p>And for every step of running evm bytecode, the gas consuming is calculated.</p>
-<h3 id="Instruction-division-when-contract-runs"><a href="#Instruction-division-when-contract-runs" class="headerlink" title="Instruction division when contract runs"></a>Instruction division when contract runs</h3><p><strong>Reference: <a target="_blank" rel="noopener" href="https://ethervm.io/">https://ethervm.io/</a></strong></p>
-<p>Typically contracts expose a public ABI, which is a list of supported ways a user can interact with a contract.<br>To interact with a contract, a user will submit a transaction carrying any amount of wei (including 0) and a data payload formatted according to the ABI, specifying the type of interaction and any additional parameters.<br>When the contract runs there are 4 main ways it handles data. </p>
-<h4 id="Call-Data"><a href="#Call-Data" class="headerlink" title="Call Data"></a>Call Data</h4><p>This is the data associated with a transaction to a smart contract. It usually contains a <a target="_blank" rel="noopener" href="https://www.4byte.directory/">4-byte method identifier</a><br>See: : <a target="_blank" rel="noopener" href="https://ethervm.io/#CALLDATASIZE"><code>CALLDATASIZE, CALLDATASIZE, CALLDATACOPY</code></a> </p>
-<h4 id="Stack"><a href="#Stack" class="headerlink" title="Stack"></a>Stack</h4><p>The EVM maintains a stack of s used to hold local variables, function call arguments and return addresses. Distinguishing between return addresses and other variables is tricky.<br> See: <a target="_blank" rel="noopener" href="https://ethervm.io/#PUSH1"><code>PUSH1</code></a>, <a target="_blank" rel="noopener" href="https://ethervm.io/#DUP1"><code>DUP1</code></a>, <a target="_blank" rel="noopener" href="https://ethervm.io/#SWAP1"><code>SWAP1</code></a>, <a target="_blank" rel="noopener" href="https://ethervm.io/#POP"><code>POP</code></a> </p>
-<h4 id="Memory"><a href="#Memory" class="headerlink" title="Memory"></a>Memory</h4><p>Memory is an array of <code>uint8</code><br>It is not persisted across transactions.</p>
-<p>See <a target="_blank" rel="noopener" href="https://ethervm.io/#MLOAD">MLOAD, MSTORE, MSTORE8</a></p>
-<h4 id="Storage"><a href="#Storage" class="headerlink" title="Storage"></a>Storage</h4><p>Storage is a persistent associative map, with <code>uint256``uint256</code><br>All contract fields and mappings are saved in storage.<br><a target="_blank" rel="noopener" href="https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethgetstorageat"><code>web3.eth.getStorageAt(address, key)</code></a><br>See: <a target="_blank" rel="noopener" href="https://ethervm.io/#SLOAD"><code>SLOAD</code></a>,<a target="_blank" rel="noopener" href="https://ethervm.io/#SSTORE"><code>SSTORE</code></a></p>
+<p>there are so many opcodes, and I won’t list everyone here.  </p>
 <h3 id="Related-Ethereum-RPC-function"><a href="#Related-Ethereum-RPC-function" class="headerlink" title="Related Ethereum RPC function"></a>Related Ethereum RPC function</h3><p><strong>Resource:</strong> </p>
 <p><em><a target="_blank" rel="noopener" href="https://infura.io/docs/ethereum/json-rpc/eth-estimateGas">https://infura.io/docs/ethereum/json-rpc/eth-estimateGas</a></em></p>
 <p><a target="_blank" rel="noopener" href="https://web3js.readthedocs.io/en/v1.2.11/web3-eth.html#call">https://web3js.readthedocs.io/en/v1.2.11/web3-eth.html#call</a></p>
 <p><a target="_blank" rel="noopener" href="https://eth.wiki/json-rpc/API">https://eth.wiki/json-rpc/API</a></p>
 <p>github.com/ethereum/go-ethereum/internal/ethapi/api.go</p>
+<p><a target="_blank" rel="noopener" href="https://geth.ethereum.org/docs/rpc/ns-eth#3-object---state-override-set">https://geth.ethereum.org/docs/rpc/ns-eth#3-object---state-override-set</a></p>
 <h4 id="eth-call"><a href="#eth-call" class="headerlink" title="eth_call"></a>eth_call</h4><p>Executes a new message call immediately without creating a transaction on the block chain. </p>
 <p><strong>Parameters:</strong></p>
 <p>1 <code>Object</code> - The transaction call object</p>
@@ -201,6 +179,62 @@
 
 <p><strong>Limitations in Infura:</strong>  To prevent abusive of the API, the <code>gas</code> parameter to <code>eth_estimateGas</code> and </p>
 <p><code>eth_call</code> are capped at 10x (1000%) the current block gas limit. You can recreate this behavior in your local test environment (ganache, besu, geth, or other client) via the <code>rpc.gascap</code> command-line option. </p>
+<p><strong>state override</strong>: </p>
+<p>The <em>state override set</em> is an optional address-to-state mapping, where each entry specifies some state to be ephemerally overridden prior to executing the call. Each address maps to an object containing: </p>
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Bytes</th>
+<th align="left">Optional</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>balance</code></td>
+<td align="left"><code>Quantity</code></td>
+<td align="left">&lt;32</td>
+<td align="left">Yes</td>
+<td align="left">Fake balance to set for the account before executing the call.</td>
+</tr>
+<tr>
+<td align="left"><code>nonce</code></td>
+<td align="left"><code>Quantity</code></td>
+<td align="left">&lt;8</td>
+<td align="left">Yes</td>
+<td align="left">Fake nonce to set for the account before executing the call.</td>
+</tr>
+<tr>
+<td align="left"><code>code</code></td>
+<td align="left"><code>Binary</code></td>
+<td align="left">any</td>
+<td align="left">Yes</td>
+<td align="left">Fake EVM bytecode to inject into the account before executing the call.</td>
+</tr>
+<tr>
+<td align="left"><code>state</code></td>
+<td align="left"><code>Object</code></td>
+<td align="left">any</td>
+<td align="left">Yes</td>
+<td align="left">Fake key-value mapping to override <strong>all</strong> slots in the account storage before executing the call.</td>
+</tr>
+<tr>
+<td align="left"><code>stateDiff</code></td>
+<td align="left"><code>Object</code></td>
+<td align="left">any</td>
+<td align="left">Yes</td>
+<td align="left">Fake key-value mapping to override <strong>individual</strong> slots in the account storage before executing the call.</td>
+</tr>
+</tbody></table>
+<p>The goal of the <em>state override set</em> is manyfold:</p>
+<ul>
+<li>It can be used by DApps to reduce the amount of contract code needed to be deployed on chain. Code that simply returns internal state or does pre-defined validations can be kept off chain and fed to the node on-demand.</li>
+<li>It can be used for smart contract analysis by extending the code deployed on chain with custom methods and invoking them. This avoids having to download and reconstruct the entire state in a sandbox to run custom code against.</li>
+<li>It can be used to debug smart contracts in an already deployed large suite of contracts by selectively overriding some code or state and seeing how execution changes. Specialized tooling will probably be necessary.</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ curl --data </span><br><span class="line">&#x27;&#123;</span><br><span class="line"><span class="attr">&quot;method&quot;</span>:<span class="string">&quot;eth_call&quot;</span>,</span><br><span class="line"><span class="attr">&quot;params&quot;</span>:[</span><br><span class="line">&#123;<span class="attr">&quot;to&quot;</span>:<span class="string">&quot;0xebe8efa441b9302a0d7eaecc277c09d20d684540&quot;</span>,</span><br><span class="line"><span class="attr">&quot;data&quot;</span>:<span class="string">&quot;0x0be5b6ba&quot;</span>&#125;,</span><br><span class="line"><span class="string">&quot;latest&quot;</span>, </span><br><span class="line">&#123;<span class="attr">&quot;0xebe8efa441b9302a0d7eaecc277c09d20d684540&quot;</span>: 	    &#123;<span class="attr">&quot;code&quot;</span>:<span class="string">&quot;0x6080604052348015600f57600080fd5b506004361060285760003560e01c80630be5b6ba14602d575b600080fd5b60336045565b60408051918252519081900360200190f35b6007549056fea265627a7a723058206f26bd0433456354d8d1228d8fe524678a8aeeb0594851395bdbd35efc2a65f164736f6c634300050a0032&quot;</span>&#125; <span class="comment">// 这个code字段代表覆盖的合约字段 </span></span><br><span class="line">&#125;],</span><br><span class="line"><span class="attr">&quot;id&quot;</span>:<span class="number">1</span>,<span class="attr">&quot;jsonrpc&quot;</span>:<span class="string">&quot;2.0&quot;</span></span><br><span class="line">&#125;&#x27;</span><br><span class="line">-H <span class="string">&quot;Content-Type: application/json&quot;</span> -X POST localhost:<span class="number">8545</span></span><br></pre></td></tr></table></figure>
+
 <h4 id="eth-estimateGas"><a href="#eth-estimateGas" class="headerlink" title="eth_estimateGas"></a>eth_estimateGas</h4><p>Generates and returns an estimate of how much gas is necessary to allow the transaction to complete. The transaction will not be added to the blockchain. Note <strong>that the estimate may be significantly more than the amount of gas actually used by the transaction</strong>, for a variety of reasons including EVM mechanics and node performance. </p>
 <p><strong>Parameters:</strong></p>
 <p>See <a target="_blank" rel="noopener" href="https://eth.wiki/json-rpc/API#eth_call">eth_call</a> parameters, expect that all properties are optional. </p>
@@ -239,6 +273,44 @@
 <p>Eth namespace: Geth provides “state override” extensions to the standard “eth call”. <a target="_blank" rel="noopener" href="https://geth.ethereum.org/docs/rpc/ns-eth">https://geth.ethereum.org/docs/rpc/ns-eth</a>.</p>
 <p>Internal/ethapi: allow eth call with custom code. <a target="_blank" rel="noopener" href="https://github.com/ethereum/go-ethereum/issues/19836">https://github.com/ethereum/go-ethereum/issues/19836</a>.</p>
 <p><strong>“state override” extension</strong> of eth_call in the recent Geth release. This feature allows a client to upload a smart contract at the invocation time  of eth_call, instead of using a separate transaction. The attack works by the attacker sending a crafted eth_call request that  includes the code of exhaustXX in its “state override” object and specify the  invoked function to be exhaustXX.</p>
+<h3 id="Contract-Call"><a href="#Contract-Call" class="headerlink" title="Contract Call"></a>Contract Call</h3><p><strong>Reference:</strong></p>
+<p><a target="_blank" rel="noopener" href="https://docs.soliditylang.org/en/latest/abi-spec.html#formal-specification-of-the-encoding">https://docs.soliditylang.org/en/latest/abi-spec.html#formal-specification-of-the-encoding</a></p>
+<p><a target="_blank" rel="noopener" href="https://yangzhe.me/2019/08/01/ethereum-cognition-and-deployment/">https://yangzhe.me/2019/08/01/ethereum-cognition-and-deployment/</a></p>
+<p><a target="_blank" rel="noopener" href="https://web3js.readthedocs.io/en/v1.2.11/web3-eth.html#getcode">https://web3js.readthedocs.io/en/v1.2.11/web3-eth.html#getcode</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.arcblock.io/blog/zh/post/2018/12/08/evm-part-1">https://www.arcblock.io/blog/zh/post/2018/12/08/evm-part-1</a></p>
+<h4 id="Contract-creation"><a href="#Contract-creation" class="headerlink" title="Contract creation"></a>Contract creation</h4><p>take an contract for example:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.11</span>;</span><br><span class="line"></span><br><span class="line">contract C &#123;</span><br><span class="line">    uint256 a;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">C</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      a = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>after compiling it is transfered to <strong>bytecode</strong>(hex) and also, it could be divided into three parts</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">60606040523415600e57600080</span>fd5b600160008190555060358060236000396000f3006060604052600080fd00a165627a7a72305820d315875f56b532ab371cf9aa86a62850e13eb6ab194847011dcd641b9a9d2f8d0029 </span><br></pre></td></tr></table></figure>
+
+<p>Every number stands for a hex code, and every two numbers stands for a byte and than it could be translated to <strong>OpCodes</strong> referred to yellow book roles:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUSH1 <span class="number">0x60</span> PUSH1 <span class="number">0x40</span> MSTORE CALLVALUE ISZERO PUSH1 <span class="number">0xE</span> JUMPI PUSH1 <span class="number">0x0</span> DUP1 REVERT JUMPDEST PUSH1 <span class="number">0x1</span> PUSH1 <span class="number">0x0</span> DUP2 SWAP1 SSTORE POP PUSH1 <span class="number">0x35</span> DUP1 PUSH1 <span class="number">0x23</span> PUSH1 <span class="number">0x0</span> CODECOPY PUSH1 <span class="number">0x0</span> RETURN STOP PUSH1 <span class="number">0x60</span> PUSH1 <span class="number">0x40</span> MSTORE PUSH1 <span class="number">0x0</span> DUP1 REVERT STOP LOG1 PUSH6 <span class="number">0x627A7A723058</span> KECCAK256 <span class="number">0xd3</span> ISZERO DUP8 <span class="number">0x5f</span> JUMP <span class="number">0xb5</span> ORIGIN <span class="number">0xab</span> CALLDATACOPY SHR <span class="number">0xf9</span> <span class="number">0xaa</span> DUP7 <span class="number">0xa6</span> <span class="number">0x28</span> POP <span class="number">0xe1</span> RETURNDATACOPY <span class="number">0xb6</span> <span class="number">0xab</span> NOT <span class="number">0x48</span> <span class="number">0x47</span> ADD SAR <span class="number">0xcd</span> PUSH5 <span class="number">0x1B9A9D2F8D</span> STOP <span class="number">0x29</span></span><br></pre></td></tr></table></figure>
+
+<p>and it could also be transformed to asm code(not related to formal codes) which is much more easier for man to read:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">EVM assembly:</span><br><span class="line">... */ <span class="string">&quot;test.sol&quot;</span>:<span class="number">28</span>:<span class="number">52</span>  contract Test &#123;</span><br><span class="line">  mstore(0x40, 0x80)</span><br><span class="line">  callvalue</span><br><span class="line">    <span class="comment">/* &quot;--CODEGEN--&quot;:8:17   */</span></span><br><span class="line">  dup1</span><br><span class="line">    <span class="comment">/* &quot;--CODEGEN--&quot;:5:7   *</span></span><br><span class="line"><span class="comment">  iszero</span></span><br><span class="line"><span class="comment">  tag_1</span></span><br><span class="line"><span class="comment">  jumpi</span></span><br><span class="line"><span class="comment">    /* &quot;--CODEGEN--&quot;:30:31   */</span></span><br><span class="line">  0x0</span><br><span class="line">    <span class="comment">/* &quot;--CODEGEN--&quot;:27:28   */</span></span><br><span class="line">  dup1</span><br><span class="line">    <span class="comment">/* &quot;--CODEGEN--&quot;:20:32   */</span></span><br><span class="line">  revert</span><br><span class="line">    <span class="comment">/* &quot;--CODEGEN--&quot;:5:7   */</span></span><br><span class="line">tag_1:</span><br><span class="line">... */ <span class="string">&quot;test.sol&quot;</span>:<span class="number">28</span>:<span class="number">52</span>  contract Test &#123;</span><br><span class="line">  pop</span><br><span class="line">  dataSize(sub_0)</span><br><span class="line">  dup1</span><br><span class="line">  dataOffset(sub_0)</span><br><span class="line">  0x0</span><br><span class="line">  codecopy</span><br><span class="line">  0x0</span><br><span class="line">  return</span><br><span class="line">stop</span><br><span class="line">sub_0: assembly &#123;</span><br><span class="line">... */  <span class="comment">/* &quot;test.sol&quot;:28:52  contract Test &#123;</span></span><br><span class="line"><span class="comment">      mstore(0x40, 0x80)</span></span><br><span class="line"><span class="comment">      0x0</span></span><br><span class="line"><span class="comment">      dup1</span></span><br><span class="line"><span class="comment">      revert</span></span><br><span class="line"><span class="comment">    auxdata: 0xa165627a7a72305820f633e21e144cae24615a160fcb484c1f9495df86d7d21e9be0df2cf3b4c1f9eb0029</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>First, contract creation:</p>
+<p><img src="/images/node-prevention/6.png" alt="w"></p>
+<p>In the first step, a user should use some tools like solc to compile his contract into <strong>bytecode</strong> form and deploy it on blockchain, after some checks, the node could send it to other nodes and wait for it to be included in blockchain in the process of mining.</p>
+<p>  <img src="/images/node-prevention/7.png" alt="w"></p>
+<p>and then, when a user want to invoke a contract using eth_sendtransaction(could affect the mainnet) or eth_call(just a simulator), the data he needs are the function selector and argument encoding. For instance, </p>
+<p>if I want to call <em>function multiplyState(uint256)</em> with parameter  <em>26</em>, the function selector is the first three  leters of  sha3(“multiplyState(uint256)”) (“0x1122db9a73f12708d7674a9a5d0d5dd2bdb260193a8fcc233d1817ca8708fc93”)</p>
+<p>– 1122db9a</p>
+<p>then the input paramater encoded is  0x000000000000000000000000000000000000000000000000000000000000001a </p>
+<p>so input is </p>
+<p> 0x1122db9a000000000000000000000000000000000000000000000000000000000000001a </p>
+<p>Details about function selector and argument encoding could be found in <a target="_blank" rel="noopener" href="https://docs.soliditylang.org/en/develop/abi-spec.html">https://docs.soliditylang.org/en/develop/abi-spec.html</a></p>
+<p>The relationship between the encoding methods in smart contract could be defined as: </p>
+<p><img src="/images/node-prevention/8.png" alt="w"></p>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><ul>
+<li>The method people used to estimate gas used in a transaction is eth_estimategas RPC service, which will perform in the way of executing the transaction in node’s local evm and return the consequence.</li>
+<li>The gas consumed is complicatedly calculated, which is mainly related to memory consumed and Opcodes used in evm(Contract transaction), but it is different from computer resource consumed in some degree.</li>
+<li>If not setting gas_limit by node, eth_call and eth_estimateGas RPC service both have potential danger in destructing a node. Some effective ways to avoid this like lower gas_limit by node could affect their service, and a perfect way to protect node have not been found.</li>
+<li>It seems that the contract call function’s parameter contains only the “id” of the function to be called and parameters, and in fact what concrete function to be called will be selected by evm(pc pointer), and even the function called could call another function in different contract.</li>
+<li>In a word, it seems the arguments in calling a contract are hard to reflect important features how the smart contract will consume computer resources, if I want to do this, I think I need to find a way to capture the complete code in contract calling(ether in bytecode or solidity, still thinking), and the dataset to train a model may be hard to find if I use AI to solve this problem.</li>
+<li>Maybe I have done something in the wrong way, but in this process, I deepened my knowledge of smart contract and evm, which could be useful in smart contract security, and I also realize there are so many things to learn in this field if I want to master them.</li>
+</ul>
 
       
     </div>
