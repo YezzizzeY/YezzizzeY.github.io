@@ -5,17 +5,40 @@
   
   <title>2 Model and Cost Function | Yezzi Tech</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Nice paper collection, computer tech records, and personal thoughts">
+  <meta name="description" content="Section1 Model Representation Section2 Cost Function Section3 Gradient Descent Section4 Gradient Descent For Linear Regression">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2 Model and Cost Function">
 <meta property="og:url" content="https://yezzi.tech/2021/08/13/2-Model-and-Cost-Function/index.html">
 <meta property="og:site_name" content="Yezzi Tech">
-<meta property="og:description" content="Nice paper collection, computer tech records, and personal thoughts">
+<meta property="og:description" content="Section1 Model Representation Section2 Cost Function Section3 Gradient Descent Section4 Gradient Descent For Linear Regression">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/1.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/2.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/3.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/4.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/5.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/6.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/7.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/8.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/9.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/x.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/10.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/11.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/12.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/13.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/14.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/15.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/16.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/17.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/18.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/19.png">
+<meta property="og:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/20.png">
 <meta property="article:published_time" content="2021-08-13T07:58:36.000Z">
-<meta property="article:modified_time" content="2021-08-13T07:58:36.371Z">
+<meta property="article:modified_time" content="2021-08-14T02:10:26.242Z">
 <meta property="article:author" content="Mingzhe Liu">
+<meta property="article:tag" content="Machine Learning">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yezzi.tech/images/2-Model-and-Cost-Function/1.png">
   
     <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
   
@@ -106,7 +129,59 @@
 
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>Section1 Model Representation</p>
+<p>Section2 Cost Function</p>
+<p>Section3 Gradient Descent</p>
+<p>Section4 Gradient Descent For Linear Regression</p>
+<span id="more"></span>
+
+<h2 id="Cost-Function"><a href="#Cost-Function" class="headerlink" title="Cost Function"></a>Cost Function</h2><p>First, take the house price prediction for example:</p>
+<p><img src="/images/2-Model-and-Cost-Function/1.png" alt="1"></p>
+<p><img src="/images/2-Model-and-Cost-Function/2.png" alt="2"></p>
+<p><img src="/images/2-Model-and-Cost-Function/3.png" alt="3"></p>
+<p><img src="/images/2-Model-and-Cost-Function/4.png" alt="4"></p>
+<p>So, how do we come up with values, theta zero, theta one, that corresponds to a good fit to the data?</p>
+<p>The idea is we get to choose our parameters theta 0, theta 1 so that h of x, meaning the value we predict on input x, that this is at least close to the values y for the examples in our training set, for our training examples.</p>
+<p><img src="/images/2-Model-and-Cost-Function/5.png" alt="5"></p>
+<p>When sometimes called the squared error cost function and it turns out that why do we take the squares of the erros. It turns out that these squared error cost function is a reasonable choice and works well for problems for most regression programs. There are other cost functions that will work pretty well. But the square cost function is probably the most commonly used one for regression problems.</p>
+<p><img src="/images/2-Model-and-Cost-Function/6.png"></p>
+<p><img src="/images/2-Model-and-Cost-Function/7.png"></p>
+<p> A contour plot is a graph that contains many contour lines. A contour line of a two variable function has a constant value at all points of the same line. An example of such a graph is the one to the right below. </p>
+<p>Taking any color and going along the ‘circle’, one would expect to get the same value of the cost function. For example, the three green points found on the green line above have the same value for $J(\theta_0,\theta_1)<em>J</em>(<em>θ</em>0,<em>θ</em>1)$ and as a result, they are found along the same line. The circled x displays the value of the cost function for the graph on the left when$ \theta_0<em>θ</em>0 = 800 $and$ \theta_1<em>θ</em>1= -0.15$. Taking another h(x) and plotting its contour plot, one gets the following graphs: </p>
+<p><img src="/images/2-Model-and-Cost-Function/8.png"></p>
+<p><img src="/images/2-Model-and-Cost-Function/9.png"></p>
+<h2 id="Gradient-Descent"><a href="#Gradient-Descent" class="headerlink" title="Gradient Descent"></a>Gradient Descent</h2><p>So we have our hypothesis function and we have a way of measuring how well it fits into the data. Now we need to estimate the parameters in the hypothesis function. That’s where gradient descent comes in.</p>
+<p>Imagine that we graph our hypothesis function based on its fields $\theta_0$ and $\theta_1 $ (actually we are graphing the cost function as a function of the parameter estimates). We are not graphing x and y itself, but the parameter range of our hypothesis function and the cost resulting from selecting a particular set of parameters.</p>
+<p>We put $\theta_0$on the x axis and $\theta_1 $on the y axis, with the cost function on the vertical z axis. The points on our graph will be the result of the cost function using our hypothesis with those specific theta parameters. The graph below depicts such a setup.</p>
+<p><img src="/images/2-Model-and-Cost-Function/x.png"> </p>
+<p>We will know that we have succeeded when our cost function is at the very bottom of the pits in our graph, i.e. when its value is the minimum.  The red arrows show the minimum points in the graph.</p>
+<p>The way we do this is by taking the derivative (the tangential line to a function) of our cost function. The slope of the tangent is the derivative at that point and it will give us a direction to move towards. We make steps down the cost function in the direction with the steepest descent. The size of each step is determined by the parameter α, which is called the learning rate. </p>
+<p>For example, the distance between each ‘star’ in the graph above represents a step determined by our parameter α. A smaller α would result in a smaller step and a larger α results in a larger step. The direction in which the step is taken is determined by the partial derivative of J(\theta_0,\theta_1)<em>J</em>(<em>θ</em>0,<em>θ</em>1). Depending on where one starts on the graph, one could end up at different points. The image above shows us two different starting points that end up in two different places. </p>
+<p>The gradient descent algorithm is:</p>
+<p>repeat until convergence:</p>
+<p>$\theta_j := \theta_j - \alpha \frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1)$</p>
+<p>where</p>
+<p>j=0,1 represents the feature index number.</p>
+<p>At each iteration j, one should simultaneously update the parameters$ \theta_1,\theta_2,…,\theta_n$. Updating a specific parameter prior to calculating another one on the$ j^{(th)} $iteration would yield to a wrong implementation. </p>
+<p><img src="/images/2-Model-and-Cost-Function/10.png"></p>
+<p>Regardless of the slope’s sign for $\frac{d}{d\theta_1} J(\theta_1), \theta_1 $eventually converges to its minimum value. The following graph shows that when the slope is negative, the value of \theta_1<em>θ</em>1 increases and when it is positive, the value of $\theta_1$decreases. </p>
+<p><img src="/images/2-Model-and-Cost-Function/11.png"></p>
+<p>On a side note, we should adjust our parameter \alpha<em>α</em> to ensure that the gradient descent algorithm converges in a reasonable time. Failure to converge or too much time to obtain the minimum value imply that our step size is wrong. </p>
+<p><img src="/images/2-Model-and-Cost-Function/12.png"></p>
+<p><img src="/images/2-Model-and-Cost-Function/13.png"></p>
+<h2 id="Gradient-descent-for-linear-regression"><a href="#Gradient-descent-for-linear-regression" class="headerlink" title="Gradient descent for linear regression"></a>Gradient descent for linear regression</h2><p><img src="/images/2-Model-and-Cost-Function/14.png"></p>
+<p><img src="/images/2-Model-and-Cost-Function/15.png"></p>
+<p>Intuition: </p>
+<p>The process of using gradient descent for linear regression</p>
+<p><img src="/images/2-Model-and-Cost-Function/16.png"></p>
+<p><img src="/images/2-Model-and-Cost-Function/17.png"></p>
+<p><img src="/images/2-Model-and-Cost-Function/18.png"></p>
+<p><img src="/images/2-Model-and-Cost-Function/19.png"></p>
+<p><img src="/images/2-Model-and-Cost-Function/20.png"></p>
+<p><strong>“Batch” Gradient Descent “</strong></p>
+<p>Batch”: Each step of gradient descent uses all the  training examples.</p>
+<p>There are also some algorithms that could use some part of the data to calculate gradient descent</p>
+
       
     </div>
 
@@ -121,6 +196,8 @@
       </a>
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a></li></ul>
+
 
     </footer>
   </div>
@@ -161,7 +238,7 @@
   
   <div class="sidebar-module">
     <h4>Tags</h4>
-    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Bitcoin/" rel="tag">Bitcoin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/blockchain-attack/" rel="tag">blockchain attack</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hyperledger-fabric/" rel="tag">hyperledger fabric</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/java/" rel="tag">java</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/paper-notes/" rel="tag">paper notes</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/projects/" rel="tag">projects</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">1</span></li></ul>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Bitcoin/" rel="tag">Bitcoin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/blockchain-attack/" rel="tag">blockchain attack</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hyperledger-fabric/" rel="tag">hyperledger fabric</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/java/" rel="tag">java</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/paper-notes/" rel="tag">paper notes</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/projects/" rel="tag">projects</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">1</span></li></ul>
   </div>
 
 
@@ -170,7 +247,7 @@
   <div class="sidebar-module">
     <h4>Tag Cloud</h4>
     <p class="tagcloud">
-      <a href="/tags/Bitcoin/" style="font-size: 10px;">Bitcoin</a> <a href="/tags/Machine-Learning/" style="font-size: 12.5px;">Machine Learning</a> <a href="/tags/blockchain-attack/" style="font-size: 12.5px;">blockchain attack</a> <a href="/tags/golang/" style="font-size: 17.5px;">golang</a> <a href="/tags/hyperledger-fabric/" style="font-size: 12.5px;">hyperledger fabric</a> <a href="/tags/java/" style="font-size: 12.5px;">java</a> <a href="/tags/paper-notes/" style="font-size: 17.5px;">paper notes</a> <a href="/tags/projects/" style="font-size: 15px;">projects</a> <a href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" style="font-size: 20px;">以太坊</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10px;">前端</a>
+      <a href="/tags/Bitcoin/" style="font-size: 10px;">Bitcoin</a> <a href="/tags/Machine-Learning/" style="font-size: 14px;">Machine Learning</a> <a href="/tags/blockchain-attack/" style="font-size: 12px;">blockchain attack</a> <a href="/tags/golang/" style="font-size: 18px;">golang</a> <a href="/tags/hyperledger-fabric/" style="font-size: 12px;">hyperledger fabric</a> <a href="/tags/java/" style="font-size: 12px;">java</a> <a href="/tags/paper-notes/" style="font-size: 18px;">paper notes</a> <a href="/tags/projects/" style="font-size: 16px;">projects</a> <a href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" style="font-size: 20px;">以太坊</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10px;">前端</a>
     </p>
   </div>
 
