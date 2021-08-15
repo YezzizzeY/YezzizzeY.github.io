@@ -3,20 +3,36 @@
 <head>
   <meta charset="utf-8">
   
-  <title>以太坊源码阅读过程中的问题&lt;一&gt; | Yezzi Tech</title>
+  <title>3 Matrices and vectors | Yezzi Tech</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="记录了一下之前读代码中讨论的时候遇到的问题">
+  <meta name="description" content="A review of linear algebra: matrics and vectors   Matrix: Rectangular array of numbers Dimension of matrix: number of rows x number of columns  Vector: An n x 1 matrix Addition and Scalar Multiplicati">
 <meta property="og:type" content="article">
-<meta property="og:title" content="以太坊源码阅读过程中的问题&lt;一&gt;">
-<meta property="og:url" content="https://yezzi.tech/2021/07/02/%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:title" content="3 Matrices and vectors">
+<meta property="og:url" content="https://yezzi.tech/2021/08/15/3-Matrices-and-vectors/index.html">
 <meta property="og:site_name" content="Yezzi Tech">
-<meta property="og:description" content="记录了一下之前读代码中讨论的时候遇到的问题">
+<meta property="og:description" content="A review of linear algebra: matrics and vectors   Matrix: Rectangular array of numbers Dimension of matrix: number of rows x number of columns  Vector: An n x 1 matrix Addition and Scalar Multiplicati">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-07-02T10:37:40.000Z">
-<meta property="article:modified_time" content="2021-07-04T02:42:19.757Z">
+<meta property="og:image" content="https://yezzi.tech/images/3-Matrices-and-vectors/1.png">
+<meta property="og:image" content="https://yezzi.tech/images/3-Matrices-and-vectors/2.png">
+<meta property="og:image" content="https://yezzi.tech/images/3-Matrices-and-vectors/3.png">
+<meta property="og:image" content="https://yezzi.tech/images/3-Matrices-and-vectors/4.png">
+<meta property="og:image" content="https://yezzi.tech/images/3-Matrices-and-vectors/5.png">
+<meta property="og:image" content="https://yezzi.tech/images/3-Matrices-and-vectors/6.png">
+<meta property="og:image" content="https://yezzi.tech/images/3-Matrices-and-vectors/7.png">
+<meta property="og:image" content="https://yezzi.tech/images/3-Matrices-and-vectors/8.png">
+<meta property="og:image" content="https://yezzi.tech/images/3-Matrices-and-vectors/9.png">
+<meta property="og:image" content="https://yezzi.tech/images/3-Matrices-and-vectors/10.png">
+<meta property="og:image" content="https://yezzi.tech/images/3-Matrices-and-vectors/11.png">
+<meta property="og:image" content="https://yezzi.tech/images/3-Matrices-and-vectors/11.png">
+<meta property="og:image" content="https://yezzi.tech/images/3-Matrices-and-vectors/12.png">
+<meta property="og:image" content="https://yezzi.tech/images/3-Matrices-and-vectors/14.png">
+<meta property="og:image" content="https://yezzi.tech/images/3-Matrices-and-vectors/15.png">
+<meta property="article:published_time" content="2021-08-15T02:22:59.000Z">
+<meta property="article:modified_time" content="2021-08-15T10:31:29.933Z">
 <meta property="article:author" content="Mingzhe Liu">
-<meta property="article:tag" content="以太坊">
+<meta property="article:tag" content="Machine Learning">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yezzi.tech/images/3-Matrices-and-vectors/1.png">
   
     <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
   
@@ -81,13 +97,13 @@
 
     <div class="row">
         <div class="col-sm-8 blog-main">
-          <article id="post-问题" class="article article-type-post" itemscope itemprop="blogPost">
+          <article id="post-3-Matrices-and-vectors" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 class="article-title" itemprop="name">
-      以太坊源码阅读过程中的问题&lt;一&gt;
+      3 Matrices and vectors
     </h1>
   
 
@@ -96,7 +112,7 @@
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2021/07/02/%E9%97%AE%E9%A2%98/" class="article-date"><time datetime="2021-07-02T10:37:40.000Z" itemprop="datePublished">2021-07-02</time></a>
+  <a href="/2021/08/15/3-Matrices-and-vectors/" class="article-date"><time datetime="2021-08-15T02:22:59.000Z" itemprop="datePublished">2021-08-15</time></a>
 </div>
 
     
@@ -107,33 +123,34 @@
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>记录了一下之前读代码中讨论的时候遇到的问题</p>
-<span id="more"></span>
+        <p>A review of linear algebra: matrics and vectors</p>
+<!--mnore-->
 
-<p>list.Filter函数把哪些不可以升级的交易过滤了；</p>
-<p>哪些节点维护交易池；</p>
-<p>交易池的定义抽象地起到什么作用，节点维护交易池的动机；</p>
-<p>几个维度交易的排序，除了price，是否还有time时间戳的先后；</p>
-<p>新块来了之后如果出现分叉，如何操作交易池的现在的区块链接口和交易池的升降级；</p>
-<p>reset操作再详细看些;</p>
-<p>虚拟机存储与stateDB状态树等等有关系，增加讨论</p>
-<hr>
-<p>一些反思：跟看的这些数据结构有关的走的流程；</p>
-<p>一些编码细节；</p>
-<p>工程师角度的流程分析，试着用自己的语言描述代码构成；</p>
-<p>读代码的思路：宏观和具体，理论和解释；</p>
-<p>在代码中写好注释</p>
-<hr>
-<p>交易树的构建细节；</p>
-<p>交易池的构建；</p>
-<p>涉及到交易、收据、区块的流程分析；</p>
-<p>rlp、hex、hp编码；</p>
-<p>收据树具体，和布隆过滤器具体，智能合约的event是不是就写入日志的；</p>
-<p>secure trie的作用；</p>
-<p>回执不在区块中在哪里；</p>
-<p>statedb具体为何用pending\dirty状态；</p>
-<hr>
-<p>宏观过程：确定一个topic/address如何确定在哪个区块的哪个收据的哪个log里，整个过程是怎样的<br>区块链到底是什么不可篡改<br>别的节点怎么验证的<br>和智能合约相关的</p>
+<h3 id="Matrix-Rectangular-array-of-numbers"><a href="#Matrix-Rectangular-array-of-numbers" class="headerlink" title="Matrix: Rectangular array of numbers"></a>Matrix: Rectangular array of numbers</h3><p><img src="/images/3-Matrices-and-vectors/1.png" alt="1"></p>
+<p>Dimension of matrix: number of rows x number of columns</p>
+<p><img src="/images/3-Matrices-and-vectors/2.png"></p>
+<h3 id="Vector-An-n-x-1-matrix"><a href="#Vector-An-n-x-1-matrix" class="headerlink" title="Vector: An n x 1 matrix"></a>Vector: An n x 1 matrix</h3><p><img src="/images/3-Matrices-and-vectors/3.png"></p>
+<h3 id="Addition-and-Scalar-Multiplication"><a href="#Addition-and-Scalar-Multiplication" class="headerlink" title="Addition and Scalar Multiplication"></a>Addition and Scalar Multiplication</h3><p>Matrix addition</p>
+<p><img src="/images/3-Matrices-and-vectors/4.png"></p>
+<p>Scalar Multiplication</p>
+<p><img src="/images/3-Matrices-and-vectors/5.png"></p>
+<p>Combination of Operands</p>
+<p><img src="/images/3-Matrices-and-vectors/6.png"></p>
+<h3 id="Matrix-Vector-multiplication"><a href="#Matrix-Vector-multiplication" class="headerlink" title="Matrix-Vector multiplication"></a>Matrix-Vector multiplication</h3><p><img src="/images/3-Matrices-and-vectors/7.png"></p>
+<p><img src="/images/3-Matrices-and-vectors/8.png"></p>
+<p>小技巧：对数据处理时加一列“1”向量，以达到将单个和单个的标量乘法转换为矩阵乘法的目的</p>
+<p><img src="/images/3-Matrices-and-vectors/9.png"></p>
+<p>矩阵乘法</p>
+<p><img src="/images/3-Matrices-and-vectors/10.png"></p>
+<p>The $i^{th}$ colum of the matrix $C$ is obtained byu multiplying $A$ with the $i^{th}$ column of $B$. (for i = 1,2,…,o)</p>
+<p><img src="/images/3-Matrices-and-vectors/11.png"></p>
+<h3 id="Matrix-multiplication-properties"><a href="#Matrix-multiplication-properties" class="headerlink" title="Matrix multiplication properties"></a>Matrix multiplication properties</h3><p>Let A and B be matrics. Then in general, A<em>B 不等于 B</em>A</p>
+<p><img src="/images/3-Matrices-and-vectors/11.png"></p>
+<p>单位矩阵</p>
+<p><img src="/images/3-Matrices-and-vectors/12.png"></p>
+<p>矩阵转置</p>
+<p><img src="/images/3-Matrices-and-vectors/14.png"></p>
+<p><img src="/images/3-Matrices-and-vectors/15.png"></p>
 
       
     </div>
@@ -144,12 +161,12 @@
     
 
     <footer class="article-footer">
-      <a data-url="https://yezzi.tech/2021/07/02/%E9%97%AE%E9%A2%98/" data-id="ckqzet6g0002dh0u72wsd0rbh" class="article-share-link">
+      <a data-url="https://yezzi.tech/2021/08/15/3-Matrices-and-vectors/" data-id="cksd2j8cw0000i4u7141w6iuv" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a></li></ul>
 
 
     </footer>
@@ -159,19 +176,12 @@
 <ul id="article-nav" class="nav nav-pills nav-justified">
   
   <li role="presentation">
-    <a href="/2021/07/02/BlockChain-Papers-in-Top-Security-Conferences/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/08/13/2-Model-and-Cost-Function/" id="article-nav-older" class="article-nav-link-wrap">
       <i class="fa fa-chevron-left pull-left"></i>
-      <span class="article-nav-link-title">BlockChain Papers in Top Security Conferences</span>
+      <span class="article-nav-link-title">2 Model and Cost Function</span>
     </a>
   </li>
   
-  
-  <li role="presentation">
-    <a href="/2021/07/02/%E5%8C%BA%E5%9D%97%E4%B8%AD%E7%9A%84%E4%BA%A4%E6%98%93%E5%92%8C%E5%9B%9E%E6%89%A7%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" id="article-nav-newer" class="article-nav-link-wrap">
-      <span class="article-nav-link-title">以太坊交易结构代码</span>
-      <i class="fa fa-chevron-right pull-right"></i>
-    </a>
-  </li>
   
 </ul>
 
