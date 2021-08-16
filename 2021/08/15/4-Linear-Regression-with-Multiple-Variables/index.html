@@ -12,11 +12,27 @@
 <meta property="og:site_name" content="Yezzi Tech">
 <meta property="og:description" content="How linear regression can be extended to accommodate multiple input features. Also discuss best practices for implementing linear regression.">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://yezzi.tech/images/4-Linear-Regression-with-Multiple-Variables/3.png">
+<meta property="og:image" content="https://yezzi.tech/images/4-Linear-Regression-with-Multiple-Variables/4.png">
+<meta property="og:image" content="https://yezzi.tech/images/4-Linear-Regression-with-Multiple-Variables/5.png">
+<meta property="og:image" content="https://yezzi.tech/images/4-Linear-Regression-with-Multiple-Variables/1.png">
+<meta property="og:image" content="https://yezzi.tech/images/4-Linear-Regression-with-Multiple-Variables/2.png">
+<meta property="og:image" content="https://yezzi.tech/images/4-Linear-Regression-with-Multiple-Variables/6.png">
+<meta property="og:image" content="https://yezzi.tech/images/4-Linear-Regression-with-Multiple-Variables/7.png">
+<meta property="og:image" content="https://yezzi.tech/images/4-Linear-Regression-with-Multiple-Variables/8.png">
+<meta property="og:image" content="https://yezzi.tech/images/4-Linear-Regression-with-Multiple-Variables/9.png">
+<meta property="og:image" content="https://yezzi.tech/images/4-Linear-Regression-with-Multiple-Variables/10.png">
+<meta property="og:image" content="https://yezzi.tech/images/4-Linear-Regression-with-Multiple-Variables/11.png">
+<meta property="og:image" content="https://yezzi.tech/images/4-Linear-Regression-with-Multiple-Variables/12.png">
+<meta property="og:image" content="https://yezzi.tech/images/4-Linear-Regression-with-Multiple-Variables/13.png">
+<meta property="og:image" content="https://yezzi.tech/images/4-Linear-Regression-with-Multiple-Variables/14.png">
+<meta property="og:image" content="https://yezzi.tech/images/4-Linear-Regression-with-Multiple-Variables/15.png">
 <meta property="article:published_time" content="2021-08-15T10:43:14.000Z">
-<meta property="article:modified_time" content="2021-08-15T10:44:29.503Z">
+<meta property="article:modified_time" content="2021-08-15T16:58:05.352Z">
 <meta property="article:author" content="Mingzhe Liu">
 <meta property="article:tag" content="Machine Learning">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yezzi.tech/images/4-Linear-Regression-with-Multiple-Variables/3.png">
   
     <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
   
@@ -108,6 +124,44 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>How linear regression can be extended to accommodate multiple input features. Also discuss best practices for implementing linear regression. </p>
+<span id="more"></span>
+
+<h2 id="Multipul-Features"><a href="#Multipul-Features" class="headerlink" title="Multipul Features"></a>Multipul Features</h2><p>An example to illustrate limitation for only one feature:</p>
+<p><img src="/images/4-Linear-Regression-with-Multiple-Variables/3.png"></p>
+<p><img src="/images/4-Linear-Regression-with-Multiple-Variables/4.png"></p>
+<p><img src="/images/4-Linear-Regression-with-Multiple-Variables/5.png"></p>
+<h2 id="Gradient-Descent-for-Multiple-Features"><a href="#Gradient-Descent-for-Multiple-Features" class="headerlink" title="Gradient Descent for Multiple Features"></a>Gradient Descent for Multiple Features</h2><p>The gradient descent equation itself is generally the same form; we just have to repeat it for our ‘n’ features: </p>
+<p><img src="/images/4-Linear-Regression-with-Multiple-Variables/1.png"></p>
+<p>In other words: </p>
+<p><img src="/images/4-Linear-Regression-with-Multiple-Variables/2.png"></p>
+<h2 id="Gradient-Descent-in-practice-1-Feature-Scaling"><a href="#Gradient-Descent-in-practice-1-Feature-Scaling" class="headerlink" title="Gradient Descent in practice 1: Feature Scaling"></a>Gradient Descent in practice 1: Feature Scaling</h2><p>We can speed up gradient descent by having each of our input values in roughly the same range. This is because θ will descend quickly on small ranges and slowly on large ranges, and so will oscillate inefficiently down to the optimum when the variables are very uneven. </p>
+<p>The way to prevent this is to modify the ranges of our input variables so that they are all roughly the same. Ideally: </p>
+<p>$ −1 ≤ x_{(i)} ≤ 1 $</p>
+<p>or 0.5</p>
+<p>These aren’t exact requirements; we are only trying to speed things up. The goal is to get all input variables into roughly one of these ranges, give or take a few. </p>
+<p>Two techniques to help with this are <strong>feature scaling</strong> and <strong>mean normalization</strong>. Feature scaling involves dividing the input values by the range (i.e. the maximum value minus the minimum value) of the input variable, resulting in a new range of just 1. Mean normalization involves subtracting the average value for an input variable from the values for that input variable resulting in a new average value for the input variable of just zero. To implement both of these techniques, adjust your input values as shown in this formula: </p>
+<p><img src="/images/4-Linear-Regression-with-Multiple-Variables/6.png"></p>
+<p>Where $μ_i$ is the <strong>average</strong> of all the values for feature (i) and $s_i$ is the range of values (max - min), or $s_i$ is the standard deviation. </p>
+<p>For example, if $x_i$ represents housing prices with a range of 100 to 2000  and a mean value of 1000, then, $x_i := \dfrac{price-1000}{1900}$</p>
+<p><img src="/images/4-Linear-Regression-with-Multiple-Variables/7.png"></p>
+<p><img src="/images/4-Linear-Regression-with-Multiple-Variables/8.png"></p>
+<h2 id="Gradient-Descent-in-practice-2-Learning-Rate"><a href="#Gradient-Descent-in-practice-2-Learning-Rate" class="headerlink" title="Gradient Descent in practice 2: Learning Rate"></a>Gradient Descent in practice 2: Learning Rate</h2><p>To summarize:</p>
+<p> If $\alpha$ is too small: slow convergence. </p>
+<p> If $ \alpha$ is too large: ￼may not decrease on every iteration and thus may not converge.</p>
+<p><img src="/images/4-Linear-Regression-with-Multiple-Variables/9.png"></p>
+<p><img src="/images/4-Linear-Regression-with-Multiple-Variables/10.png"></p>
+<h2 id="Features-and-polynomial-regression"><a href="#Features-and-polynomial-regression" class="headerlink" title="Features and polynomial regression"></a>Features and polynomial regression</h2><p><img src="/images/4-Linear-Regression-with-Multiple-Variables/11.png"></p>
+<h3 id="Polynomial-Regression"><a href="#Polynomial-Regression" class="headerlink" title="Polynomial Regression"></a><strong>Polynomial Regression</strong></h3><p>Our hypothesis function need not be linear (a straight line) if that does not fit the data well.</p>
+<p>We can <strong>change the behavior or curve</strong> of our hypothesis function by making it a quadratic, cubic or square root function (or any other form).</p>
+<p>For example, if our hypothesis function is $h_\theta(x) = \theta_0 + \theta_1 x_1 $then we can create additional features based on $ x_1$, to get the quadratic function $h_\theta(x) = \theta_0 + \theta_1 x_1 + \theta_2 $or the cubic function $h_\theta(x) = \theta_0 + \theta_1 x_1 + \theta_2 x_1^2 + \theta_3 $</p>
+<p>In the cubic version, we have created new features $x_2$ and $ x_3$ where $x_2 = x_1^2$ and $x_3 = x_1^3$</p>
+<p>To make it a square root function, we could do: $h_\theta(x) = \theta_0 + \theta_1 x_1 + \theta_2 \sqrt{x_1}$</p>
+<p>One important thing to keep in mind is, if you choose your features this way then feature scaling becomes very important.</p>
+<p>eg. if $x_1$  has range 1 - 1000 then range of $x_1^2$ becomes 1 - 1000000 and that of $x_1^3$ becomes 1 - 1000000000</p>
+<h3 id="Normal-equation"><a href="#Normal-equation" class="headerlink" title="Normal equation"></a>Normal equation</h3><p><img src="/images/4-Linear-Regression-with-Multiple-Variables/12.png"></p>
+<p><img src="/images/4-Linear-Regression-with-Multiple-Variables/13.png"></p>
+<p><img src="/images/4-Linear-Regression-with-Multiple-Variables/14.png"></p>
+<p><img src="/images/4-Linear-Regression-with-Multiple-Variables/15.png"></p>
 
       
     </div>
