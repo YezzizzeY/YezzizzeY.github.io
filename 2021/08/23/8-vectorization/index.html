@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>8 vectorization | Yezzi Tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="向量化是非常基础的去除代码中for循环的艺术，在深度学习安全领域、深度学习实践中，会经常发现训练大数据集，所以你的代码运行速度非常重要，否则如果在大数据集上，代码可能花费很长时间去运行，将要等待非常长的时间去得到结果。所以在深度学习领域，运行向量化是一个关键的技巧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="8 vectorization">
+<meta property="og:url" content="https://yezzi.tech/2021/08/23/8-vectorization/index.html">
+<meta property="og:site_name" content="Yezzi Tech">
+<meta property="og:description" content="向量化是非常基础的去除代码中for循环的艺术，在深度学习安全领域、深度学习实践中，会经常发现训练大数据集，所以你的代码运行速度非常重要，否则如果在大数据集上，代码可能花费很长时间去运行，将要等待非常长的时间去得到结果。所以在深度学习领域，运行向量化是一个关键的技巧。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://yezzi.tech/images/8-vectorization/1.png">
+<meta property="og:image" content="https://yezzi.tech/images/8-vectorization/2.png">
+<meta property="og:image" content="https://yezzi.tech/images/8-vectorization/3.png">
+<meta property="og:image" content="https://yezzi.tech/images/8-vectorization/4.png">
+<meta property="og:image" content="https://yezzi.tech/images/8-vectorization/5.png">
+<meta property="og:image" content="https://yezzi.tech/images/8-vectorization/6.png">
+<meta property="og:image" content="https://yezzi.tech/images/8-vectorization/7.png">
+<meta property="og:image" content="https://yezzi.tech/images/8-vectorization/8.png">
+<meta property="og:image" content="https://yezzi.tech/images/8-vectorization/9.png">
+<meta property="og:image" content="https://yezzi.tech/images/8-vectorization/10.png">
+<meta property="og:image" content="https://yezzi.tech/images/8-vectorization/11.png">
+<meta property="article:published_time" content="2021-08-23T14:01:36.000Z">
+<meta property="article:modified_time" content="2021-08-24T00:20:25.595Z">
+<meta property="article:author" content="Mingzhe Liu">
+<meta property="article:tag" content="Machine Learning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yezzi.tech/images/8-vectorization/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">Home</a></li>
+        
+          <li><a class=""
+                 href="/archives/">Archives</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">Yezzi Tech</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-8-vectorization" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      8 vectorization
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2021/08/23/8-vectorization/" class="article-date"><time datetime="2021-08-23T14:01:36.000Z" itemprop="datePublished">2021-08-23</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>向量化是非常基础的去除代码中for循环的艺术，在深度学习安全领域、深度学习实践中，会经常发现训练大数据集，所以你的代码运行速度非常重要，否则如果在大数据集上，代码可能花费很长时间去运行，将要等待非常长的时间去得到结果。所以在深度学习领域，运行向量化是一个关键的技巧。</p>
+<span id="more"></span>
+
+<h2 id="向量化-也就是把for循环用矩阵来写"><a href="#向量化-也就是把for循环用矩阵来写" class="headerlink" title="向量化(也就是把for循环用矩阵来写)"></a>向量化(也就是把for循环用矩阵来写)</h2><p>举例说明：</p>
+<p>实现w的转置乘以x的时候，用python的普通实现方式如下：</p>
+<p><img src="/images/8-vectorization/1.png" alt="1"></p>
+<p>但这是一个非向量化的实现。它很慢。作为一个对比，如果使用向量化，将非常直接计算w的转置乘以x</p>
+<p><img src="/images/8-vectorization/2.png"></p>
+<p><img src="/images/8-vectorization/3.png"></p>
+<p>代码举例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np <span class="comment">#导入 numpy 库 </span></span><br><span class="line">a = np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]) <span class="comment">#创建一个数据 a </span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a) </span><br><span class="line"></span><br><span class="line">[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span>] </span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> time <span class="comment">#导入时间库 </span></span><br><span class="line">a = np.random.rand(<span class="number">1000000</span>) </span><br><span class="line">b = np.random.rand(<span class="number">1000000</span>) <span class="comment">#通过 round 随机得到两个一百万维度的数组 </span></span><br><span class="line">tic = time.time() <span class="comment">#现在测量一下当前时间 </span></span><br><span class="line"></span><br><span class="line">向量化的版本 </span><br><span class="line"></span><br><span class="line">c = np.dot(a,b) </span><br><span class="line">toc = time.time() </span><br><span class="line"><span class="built_in">print</span>(“Vectorized version:” + <span class="built_in">str</span>(<span class="number">1000</span>*(toc-tic)) +”ms”) <span class="comment">#打印一下向量</span></span><br><span class="line">化的版本的时间 </span><br><span class="line"></span><br><span class="line">继续增加非向量化的版本 </span><br><span class="line"></span><br><span class="line">c = <span class="number">0</span> </span><br><span class="line">tic = time.time() </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1000000</span>): </span><br><span class="line">   c += a[i]*b[i] </span><br><span class="line">toc = time.time() </span><br><span class="line"><span class="built_in">print</span>(c) </span><br><span class="line"><span class="built_in">print</span>(“For loop:” + <span class="built_in">str</span>(<span class="number">1000</span>*(toc-tic)) + “ms”)<span class="comment">#打印 for 循环的版本的时</span></span><br><span class="line">间</span><br></pre></td></tr></table></figure>
+
+<p>非向量化版本的 for 循环花费了大约几乎 500 毫秒</p>
+<p>向量化版本花费了1.5毫秒</p>
+<p>非向量化版本多花费了300倍时间</p>
+<p>这意味着如果向量化方法需要花费一分钟去运行的数据，for循环将会花费5个小时去运行。</p>
+<p><img src="/images/8-vectorization/4.png"></p>
+<p>经验提醒，当我们在写神经网络程序时，或者在写逻辑(logistic)回归，或者其他神经网络模型时，应该避免写循环(loop)语句。虽然有时写循环(loop)是不可避免的，但是我们可以使用比如numpy的内置函数或者其他办法去计算。当你这样使用后，程序效率总是快于循环(loop)。</p>
+<p>比如说，矩阵相乘，和向量的幂运算</p>
+<p><img src="/images/8-vectorization/5.png"></p>
+<p><img src="/images/8-vectorization/6.png"></p>
+<p>实现逻辑回归的向量化计算。这样就能处理整个数据集，甚至不会用一个明确的for循环就能实现对于整个数据集梯度下降算法的优化。当我们后面谈到神经网络时同样也不会用到一个明确的for循环。</p>
+<p>首先回顾一下逻辑回归的前向传播步骤。如果有m个训练样本，然后对第一个样本进行预测，需要这样计算：</p>
+<p>对每个样本计算z之后计算激活函数</p>
+<p>$z^{(1)}=w^Tx^{(1)}+b$ <img src="/images/8-vectorization/7.png">之后计算m次。</p>
+<p>为了完成前向传播步骤，即对我们的m个样本都计算出预测值。有一个办法可以并且不需要任何一个明确的for循环。让我们来看一下你该怎样做。<img src="/images/8-vectorization/8.png"></p>
+<p>先构建1*m的矩阵，一个行向量，准备将m个z的数值在同一时间内完成。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Z = np.dot(w.T,X) + b </span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/8-vectorization/9.png"></p>
+<p>那么最终，在梯度下降的反向传播中，使用向量化而不用循环的伪代码是：</p>
+<p><img src="/images/8-vectorization/10.png"></p>
+<p>在我们利用前五个公式完成了前向和后向传播，也实现了对所有训练样本进行预测和求导，再利用后两个公式，梯度下降更新参数。我们的目的是不使用for循环，所以我们就通过一次迭代实现一次梯度下降，但如果你希望多次迭代进行梯度下降，那么仍然需要for循环，放在最外层。不过我们还是觉得一次迭代就进行一次梯度下降，避免使用任何循环比较舒服一些。</p>
+<h2 id="Python-中的-Broadcasting"><a href="#Python-中的-Broadcasting" class="headerlink" title="Python 中的 Broadcasting"></a>Python 中的 Broadcasting</h2><p>用一个图说明好了<img src="/images/8-vectorization/11.png"></p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://yezzi.tech/2021/08/23/8-vectorization/" data-id="ckspbp47a000234u7egu39czl" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2021/08/23/7-logistic-regression-derivatives/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">7 logistic regression derivatives</span>
+    </a>
+  </li>
+  
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p> Nice papers collected in the field of <em>AI</em>, <em>Apllied Cryptography</em> and <em>Blockchain</em>, records of some computer technologies, and personal thoughts.  If you are inteseted in my field, feel free to contact me at 1721062927@qq.com </p>
+
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tags</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Bitcoin/" rel="tag">Bitcoin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/blockchain-attack/" rel="tag">blockchain attack</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hyperledger-fabric/" rel="tag">hyperledger fabric</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/java/" rel="tag">java</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/paper-notes/" rel="tag">paper notes</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/projects/" rel="tag">projects</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tag Cloud</h4>
+    <p class="tagcloud">
+      <a href="/tags/Bitcoin/" style="font-size: 10px;">Bitcoin</a> <a href="/tags/Machine-Learning/" style="font-size: 18px;">Machine Learning</a> <a href="/tags/blockchain-attack/" style="font-size: 12px;">blockchain attack</a> <a href="/tags/golang/" style="font-size: 16px;">golang</a> <a href="/tags/hyperledger-fabric/" style="font-size: 12px;">hyperledger fabric</a> <a href="/tags/java/" style="font-size: 12px;">java</a> <a href="/tags/paper-notes/" style="font-size: 16px;">paper notes</a> <a href="/tags/projects/" style="font-size: 14px;">projects</a> <a href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" style="font-size: 20px;">以太坊</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10px;">前端</a>
+    </p>
+  </div>
+
+
+  
+  <div class="sidebar-module">
+    <h4>Archives</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/08/">August 2021</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">July 2021</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">February 2020</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">October 2019</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">August 2019</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Recents</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2021/08/23/8-vectorization/">8 vectorization</a>
+        </li>
+      
+        <li>
+          <a href="/2021/08/23/7-logistic-regression-derivatives/">7 logistic regression derivatives</a>
+        </li>
+      
+        <li>
+          <a href="/2021/08/17/6-Neural-Networks-Representation/">6 Neural Networks: Representation</a>
+        </li>
+      
+        <li>
+          <a href="/2021/08/16/5-classification/">5 Classification</a>
+        </li>
+      
+        <li>
+          <a href="/2021/08/15/4-Linear-Regression-with-Multiple-Variables/">4 Linear Regression with Multiple Variables</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Mingzhe Liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</body>
+</html>
