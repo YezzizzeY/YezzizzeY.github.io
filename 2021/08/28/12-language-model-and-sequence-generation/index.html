@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>12 language model and sequence generation | Yezzi Tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Language modeling is one of the most basic and important tasks in natural language processing. There’s also one that RNNs do very well.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="12 language model and sequence generation">
+<meta property="og:url" content="https://yezzi.tech/2021/08/28/12-language-model-and-sequence-generation/index.html">
+<meta property="og:site_name" content="Yezzi Tech">
+<meta property="og:description" content="Language modeling is one of the most basic and important tasks in natural language processing. There’s also one that RNNs do very well.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://yezzi.tech/images/12-language-model-and-sequence-generation/1.png">
+<meta property="og:image" content="https://yezzi.tech/images/12-language-model-and-sequence-generation/2.png">
+<meta property="og:image" content="https://yezzi.tech/images/12-language-model-and-sequence-generation/3.png">
+<meta property="og:image" content="https://yezzi.tech/images/12-language-model-and-sequence-generation/4.png">
+<meta property="og:image" content="https://yezzi.tech/images/12-language-model-and-sequence-generation/5.png">
+<meta property="article:published_time" content="2021-08-28T01:00:16.000Z">
+<meta property="article:modified_time" content="2021-08-28T14:47:09.008Z">
+<meta property="article:author" content="Mingzhe Liu">
+<meta property="article:tag" content="Machine Learning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yezzi.tech/images/12-language-model-and-sequence-generation/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">Home</a></li>
+        
+          <li><a class=""
+                 href="/archives/">Archives</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">Yezzi Tech</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-12-language-model-and-sequence-generation" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      12 language model and sequence generation
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2021/08/28/12-language-model-and-sequence-generation/" class="article-date"><time datetime="2021-08-28T01:00:16.000Z" itemprop="datePublished">2021-08-28</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Language modeling is one of the most basic and important tasks in natural language processing. There’s also one that RNNs do very well.</p>
+<span id="more"></span>
+
+<p>The basic job of a language model is to input a sentence, which could be written as a sequence,$y^{&lt;1&gt;},y^{&lt;2&gt;},…,y^{<Ty>}$, and what it does is it estimates the probability of that particular sequence of words.</p>
+<p><img src="/images/12-language-model-and-sequence-generation/1.png"></p>
+<p>To build such a model using an RNN, we would first need a training set, comprising a large corpus of English text, or text of whatever language we want to build a language model of.</p>
+<p>So, let’s say we get a sentence in our training set as follows. Cats average 15 hours of sleep a day. The first thing we will do is tokenize this sentence. That means we form a vocabulary as we saw in an earlier video. And then map each these words to on-hot vectors or to indices in our vocabulary</p>
+<p><img src="/images/12-language-model-and-sequence-generation/2.png"></p>
+<p>We will see that one of the steps is we set $x^{<t>}=y^{<t-1>}$</p>
+<p>The first step, we set $x^{&lt;1&gt;}=0向量,a^{&lt;0&gt;}=0向量$，and predict the probability of word y1 hat, and the next step we set the word ‘Cats’ as input value $x^{&lt;2&gt;}$, </p>
+<p><img src="/images/12-language-model-and-sequence-generation/3.png"></p>
+<p>and the cost function is like this:</p>
+<p><img src="/images/12-language-model-and-sequence-generation/4.png"></p>
+<p>Given a new sentence, $y^{&lt;1&gt;}, y^{&lt;2&gt;},y^{&lt;3&gt;}$, containing three sentences, now we need to compute the probability of $y^{&lt;1&gt;}$ in the first softmax layer, and compute the probability of $y^{&lt;2&gt;}$ given $y^{&lt;1&gt;}$, and then compute the probability of $y^{&lt;3&gt;}$ given $y^{&lt;1&gt;}$ and $y^{&lt;2&gt;}$. Multiple these three probability, and gain the probability of the sentence containing these three words.</p>
+<h2 id="Sample-novel-sequences"><a href="#Sample-novel-sequences" class="headerlink" title="Sample novel sequences"></a>Sample novel sequences</h2><p>After we train a sequence model, one of the ways we can informally get a sense of that is learned is to have a sample novel sequences.</p>
+<p><img src="/images/12-language-model-and-sequence-generation/5.png"></p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://yezzi.tech/2021/08/28/12-language-model-and-sequence-generation/" data-id="cksw2hgwm00044cu7blrz7yeg" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2021/08/27/11-Sequence-models/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">11 Sequence models</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/2021/08/28/13-Vanishing-gradients-with-RNNs/" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">13 Vanishing gradients with RNNs and GRU and LSTM</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p> Nice papers collected in the field of <em>AI</em>, <em>Apllied Cryptography</em> and <em>Blockchain</em>, records of some computer technologies, and personal thoughts.  If you are inteseted in my field, feel free to contact me at 1721062927@qq.com </p>
+
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tags</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Bitcoin/" rel="tag">Bitcoin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/blockchain-attack/" rel="tag">blockchain attack</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hyperledger-fabric/" rel="tag">hyperledger fabric</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/java/" rel="tag">java</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/paper-notes/" rel="tag">paper notes</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/projects/" rel="tag">projects</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tag Cloud</h4>
+    <p class="tagcloud">
+      <a href="/tags/Bitcoin/" style="font-size: 10px;">Bitcoin</a> <a href="/tags/Machine-Learning/" style="font-size: 18px;">Machine Learning</a> <a href="/tags/blockchain-attack/" style="font-size: 12px;">blockchain attack</a> <a href="/tags/golang/" style="font-size: 16px;">golang</a> <a href="/tags/hyperledger-fabric/" style="font-size: 12px;">hyperledger fabric</a> <a href="/tags/java/" style="font-size: 12px;">java</a> <a href="/tags/paper-notes/" style="font-size: 16px;">paper notes</a> <a href="/tags/projects/" style="font-size: 14px;">projects</a> <a href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" style="font-size: 20px;">以太坊</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10px;">前端</a>
+    </p>
+  </div>
+
+
+  
+  <div class="sidebar-module">
+    <h4>Archives</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/08/">August 2021</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">July 2021</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">February 2020</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">October 2019</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">August 2019</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Recents</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2021/08/29/14-Bidirnctional-RNNS-and-deep-RNNs/">14 bidirectional RNNS and deep RNNs</a>
+        </li>
+      
+        <li>
+          <a href="/2021/08/28/13-Vanishing-gradients-with-RNNs/">13 Vanishing gradients with RNNs and GRU and LSTM</a>
+        </li>
+      
+        <li>
+          <a href="/2021/08/28/12-language-model-and-sequence-generation/">12 language model and sequence generation</a>
+        </li>
+      
+        <li>
+          <a href="/2021/08/27/11-Sequence-models/">11 Sequence models</a>
+        </li>
+      
+        <li>
+          <a href="/2021/08/27/10-Deep-Neural-Networks/">10 Deep Neural Networks</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Mingzhe Liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</body>
+</html>

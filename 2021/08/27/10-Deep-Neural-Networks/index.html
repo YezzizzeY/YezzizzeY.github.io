@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>10 Deep Neural Networks | Yezzi Tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在过去的几年中，DLI（深度学习学院deep learning institute）已经意识到有一些函数，只有非常深的神经网络能学会，而更浅的模型则办不到。尽管对于任何给定的问题很难去提前预测到底需要多深的神经网络，所以先去尝试逻辑回归，尝试一层然后两层隐含层，然后把隐含层的数量看做是另一个可以自由选择大小的超参数，然后再保留交叉验证数据上评估，或者用你的开发集来评估。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10 Deep Neural Networks">
+<meta property="og:url" content="https://yezzi.tech/2021/08/27/10-Deep-Neural-Networks/index.html">
+<meta property="og:site_name" content="Yezzi Tech">
+<meta property="og:description" content="在过去的几年中，DLI（深度学习学院deep learning institute）已经意识到有一些函数，只有非常深的神经网络能学会，而更浅的模型则办不到。尽管对于任何给定的问题很难去提前预测到底需要多深的神经网络，所以先去尝试逻辑回归，尝试一层然后两层隐含层，然后把隐含层的数量看做是另一个可以自由选择大小的超参数，然后再保留交叉验证数据上评估，或者用你的开发集来评估。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://yezzi.tech/images/10-Deep-Neural-Networks/1.png">
+<meta property="og:image" content="https://yezzi.tech/images/10-Deep-Neural-Networks/2.png">
+<meta property="og:image" content="https://yezzi.tech/images/10-Deep-Neural-Networks/3.png">
+<meta property="og:image" content="https://yezzi.tech/images/10-Deep-Neural-Networks/4.png">
+<meta property="og:image" content="https://yezzi.tech/images/10-Deep-Neural-Networks/5.png">
+<meta property="og:image" content="https://yezzi.tech/images/10-Deep-Neural-Networks/6.png">
+<meta property="og:image" content="https://yezzi.tech/images/10-Deep-Neural-Networks/7.png">
+<meta property="og:image" content="https://yezzi.tech/images/10-Deep-Neural-Networks/8.png">
+<meta property="og:image" content="https://yezzi.tech/images/10-Deep-Neural-Networks/9.png">
+<meta property="og:image" content="https://yezzi.tech/images/10-Deep-Neural-Networks/10.png">
+<meta property="og:image" content="https://yezzi.tech/images/10-Deep-Neural-Networks/11.png">
+<meta property="og:image" content="https://yezzi.tech/images/10-Deep-Neural-Networks/12.png">
+<meta property="og:image" content="https://yezzi.tech/images/10-Deep-Neural-Networks/13.png">
+<meta property="article:published_time" content="2021-08-27T00:35:42.000Z">
+<meta property="article:modified_time" content="2021-08-27T05:13:04.636Z">
+<meta property="article:author" content="Mingzhe Liu">
+<meta property="article:tag" content="Machine Learning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yezzi.tech/images/10-Deep-Neural-Networks/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">Home</a></li>
+        
+          <li><a class=""
+                 href="/archives/">Archives</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">Yezzi Tech</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-10-Deep-Neural-Networks" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      10 Deep Neural Networks
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2021/08/27/10-Deep-Neural-Networks/" class="article-date"><time datetime="2021-08-27T00:35:42.000Z" itemprop="datePublished">2021-08-27</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在过去的几年中，DLI（深度学习学院deep learning institute）已经意识到有一些函数，只有非常深的神经网络能学会，而更浅的模型则办不到。尽管对于任何给定的问题很难去提前预测到底需要多深的神经网络，所以先去尝试逻辑回归，尝试一层然后两层隐含层，然后把隐含层的数量看做是另一个可以自由选择大小的超参数，然后再保留交叉验证数据上评估，或者用你的开发集来评估。</p>
+<span id="more"></span>
+
+<h2 id="Deep-L-layer-neural-network"><a href="#Deep-L-layer-neural-network" class="headerlink" title="Deep L-layer neural network"></a>Deep L-layer neural network</h2><p>logistic regression and neural network with one hidden layer review:</p>
+<p><img src="/images/10-Deep-Neural-Networks/1.png" alt="1"></p>
+<p>many hidden layers:</p>
+<p><img src="/images/10-Deep-Neural-Networks/2.png" alt="2"></p>
+<p>We use L to represent layers(without input layer)</p>
+<p>输入层$ x=a^{[0]}$</p>
+<p>最后一层 $a^{[L]}$为神经网络预测所输出的结果</p>
+<p>$n^{[1]}=5$ 代表第一层有五个神经元</p>
+<p> $w^{[L]}$ 代表l层计算 $z^{[L]}$ 时的权重</p>
+<p>类似的， $b^{[L]}$ 也一样。(此处L应该不区分大小写)</p>
+<h2 id="Forward-and-backward-propagation"><a href="#Forward-and-backward-propagation" class="headerlink" title="Forward and backward propagation"></a>Forward and backward propagation</h2><p>向前传播中， $a^{[l-1]}$ 是输入， $a^{[L]}$ 是输出，  $z^{[l]}$ 是缓存，从实现的角度我们可以缓存  $w^{[l]}$和 $b{[l]}$</p>
+<p><img src="/images/10-Deep-Neural-Networks/3.png"></p>
+<p><img src="/images/10-Deep-Neural-Networks/4.png"></p>
+<p>反向传播：</p>
+<p><img src="/images/10-Deep-Neural-Networks/5.png"></p>
+<p><img src="/images/10-Deep-Neural-Networks/6.png"></p>
+<h2 id="Getting-your-matrix-dimensions-right"><a href="#Getting-your-matrix-dimensions-right" class="headerlink" title="Getting your matrix dimensions right"></a>Getting your matrix dimensions right</h2><p>当实现深度神经网络的时候，其中一个我常用的检查代码是否有错的方法就是拿出一张纸过一遍算法中矩阵的维数。</p>
+<p><img src="/images/10-Deep-Neural-Networks/7.png"></p>
+<p><img src="/images/10-Deep-Neural-Networks/8.png"></p>
+<p><img src="/images/10-Deep-Neural-Networks/9.png"></p>
+<p>在做深度神经网络的反向传播时，一定要确认所有的矩阵维数是前后一致的，可以大大提高代码通过率</p>
+<h2 id="Why-deep-representations"><a href="#Why-deep-representations" class="headerlink" title="Why deep representations?"></a>Why deep representations?</h2><p>我们都知道深度神经网络能解决好多问题，其实并不需要很大的神经网络，但是得有深度，得有比较多的隐藏层，这是为什么呢？</p>
+<p>首先，深度网络究竟在计算什么？如果你在建一个人脸识别或是人脸检测系统，深度神经网络所做的事就是，当你输入一张脸部的照片，然后你可以把深度神经网络的第一层，当成一个特征探测器或者边缘探测器。在这个例子里，我会建一个大概有20个隐藏单元的深度神经网络，是怎么针对这张图计算的。隐藏单元就是这些图里这些小方块（第一张大图），举个例子，这个小方块（第一行第一列）就是一个隐藏单元，它会去找这张照片里“|”边缘的方向。那么这个隐藏单元（第四行第四列），可能是在找（“—”）水平向的边缘在哪里。之后的课程里，我们会讲专门做这种识别的卷积神经网络，到时候会细讲，为什么小单元是这么表示的。你可以先把神经网络的第一层当作看图，然后去找这张照片的各个边缘。我们可以把照片里组成边缘的像素们放在一起看，然后它可以把被探测到的边缘组合成面部的不同部分（第二张大图）。比如说，可能有一个神经元会去找眼睛的部分，另外还有别的在找鼻子的部分，然后把这许多的边缘结合在一起，就可以开始检测人脸的不同部分。最后再把这些部分放在一起，比如鼻子眼睛下巴，就可以识别或是探测不同的人脸（第三张大图）。</p>
+<p><img src="/images/10-Deep-Neural-Networks/10.png"></p>
+<p>这种从简单到复杂的金字塔状表示方法或者组成方法，也可以应用在图像或者人脸识别以外的其他数据上。比如当你想要建一个语音识别系统的时候，需要解决的就是如何可视化语音，比如你输入一个音频片段，那么神经网络的第一层可能就会去先开始试着探测比较低层次的音频波形的一些特征，比如音调是变高了还是低了，分辨白噪音，咝咝咝的声音，或者音调，可以选择这些相对程度比较低的波形特征，然后把这些波形组合在一起就能去探测声音的基本单元。在语言学中有个概念叫做音位，比如说单词ca，c的发音，“嗑”就是一个音位，a的发音“啊”是个音位，t的发音“特”也是个音位，有了基本的声音单元以后，组合起来，你就能识别音频当中的单词，单词再组合起来就能识别词组，再到完整的句子。</p>
+<p><img src="/images/10-Deep-Neural-Networks/11.png"></p>
+<p>所以深度神经网络的这许多隐藏层中，较早的前几层能学习一些低层次的简单特征，等到后几层，就能把简单的特征结合起来，去探测更加复杂的东西。比如你录在音频里的单词、词组或是句子，然后就能运行语音识别了。同时我们所计算的之前的几层，也就是相对简单的输入函数，比如图像单元的边缘什么的。到网络中的深层时，你实际上就能做很多复杂的事，比如探测面部或是探测单词、短语或是句子。</p>
+<h2 id="Building-blocks-of-deep-neural-networks"><a href="#Building-blocks-of-deep-neural-networks" class="headerlink" title="Building blocks of deep neural networks"></a>Building blocks of deep neural networks</h2><p>实现深度神经网络的基本元件，在每一层中有一个正向传播步骤，以及对应的反向传播步骤，以及把信息从一步传递到另一步的缓存。</p>
+<p><img src="/images/10-Deep-Neural-Networks/12.png"></p>
+<p>神经网络的一步训练包含了， 从 $a^{[0]}$ 开始， 也就是x然后经过一系列正向传播计算得到 y hat, 之后再用输出值计算这个（第二行最后方块），再实现反向传播。现在你就有所有的导数项了，W也会在每一层被更新为W=W-adW,b也一样，b=b-adb 反向传播就都计算完毕，我们有所有的导数值，那么这是神经网络一个梯度下降循环。</p>
+<h2 id="Parameters-vs-Hyperparameters"><a href="#Parameters-vs-Hyperparameters" class="headerlink" title="Parameters vs Hyperparameters"></a>Parameters vs Hyperparameters</h2><p>想要深度神经网络起很好的效果，还需要规划参数以及超参数</p>
+<p><strong>什么是超参数？</strong></p>
+<p>比如算法中的 learning rate a （学习率）、iterations(梯度下降法循环的数量)、L（隐藏层数目）、 $n^{[l]}$（隐藏层单元数目）、choice of activation function（激活函数的选择）都需要来设置，这些数字实际上控制了最后的参数W和b的值，所以它们被称作超参数。 </p>
+<p>实际上深度学习有很多不同的超参数，之后我们也会介绍一些其他的超参数，如momentum、mini batch size、regularization parameters 等等。</p>
+<p><strong>如何寻找超参数的最优值？</strong></p>
+<p>走Idea—Code—Experiment—Idea这个循环，尝试各种不同的参数，实现模型并观察是否成功，然后再迭代。</p>
+<p>今天的深度学习应用领域，还是很经验性的过程，通常你有个想法，比如你可能大致知道一个最好的学习率值，可能说a=0.01最好，我会想先试试看，然后你可以实际试一下，训练一下看看效果如何。然后基于尝试的结果你会发现，你觉得学习率设定再提高到0.05会比较好。如果你不确定什么值是最好的，你大可以先试试一个学习率a，再看看损失函数J的值有没有下降。然后你可以试一试大一些的值，然后发现损失函数的值增加并发散了。然后可能试试其他数，看结果是否下降的很快或者收敛到在更高的位置。你可能尝试不同的a并观察损失函数 J 这么变了，试试一组值，然后可能损失函数变成这样，这个a值会加快学习过程，并且收敛在更低的损失函数值上（箭头标识），我就用这个a值了。</p>
+<p>在开发途中，很有可能学习率的最优数值或是其他超参数的最优值是会变的，所以即使你每天都在用当前最优的参数调试你的系统，你还是会发现，最优值过一年就会变化，因为电脑的基础设施，CPU或是GPU可能会变化很大。</p>
+<p>近来受深度学习影响，很多领域发生了变化，从计算机视觉到语音识别到自然语言处理到很多结构化的数据应用，比如网络广告、网页搜索、产品推荐等等；有些同一领域设置超参数的直觉可以推广，但有时又不可以，特别是那些刚开始研究新问题的人们应该去尝试一定范围内的结果如何，甚至那些用了很久的模型得学习率或是其他超参数的最优值也有可能会改变。</p>
+<h2 id="What-does-this-have-to-do-with-the-brain"><a href="#What-does-this-have-to-do-with-the-brain" class="headerlink" title="What does this have to do with the brain?"></a>What does this have to do with the brain?</h2><p>深度学习和大脑有什么关联性吗？<br><strong>关联不大</strong></p>
+<p><img src="/images/10-Deep-Neural-Networks/13.png"></p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://yezzi.tech/2021/08/27/10-Deep-Neural-Networks/" data-id="cksw2hgwo00054cu720nr6xyt" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2021/08/26/9-Activation-functions/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">9 Activation functions</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/2021/08/27/11-Sequence-models/" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">11 Sequence models</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p> Nice papers collected in the field of <em>AI</em>, <em>Apllied Cryptography</em> and <em>Blockchain</em>, records of some computer technologies, and personal thoughts.  If you are inteseted in my field, feel free to contact me at 1721062927@qq.com </p>
+
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tags</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Bitcoin/" rel="tag">Bitcoin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/blockchain-attack/" rel="tag">blockchain attack</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hyperledger-fabric/" rel="tag">hyperledger fabric</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/java/" rel="tag">java</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/paper-notes/" rel="tag">paper notes</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/projects/" rel="tag">projects</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" rel="tag">以太坊</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tag Cloud</h4>
+    <p class="tagcloud">
+      <a href="/tags/Bitcoin/" style="font-size: 10px;">Bitcoin</a> <a href="/tags/Machine-Learning/" style="font-size: 18px;">Machine Learning</a> <a href="/tags/blockchain-attack/" style="font-size: 12px;">blockchain attack</a> <a href="/tags/golang/" style="font-size: 16px;">golang</a> <a href="/tags/hyperledger-fabric/" style="font-size: 12px;">hyperledger fabric</a> <a href="/tags/java/" style="font-size: 12px;">java</a> <a href="/tags/paper-notes/" style="font-size: 16px;">paper notes</a> <a href="/tags/projects/" style="font-size: 14px;">projects</a> <a href="/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/" style="font-size: 20px;">以太坊</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10px;">前端</a>
+    </p>
+  </div>
+
+
+  
+  <div class="sidebar-module">
+    <h4>Archives</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/08/">August 2021</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">July 2021</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">February 2020</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">October 2019</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">August 2019</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Recents</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2021/08/29/14-Bidirnctional-RNNS-and-deep-RNNs/">14 bidirectional RNNS and deep RNNs</a>
+        </li>
+      
+        <li>
+          <a href="/2021/08/28/13-Vanishing-gradients-with-RNNs/">13 Vanishing gradients with RNNs and GRU and LSTM</a>
+        </li>
+      
+        <li>
+          <a href="/2021/08/28/12-language-model-and-sequence-generation/">12 language model and sequence generation</a>
+        </li>
+      
+        <li>
+          <a href="/2021/08/27/11-Sequence-models/">11 Sequence models</a>
+        </li>
+      
+        <li>
+          <a href="/2021/08/27/10-Deep-Neural-Networks/">10 Deep Neural Networks</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Mingzhe Liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</body>
+</html>
