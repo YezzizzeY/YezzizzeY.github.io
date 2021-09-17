@@ -12,11 +12,23 @@
 <meta property="og:site_name" content="Yezzi Tech">
 <meta property="og:description" content="some backdoor attacks learned">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://yezzi.tech/images/Backdoor-Attack-note/1.png">
+<meta property="og:image" content="https://yezzi.tech/images/Backdoor-Attack-note/1.jpg">
+<meta property="og:image" content="https://yezzi.tech/images/Backdoor-Attack-note/2.png">
+<meta property="og:image" content="https://yezzi.tech/images/Backdoor-Attack-note/3.png">
+<meta property="og:image" content="https://yezzi.tech/images/Backdoor-Attack-note/4.png">
+<meta property="og:image" content="https://yezzi.tech/images/Backdoor-Attack-note/5.png">
+<meta property="og:image" content="https://yezzi.tech/images/Backdoor-Attack-note/6.png">
+<meta property="og:image" content="https://yezzi.tech/images/Backdoor-Attack-note/7.png">
+<meta property="og:image" content="https://yezzi.tech/images/Backdoor-Attack-note/8.png">
+<meta property="og:image" content="https://yezzi.tech/images/Backdoor-Attack-note/9.png">
+<meta property="og:image" content="https://yezzi.tech/images/Backdoor-Attack-note/10.png">
 <meta property="article:published_time" content="2021-09-16T23:55:24.000Z">
-<meta property="article:modified_time" content="2021-09-17T00:08:05.815Z">
+<meta property="article:modified_time" content="2021-09-17T00:17:23.051Z">
 <meta property="article:author" content="Mingzhe Liu">
 <meta property="article:tag" content="backdoor attack">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yezzi.tech/images/Backdoor-Attack-note/1.png">
   
     <link rel="alternate" href="/atom.xml" title="Yezzi Tech" type="application/atom+xml">
   
@@ -122,14 +134,14 @@
 <p><strong>stealthiness</strong>: adopted triggers should be concealed and the proportion of poison samples (i.e.,  the poisoning rate) should be small</p>
 <p><strong>sustainability</strong>: the attack should still be effective under some common backdoor defenses</p>
 <h3 id="The-Proposed-Attack"><a href="#The-Proposed-Attack" class="headerlink" title="The Proposed Attack"></a>The Proposed Attack</h3><p><strong>Definitions:</strong></p>
-<p>![](/images/Invisible Backdoor Attack note/1.png)</p>
+<p><img src="/images/Backdoor-Attack-note/1.png"></p>
 <p><strong>Notations:</strong></p>
-<p>![](/images/Invisible Backdoor Attack note/1.jpg)</p>
+<p><img src="/images/Backdoor-Attack-note/1.jpg"></p>
 <p><strong>training process</strong> :</p>
 <p>The encoder takes a benign image and the representative string to generate the  poisoned image, decoder is trained to recover the hidden message from the encoded image.</p>
-<p>![](/images/Invisible Backdoor Attack note/2.png)</p>
+<p><img src="/images/Backdoor-Attack-note/2.png"></p>
 <p>Note that attackers can also use other methods, such as VAE, to conduct the  sample-specific backdoor attack. It will be further studied in our future work.</p>
-<p>![](/images/Invisible Backdoor Attack note/3.png)</p>
+<p><img src="/images/Backdoor-Attack-note/3.png"></p>
 <h1 id="2-Backdoor-Attacks-to-Graph-Neural-Networks"><a href="#2-Backdoor-Attacks-to-Graph-Neural-Networks" class="headerlink" title="2 Backdoor Attacks to Graph Neural Networks"></a>2 Backdoor Attacks to Graph Neural Networks</h1><p>In <strong><em>ACM Symposium on Access Control Models and Technologies (SACMAT),</em> 2021</strong> </p>
 <h2 id="Introduction-1"><a href="#Introduction-1" class="headerlink" title="Introduction"></a>Introduction</h2><p>Graphs have been widely used to model complex interactions between entities.</p>
 <p>Graph classification, which takes a graph as an input and outputs a label for  the graph, is a basic graph analytics tool and has many applications such as  fraud(欺诈) detection, malware(恶意软件) detection, and healthcare.</p>
@@ -149,7 +161,7 @@
 <p><strong>Attacker’s capability</strong></p>
 <p>the attacker can inject a trigger to each poisoned training graph and change its  label to an attacker-chosen target label</p>
 <h2 id="Subgraph-based-Backdoor-Attacks"><a href="#Subgraph-based-Backdoor-Attacks" class="headerlink" title="Subgraph based Backdoor Attacks"></a>Subgraph based Backdoor Attacks</h2><p>Suppose a subgraph consists of t nodes. Injecting the subgraph to a graph means  that we sample t nodes from the graph uniformly at random, map them to the t  nodes in the subgraph randomly, and replace their connections as the subgraph.</p>
-<p>![](/images/Invisible Backdoor Attack note/4.png)</p>
+<p><img src="/images/Backdoor-Attack-note/4.png"></p>
 <p>Designing the subgraph is key to our backdoor attack. Intuitively, the subgraph  should be unique among the clean training/testing graphs, so the backdoored GNN  is more likely to associate the target label with the subgraph.</p>
 <p><strong>Trigger size and trigger density</strong></p>
 <p><strong>Trigger synthesis method</strong></p>
@@ -166,25 +178,25 @@
 <p>(iv) it also applies to both inductive and transductive tasks.</p>
 <p>We empirically demonstrate that GTA is effective in a range of security-critical  tasks, evasive to detection, and agnostic to downstream models. The evaluation  characterizes the inherent vulnerabilities of GNNs to backdoor attacks.</p>
 <p>We provide analytical justification for the effectiveness of GTA and discuss  potential mitigation. This analysis sheds light on improving the current  practice of re-using pre-trained GNN models, pointing to several research  directions.</p>
-<p>![](/images/Invisible Backdoor Attack note/5.png)</p>
+<p><img src="/images/Backdoor-Attack-note/5.png"></p>
 <h3 id="GTA-Attack"><a href="#GTA-Attack" class="headerlink" title="GTA Attack"></a>GTA Attack</h3><p>The adversary’s objective:</p>
-<p>![](/images/Invisible Backdoor Attack note/6.png)</p>
+<p><img src="/images/Backdoor-Attack-note/6.png"></p>
 <p>And the research team came up with several methods to over come challenges in Graph Attack:</p>
 <p>(i) instead of associating gtand θ with final predictions, we optimize them with  respect to intermediate representations;</p>
 <p>(ii) we adopt a bi-level optimization  formulation, which considers gtas the hyper-parameters and θ as the model  parameters and optimizes them in an interleaving manner; </p>
 <p>(iii) we implement the  mixing function m(G;gt) as an efficient substitution operator, which finds and  replaces within G the subgraph g most similar to gt; and </p>
 <p>(iv) we introduce the  concept of adaptive trigger, that is, gtis specifically optimized for each given  graph G.</p>
 <p><strong>Overall framework:</strong></p>
-<p>![](/images/Invisible Backdoor Attack note/7.png)</p>
+<p><img src="/images/Backdoor-Attack-note/7.png"></p>
 <p><strong>bi-level optimization objective:</strong></p>
-<p>![](/images/Invisible Backdoor Attack note/8.png)</p>
+<p><img src="/images/Backdoor-Attack-note/8.png"></p>
 <p><strong>Mixing function</strong>:</p>
 <p>(i) for a given trigger gt, it identifies the optimal to-be-replaced subgraph g  within a given graph G; and </p>
 <p>(ii) it performs the substitution of g with gt</p>
 <p><strong>Trigger generation:</strong></p>
 <p>We  postulate whether it is possible to generate triggers tailored to  individual graphs to maximize the attack effectiveness and evasiveness</p>
 <p><strong>Implementation and optimization</strong></p>
-<p>![](/images/Invisible Backdoor Attack note/9.png)</p>
+<p><img src="/images/Backdoor-Attack-note/9.png"></p>
 <h1 id="4-BadEncoder-Backdoor-Attacks-to-Pre-trained-Encoders-in-Self-Supervised-Learning"><a href="#4-BadEncoder-Backdoor-Attacks-to-Pre-trained-Encoders-in-Self-Supervised-Learning" class="headerlink" title="4 BadEncoder: Backdoor Attacks to Pre-trained Encoders in Self-Supervised Learning"></a>4 BadEncoder: Backdoor Attacks to Pre-trained Encoders in Self-Supervised Learning</h1><p> <strong>In <em>IEEE Symposium on Security and Privacy,</em> 2022</strong> </p>
 <h3 id="Self-Supervised-Learning"><a href="#Self-Supervised-Learning" class="headerlink" title="Self-Supervised Learning"></a>Self-Supervised Learning</h3><p>Self-supervised learning aims to pre-train an image encoder using a large amount  of unlabeled data, and the pre-trained image encoder can then be used to build  classifiers for many downstream tasks (we consider image classification tasks in  this work) with a small amount of or no labeled data.</p>
 <p>The selfsupervised learning pipeline consists of two key components, i.e.,  <em>pre-training an image encoder and building a downstream classifier</em>.</p>
@@ -202,7 +214,7 @@
 <li><p>a malicious third-party who obtains a clean pre-trained image encoder from a  service provider, injects backdoors into it, and shares the backdoored encoder  with downstream customers (e.g., via republishing it for public download on  GitHub).</p>
 </li>
 </ol>
-<h3 id="DESIGN-OF-BADENCODER"><a href="#DESIGN-OF-BADENCODER" class="headerlink" title="DESIGN OF BADENCODER"></a>DESIGN OF BADENCODER</h3><p>![](/images/Invisible Backdoor Attack note/10.png)</p>
+<h3 id="DESIGN-OF-BADENCODER"><a href="#DESIGN-OF-BADENCODER" class="headerlink" title="DESIGN OF BADENCODER"></a>DESIGN OF BADENCODER</h3><p><img src="/images/Backdoor-Attack-note/10.png"></p>
 
       
     </div>
